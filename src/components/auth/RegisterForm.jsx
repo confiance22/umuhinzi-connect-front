@@ -15,6 +15,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { authApi } from '../../api/authApi'
 import { useAuth } from '../../hooks/useAuth'
 import { useToastContext } from '../../context/ToastContext'
+import { useLanguage } from '../../context/LanguageContext'
 import { roleHome } from '../../utils/roles'
 import ButtonLoader from '../common/ButtonLoader'
 import { ROUTE_PATHS } from '../../constants/routePaths'
@@ -27,26 +28,7 @@ const inputClass =
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const STEPS = [
-  { id: 1, label: 'Account type' },
-  { id: 2, label: 'Your details' },
-  { id: 3, label: 'Security' }
-]
-
-const STEP_COPY = {
-  1: {
-    title: 'Choose your account type',
-    subtitle: 'Select how you want to use Umuhinzi Connect to get started.'
-  },
-  2: {
-    title: 'Tell us about you',
-    subtitle: 'Add your contact and location details so we can set up your account.'
-  },
-  3: {
-    title: 'Secure your account',
-    subtitle: 'Create a strong password and accept our terms.'
-  }
-}
+const STEPS = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
 function getPasswordStrength(pwd = '') {
   const hasMinLength = pwd.length >= 8
@@ -76,6 +58,7 @@ export default function RegisterForm() {
   const navigate = useNavigate()
   const { login } = useAuth()
   const { showToast } = useToastContext()
+  const { t } = useLanguage()
   const {
     register,
     handleSubmit,
@@ -90,6 +73,9 @@ export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const stepLabels = t('auth.register.steps')
+  const stepCopy = t('auth.register.stepCopy')[formStep - 1]
 
   const password = watch('password') || ''
   const selectedRole = watch('role')
@@ -128,13 +114,13 @@ export default function RegisterForm() {
 
   const onSubmit = async (data) => {
     if (!data.role) {
-      setErrorMessage('Choose whether you are a farmer or a buyer first.')
+      setErrorMessage(t('auth.register.role.chooseFirst'))
       setFormStep(1)
       return
     }
 
     if (!passwordStrength.isStrong) {
-      setErrorMessage('Please create a strong password matching all requirements before continuing.')
+      setErrorMessage(t('auth.register.weakPassword'))
       return
     }
 
@@ -170,12 +156,12 @@ export default function RegisterForm() {
 
       login(response.token, authUser)
       const firstName = (authUser.name || authUser.phone || 'there').split(/[\s@_.]+/).filter(Boolean)[0] || 'there'
-      showToast(`Welcome to Umuhinzi Connect, ${firstName}!`, 'success')
+      showToast(t('auth.register.welcomeToast').replace('{name}', firstName), 'success')
       navigate(roleHome(authUser.role), { replace: true })
     } catch (error) {
       const remaining = MIN_LOADER_MS - (Date.now() - startedAt)
       if (remaining > 0) await sleep(remaining)
-      setErrorMessage(error?.message || 'Could not create your account')
+      setErrorMessage(error?.message || t('auth.register.errors.create'))
     } finally {
       setIsSubmitting(false)
     }
@@ -239,7 +225,7 @@ export default function RegisterForm() {
                     active || complete ? 'text-emerald-700 dark:text-emerald-300' : 'text-muted dark:text-gray-400'
                   }`}
                 >
-                  {step.label}
+                  {stepLabels[step.id - 1]}
                 </span>
               </div>
             )
@@ -250,9 +236,9 @@ export default function RegisterForm() {
       <form onSubmit={handleSubmit(onSubmit)} onKeyDown={handleFormKeyDown} className="space-y-5">
         <div className="space-y-1 mb-5">
           <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">
-            {STEP_COPY[formStep].title}
+            {stepCopy.title}
           </h1>
-          <p className="text-sm text-muted dark:text-gray-400">{STEP_COPY[formStep].subtitle}</p>
+          <p className="text-sm text-muted dark:text-gray-400">{stepCopy.subtitle}</p>
         </div>
 
         {errorMessage && (
@@ -275,7 +261,7 @@ export default function RegisterForm() {
             >
               <div className="grid grid-cols-2 gap-2">
                 <label
-                  title="Sell your harvest directly to buyers."
+                  title={t('auth.register.role.farmerTitle')}
                   className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-all active:scale-[0.99] ${
                     selectedRole === 'farmer'
                       ? 'border-brand-600 bg-brand-600 text-white shadow-[0_8px_24px_-14px_rgba(22,163,74,0.8)]'
@@ -285,7 +271,7 @@ export default function RegisterForm() {
                   <input
                     type="radio"
                     value="farmer"
-                    {...register('role', { required: 'Choose an account type' })}
+                    {...register('role', { required: t('auth.register.role.chooseRequired') })}
                     className="sr-only"
                   />
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -296,11 +282,11 @@ export default function RegisterForm() {
                       d="M5 21c8 0 14-6 14-14V5h-2C9 5 3 11 3 19v2h2zm0 0c0-5 4-9 9-10"
                     />
                   </svg>
-                  Farmer
+                  {t('auth.register.role.farmer')}
                 </label>
 
                 <label
-                  title="Source fresh produce from local farmers."
+                  title={t('auth.register.role.buyerTitle')}
                   className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-sm font-semibold transition-all active:scale-[0.99] ${
                     selectedRole === 'buyer'
                       ? 'border-brand-600 bg-brand-600 text-white shadow-[0_8px_24px_-14px_rgba(22,163,74,0.8)]'
@@ -310,7 +296,7 @@ export default function RegisterForm() {
                   <input
                     type="radio"
                     value="buyer"
-                    {...register('role', { required: 'Choose an account type' })}
+                    {...register('role', { required: t('auth.register.role.chooseRequired') })}
                     className="sr-only"
                   />
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -323,7 +309,7 @@ export default function RegisterForm() {
                     <circle cx="9" cy="20" r="1.5" />
                     <circle cx="18" cy="20" r="1.5" />
                   </svg>
-                  Buyer
+                  {t('auth.register.role.buyer')}
                 </label>
               </div>
 
@@ -332,7 +318,7 @@ export default function RegisterForm() {
               )}
               {!selectedRole && (
                 <p className="text-center text-xs text-muted dark:text-gray-500">
-                  Select Farmer or Buyer to continue.
+                  {t('auth.register.role.select')}
                 </p>
               )}
 
@@ -344,7 +330,7 @@ export default function RegisterForm() {
                   !selectedRole ? 'cursor-not-allowed opacity-50' : ''
                 }`}
               >
-                <span>Continue</span>
+                <span>{t('auth.register.continue')}</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
@@ -371,10 +357,10 @@ export default function RegisterForm() {
               <div className="flex items-center justify-between rounded-2xl border border-[#16a34a]/30 bg-[#16a34a]/10 px-4 py-3">
                 <div>
                   <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-700 dark:text-emerald-300">
-                    Account type
+                    {t('auth.register.accountType')}
                   </span>
                   <p className="text-sm font-semibold text-ink dark:text-white">
-                    {selectedRole === 'farmer' ? 'Farmer' : 'Buyer'}
+                    {selectedRole === 'farmer' ? t('auth.register.role.farmer') : t('auth.register.role.buyer')}
                   </p>
                 </div>
                 <button
@@ -382,19 +368,19 @@ export default function RegisterForm() {
                   onClick={() => goToStep(1)}
                   className="text-xs font-semibold text-emerald-700 transition-colors hover:text-ink dark:text-emerald-300 dark:hover:text-white"
                 >
-                  Change
+                  {t('auth.register.change')}
                 </button>
               </div>
 
               <div className="space-y-1.5">
                 <label htmlFor="register-name" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                  Full name
+                  {t('auth.register.fields.fullName')}
                 </label>
                 <input
                   id="register-name"
-                  {...register('fullName', { required: 'Full name is required' })}
+                  {...register('fullName', { required: t('auth.register.fields.fullNameRequired') })}
                   type="text"
-                  placeholder="Your full name"
+                  placeholder={t('auth.register.fields.fullNamePlaceholder')}
                   autoComplete="name"
                   className={`${inputClass} ${errors.fullName ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
                 />
@@ -406,16 +392,16 @@ export default function RegisterForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div className="space-y-1.5">
                   <label htmlFor="register-phone" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    Phone number
+                    {t('auth.register.fields.phone')}
                   </label>
                   <input
                     id="register-phone"
                     {...register('phone', {
-                      required: 'Phone number is required',
-                      minLength: { value: 10, message: 'At least 10 digits' }
+                      required: t('auth.register.fields.phoneRequired'),
+                      minLength: { value: 10, message: t('auth.register.fields.phoneMin') }
                     })}
                     type="tel"
-                    placeholder="+250 78..."
+                    placeholder={t('auth.register.fields.phonePlaceholder')}
                     autoComplete="tel"
                     className={`${inputClass} ${errors.phone ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
                   />
@@ -426,16 +412,16 @@ export default function RegisterForm() {
 
                 <div className="space-y-1.5">
                   <label htmlFor="register-email" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    Email address
+                    {t('auth.register.fields.email')}
                   </label>
                   <input
                     id="register-email"
                     {...register('email', {
-                      required: 'Email is required',
-                      pattern: { value: EMAIL_RE, message: 'Enter a valid email' }
+                      required: t('auth.register.fields.emailRequired'),
+                      pattern: { value: EMAIL_RE, message: t('auth.register.fields.emailInvalid') }
                     })}
                     type="email"
-                    placeholder="you@example.rw"
+                    placeholder={t('auth.register.fields.emailPlaceholder')}
                     autoComplete="email"
                     className={`${inputClass} ${errors.email ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
                   />
@@ -448,26 +434,26 @@ export default function RegisterForm() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                 <div className="space-y-1.5">
                   <label htmlFor="register-district" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    District
+                    {t('auth.register.fields.district')}
                   </label>
                   <input
                     id="register-district"
                     {...register('district')}
                     type="text"
-                    placeholder="e.g. Musanze"
+                    placeholder={t('auth.register.fields.districtPlaceholder')}
                     className={inputClass}
                   />
                 </div>
 
                 <div className="space-y-1.5">
                   <label htmlFor="register-sector" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    Sector
+                    {t('auth.register.fields.sector')}
                   </label>
                   <input
                     id="register-sector"
                     {...register('sector')}
                     type="text"
-                    placeholder="e.g. Kinigi"
+                    placeholder={t('auth.register.fields.sectorPlaceholder')}
                     className={inputClass}
                   />
                 </div>
@@ -487,7 +473,7 @@ export default function RegisterForm() {
                       d="M10 19l-7-7m0 0l7-7m-7 7h18"
                     />
                   </svg>
-                  <span>Back</span>
+                  <span>{t('auth.register.back')}</span>
                 </button>
 
                 <button
@@ -495,7 +481,7 @@ export default function RegisterForm() {
                   onClick={handleDetailsContinue}
                   className="auth-button w-2/3 py-3.5 text-white text-sm font-medium rounded-2xl shadow-sm transition-all duration-200 active:scale-[0.99] flex items-center justify-center gap-2"
                 >
-                  <span>Continue</span>
+                  <span>{t('auth.register.continue')}</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
@@ -523,21 +509,21 @@ export default function RegisterForm() {
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
                   <label htmlFor="register-password" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    Password
+                    {t('auth.register.fields.password')}
                   </label>
-                  <span className="text-xs font-medium text-muted dark:text-gray-400">Min. 8 characters</span>
+                  <span className="text-xs font-medium text-muted dark:text-gray-400">{t('auth.register.fields.minChars')}</span>
                 </div>
                 <div className="relative">
                   <input
                     id="register-password"
                     {...register('password', {
-                      required: 'Password is required',
+                      required: t('auth.register.fields.passwordRequired'),
                       validate: (val) =>
                         getPasswordStrength(val).isStrong ||
-                        'Must be at least 8 chars with uppercase, lowercase, and a number or symbol'
+                        t('auth.register.fields.passwordValidate')
                     })}
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Create a strong password"
+                    placeholder={t('auth.register.fields.passwordPlaceholder')}
                     autoComplete="new-password"
                     className={`${inputClass} pr-11 ${errors.password ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
                   />
@@ -545,7 +531,7 @@ export default function RegisterForm() {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-muted hover:text-ink dark:text-gray-400 dark:hover:text-gray-300"
-                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-label={showPassword ? t('auth.common.hidePassword') : t('auth.common.showPassword')}
                   >
                     {showPassword ? (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -618,28 +604,28 @@ export default function RegisterForm() {
                           passwordStrength.hasMinLength ? 'font-semibold text-emerald-600 dark:text-emerald-400' : 'text-muted dark:text-gray-400'
                         }`}
                       >
-                        {passwordStrength.hasMinLength ? '✓' : '•'} 8+ characters
+                        {passwordStrength.hasMinLength ? '✓' : '•'} {t('auth.register.passwordStrength.length')}
                       </span>
                       <span
                         className={`flex items-center gap-1 ${
                           passwordStrength.hasUpper ? 'font-semibold text-emerald-600 dark:text-emerald-400' : 'text-muted dark:text-gray-400'
                         }`}
                       >
-                        {passwordStrength.hasUpper ? '✓' : '•'} Uppercase (A-Z)
+                        {passwordStrength.hasUpper ? '✓' : '•'} {t('auth.register.passwordStrength.upper')}
                       </span>
                       <span
                         className={`flex items-center gap-1 ${
                           passwordStrength.hasLower ? 'font-semibold text-emerald-600 dark:text-emerald-400' : 'text-muted dark:text-gray-400'
                         }`}
                       >
-                        {passwordStrength.hasLower ? '✓' : '•'} Lowercase (a-z)
+                        {passwordStrength.hasLower ? '✓' : '•'} {t('auth.register.passwordStrength.lower')}
                       </span>
                       <span
                         className={`flex items-center gap-1 ${
                           passwordStrength.hasNumberOrSymbol ? 'font-semibold text-emerald-600 dark:text-emerald-400' : 'text-muted dark:text-gray-400'
                         }`}
                       >
-                        {passwordStrength.hasNumberOrSymbol ? '✓' : '•'} Number or symbol
+                        {passwordStrength.hasNumberOrSymbol ? '✓' : '•'} {t('auth.register.passwordStrength.number')}
                       </span>
                     </div>
                   </div>
@@ -651,17 +637,17 @@ export default function RegisterForm() {
 
               <div className="space-y-1.5">
                 <label htmlFor="register-confirm" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                  Repeat password
+                  {t('auth.register.fields.confirm')}
                 </label>
                 <div className="relative">
                   <input
                     id="register-confirm"
                     {...register('confirmPassword', {
-                      required: 'Please repeat your password',
-                      validate: (value) => value === password || 'Passwords do not match'
+                      required: t('auth.register.fields.confirmRequired'),
+                      validate: (value) => value === password || t('auth.register.fields.mismatch')
                     })}
                     type={showConfirmPassword ? 'text' : 'password'}
-                    placeholder="Repeat your password"
+                    placeholder={t('auth.register.fields.confirmPlaceholder')}
                     autoComplete="new-password"
                     className={`${inputClass} pr-11 ${errors.confirmPassword ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
                   />
@@ -669,7 +655,7 @@ export default function RegisterForm() {
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-muted hover:text-ink dark:text-gray-400 dark:hover:text-gray-300"
-                    aria-label={showConfirmPassword ? 'Hide repeat password' : 'Show repeat password'}
+                    aria-label={showConfirmPassword ? t('auth.common.hidePassword') : t('auth.common.showPassword')}
                   >
                     {showConfirmPassword ? (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -708,20 +694,20 @@ export default function RegisterForm() {
                   <input
                     type="checkbox"
                     {...register('agreeTerms', {
-                      required: 'You must agree to the Terms & Privacy Policy to register'
+                      required: t('auth.register.fields.termsRequired')
                     })}
                     className="mt-1 h-4 w-4 cursor-pointer rounded border-black/15 bg-black/[0.03] text-[#16a34a] accent-[#16a34a] focus:ring-2 focus:ring-[#16a34a]/30 dark:border-white/20 dark:bg-white/5"
                   />
                   <span className="text-xs leading-snug text-muted dark:text-gray-400">
-                    I agree to Umuhinzi Connect’s{' '}
+                    {t('auth.register.termsPrefix')}{' '}
                     <span className="font-semibold text-ink underline underline-offset-2 dark:text-white">
-                      Terms of Service
+                      {t('auth.register.termsOfService')}
                     </span>{' '}
-                    and{' '}
+                    {t('auth.register.termsAnd')}{' '}
                     <span className="font-semibold text-ink underline underline-offset-2 dark:text-white">
-                      Privacy Policy
+                      {t('auth.register.privacy')}
                     </span>
-                    . (Required)
+                    {t('auth.register.termsSuffix')}
                   </span>
                 </label>
                 {errors.agreeTerms && (
@@ -746,7 +732,7 @@ export default function RegisterForm() {
                       d="M10 19l-7-7m0 0l7-7m-7 7h18"
                     />
                   </svg>
-                  <span>Back</span>
+                  <span>{t('auth.register.back')}</span>
                 </button>
 
                 <button
@@ -760,7 +746,7 @@ export default function RegisterForm() {
                   <span className="inline-flex items-center justify-center gap-2.5 min-h-[20px]">
                     {isSubmitting && <ButtonLoader size={18} className="text-white" />}
                     <span className={isSubmitting ? 'opacity-90' : ''}>
-                      {isSubmitting ? 'Creating account...' : 'Create account'}
+                      {isSubmitting ? t('auth.register.creatingAccount') : t('auth.register.createAccount')}
                     </span>
                   </span>
                 </button>
@@ -770,9 +756,9 @@ export default function RegisterForm() {
         </AnimatePresence>
 
         <p className="pt-2 text-center text-sm text-muted dark:text-gray-400">
-          Already have an account?{' '}
+          {t('auth.register.haveAccount')}{' '}
           <Link to={ROUTE_PATHS.LOGIN} className="font-semibold text-ink hover:underline dark:text-white">
-            Sign in
+            {t('auth.register.signIn')}
           </Link>
         </p>
       </form>

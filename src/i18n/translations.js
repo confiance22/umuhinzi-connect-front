@@ -340,6 +340,184 @@ export const translations = {
       account: 'Account',
       copyright: 'Umuhinzi Connect. All rights reserved.',
       madeIn: 'Built in Rwanda'
+    },
+    auth: {
+      common: {
+        copyright: 'Umuhinzi Connect. All rights reserved.',
+        homeAria: 'Go to Umuhinzi Connect home',
+        showPassword: 'Show password',
+        hidePassword: 'Hide password',
+        showRepeatPassword: 'Show repeat password',
+        hideRepeatPassword: 'Hide repeat password'
+      },
+      login: {
+        panelBadge: 'Welcome back',
+        panelTitle: 'Fresh harvests. Fair prices. One marketplace.',
+        panelText:
+          'Umuhinzi Connect links Rwandan farmers directly with buyers — list your harvest, discover fresh produce, and trade with confidence.',
+        title: 'Welcome back!',
+        subtitle: 'Sign in to buy and sell fresh harvests across Rwanda.',
+        registered: 'Registration complete! Sign in to continue.',
+        passwordReset: 'Password reset successfully. Please sign in with your new password.',
+        phoneLabel: 'Phone number',
+        phonePlaceholder: 'Enter your phone number',
+        phoneRequired: 'Enter your phone number',
+        passwordLabel: 'Password',
+        passwordRequired: 'Password is required',
+        forgot: 'Forgot password?',
+        keepLoggedIn: 'Keep me logged in',
+        signIn: 'Sign In',
+        signingIn: 'Signing in...',
+        noAccount: 'Don’t have an account?',
+        createAccount: 'Create an account',
+        twoFactor: 'Two-Factor Authentication',
+        securityTitle: 'Security verification',
+        codeSent: 'Enter the 6-digit code sent to',
+        backToLogin: 'Back to login',
+        welcomeToast: 'Welcome back, {name}!',
+        errors: {
+          unable: 'Unable to sign in',
+          otpFailed: 'OTP verification failed',
+          resend: 'Could not resend the code',
+          missingToken: 'Token missing from authentication response'
+        }
+      },
+      register: {
+        panelBadge: 'Join the marketplace',
+        panelTitle: 'Grow your market. Reach every buyer.',
+        panelText:
+          'Join Umuhinzi Connect as a farmer or buyer. List fresh harvests, find reliable partners, and move Rwanda’s produce forward.',
+        steps: ['Account type', 'Your details', 'Security'],
+        stepCopy: [
+          {
+            title: 'Choose your account type',
+            subtitle: 'Select how you want to use Umuhinzi Connect to get started.'
+          },
+          {
+            title: 'Tell us about you',
+            subtitle: 'Add your contact and location details so we can set up your account.'
+          },
+          {
+            title: 'Secure your account',
+            subtitle: 'Create a strong password and accept our terms.'
+          }
+        ],
+        continue: 'Continue',
+        back: 'Back',
+        accountType: 'Account type',
+        change: 'Change',
+        role: {
+          farmer: 'Farmer',
+          buyer: 'Buyer',
+          farmerTitle: 'Sell your harvest directly to buyers.',
+          buyerTitle: 'Source fresh produce from local farmers.',
+          select: 'Select Farmer or Buyer to continue.',
+          chooseRequired: 'Choose an account type',
+          chooseFirst: 'Choose whether you are a farmer or a buyer first.'
+        },
+        fields: {
+          fullName: 'Full name',
+          fullNamePlaceholder: 'Your full name',
+          fullNameRequired: 'Full name is required',
+          phone: 'Phone number',
+          phonePlaceholder: '+250 78...',
+          phoneRequired: 'Phone number is required',
+          phoneMin: 'At least 10 digits',
+          email: 'Email address',
+          emailPlaceholder: 'you@example.rw',
+          emailRequired: 'Email is required',
+          emailInvalid: 'Enter a valid email',
+          district: 'District',
+          districtPlaceholder: 'e.g. Musanze',
+          sector: 'Sector',
+          sectorPlaceholder: 'e.g. Kinigi',
+          password: 'Password',
+          minChars: 'Min. 8 characters',
+          passwordPlaceholder: 'Create a strong password',
+          passwordRequired: 'Password is required',
+          passwordValidate:
+            'Must be at least 8 chars with uppercase, lowercase, and a number or symbol',
+          confirm: 'Repeat password',
+          confirmPlaceholder: 'Repeat your password',
+          confirmRequired: 'Please repeat your password',
+          mismatch: 'Passwords do not match',
+          termsRequired: 'You must agree to the Terms & Privacy Policy to register'
+        },
+        passwordStrength: {
+          length: '8+ characters',
+          upper: 'Uppercase (A-Z)',
+          lower: 'Lowercase (a-z)',
+          number: 'Number or symbol'
+        },
+        termsPrefix: 'I agree to Umuhinzi Connect’s',
+        termsOfService: 'Terms of Service',
+        termsAnd: 'and',
+        privacy: 'Privacy Policy',
+        termsSuffix: '. (Required)',
+        weakPassword:
+          'Please create a strong password matching all requirements before continuing.',
+        createAccount: 'Create account',
+        creatingAccount: 'Creating account...',
+        haveAccount: 'Already have an account?',
+        signIn: 'Sign in',
+        welcomeToast: 'Welcome to Umuhinzi Connect, {name}!',
+        errors: {
+          create: 'Could not create your account'
+        }
+      },
+      forgot: {
+        panelBadge: 'Account recovery',
+        panelTitle: 'Your harvest waits. We’ll get you back in.',
+        panelText:
+          'Reset your password in three quick steps and return to buying and selling fresh produce on Umuhinzi Connect.',
+        resetLabel: 'Reset password',
+        newTitle: 'Choose a new password',
+        forEmail: 'For',
+        newPassword: 'New password',
+        newPasswordPlaceholder: 'At least 8 characters',
+        newPasswordRequired: 'Password is required',
+        minChars: 'At least 8 characters',
+        confirm: 'Confirm password',
+        confirmPlaceholder: 'Repeat your new password',
+        confirmRequired: 'Please repeat your password',
+        mismatch: 'Passwords do not match',
+        resetButton: 'Reset password',
+        updating: 'Updating...',
+        remembered: 'Remembered it?',
+        backToSignIn: 'Back to sign in',
+        otpLabel: 'Reset your password',
+        otpTitle: 'Check your email',
+        codeSent: 'Enter the 6-digit code sent to',
+        differentEmail: 'Use a different email',
+        title: 'Forgot your password?',
+        description:
+          'No stress. Enter the email linked to your Umuhinzi Connect account and we’ll send a one-time security code to reset it.',
+        email: 'Email',
+        emailRequired: 'Email is required',
+        emailInvalid: 'Enter a valid email',
+        send: 'Send reset code',
+        sending: 'Sending code...',
+        infoSent: 'If an account exists for that email, we sent a 6-digit reset code.',
+        infoSentDev:
+          'If an account exists for that email, we sent a 6-digit reset code. Dev code: {code}',
+        codeVerified: 'Code verified. Choose a new password.',
+        codeResent: 'A new code has been sent.',
+        codeResentDev: 'A new code has been sent. Dev code: {code}',
+        updated: 'Password updated. Redirecting to sign in...',
+        errors: {
+          invalidCode: 'That code is not valid or has expired',
+          resend: 'Could not resend the code',
+          reset: 'Could not reset your password'
+        }
+      },
+      otp: {
+        label: 'Verification code',
+        digit: 'Digit {index} of {length}',
+        noCode: 'Didn’t receive the code?',
+        resendIn: 'Resend in {time}',
+        resend: 'Resend code',
+        expire: 'For your security, codes expire after a few minutes.'
+      }
     }
   },
   rw: {
@@ -684,6 +862,187 @@ export const translations = {
       account: 'Konti',
       copyright: 'Umuhinzi Connect. Uburenganzira bwose burafitwe.',
       madeIn: 'Yubakiwe mu Rwanda'
+    },
+    auth: {
+      common: {
+        copyright: 'Umuhinzi Connect. Uburenganzira bwose burafitwe.',
+        homeAria: 'Subira ahabanza kuri Umuhinzi Connect',
+        showPassword: 'Erekana ijambo ry’ibanga',
+        hidePassword: 'Hisha ijambo ry’ibanga',
+        showRepeatPassword: 'Erekana ijambo ry’ibanga rya kabiri',
+        hideRepeatPassword: 'Hisha ijambo ry’ibanga rya kabiri'
+      },
+      login: {
+        panelBadge: 'Murakaza neza',
+        panelTitle: 'Umusaruro mushya. Ibiciro byiza. Isoko rimwe.',
+        panelText:
+          'Umuhinzi Connect ihuza abahinzi b’u Rwanda n’abaguzi mu buryo butaziguye — shyira umusaruro wawe ku isoko, menya umusaruro mushya, kandi ucuruze wizeye.',
+        title: 'Murakaza neza!',
+        subtitle: 'Injira kugura no kugurisha umusaruro mushya mu Rwanda.',
+        registered: 'Kwiyandikisha byarangiye! Injira kugira ngo ukomeze.',
+        passwordReset:
+          'Ijambo ry’ibanga ryahinduwe neza. Injira ukoresheje ijambo ry’ibanga rishya.',
+        phoneLabel: 'Numero ya telefoni',
+        phonePlaceholder: 'Shyiramo numero yawe ya telefoni',
+        phoneRequired: 'Shyiramo numero yawe ya telefoni',
+        passwordLabel: 'Ijambo ry’ibanga',
+        passwordRequired: 'Ijambo ry’ibanga rirakenewe',
+        forgot: 'Wibagiwe ijambo ry’ibanga?',
+        keepLoggedIn: 'Mpa kuguma ninjiye',
+        signIn: 'Injira',
+        signingIn: 'Turi kwinjira...',
+        noAccount: 'Nta konti ufite?',
+        createAccount: 'Fungura konti',
+        twoFactor: 'Kwemeza mu ntambwe ebyiri',
+        securityTitle: 'Igenzura ry’umutekano',
+        codeSent: 'Shyiramo kode y’imibare 6 yoherejwe kuri',
+        backToLogin: 'Subira ku kwinjira',
+        welcomeToast: 'Murakaza neza, {name}!',
+        errors: {
+          unable: 'Ntibyakunze kwinjira',
+          otpFailed: 'Kwemeza OTP byanze',
+          resend: 'Ntibyakunze kohereza kode yindi',
+          missingToken: 'Token ibura mu nsubiza y’ubwemezi'
+        }
+      },
+      register: {
+        panelBadge: 'Injira ku isoko',
+        panelTitle: 'Kura isoko yawe. Gere ku baguzi bose.',
+        panelText:
+          'Injira muri Umuhinzi Connect nk’umuhinzi cyangwa umuguzi. Shyira umusaruro mushya ku isoko, shakisha abafatanyabikorwa bizerwa, kandi utere imbere umusaruro w’u Rwanda.',
+        steps: ['Ubwoko bwa konti', 'Amakuru yawe', 'Umutekano'],
+        stepCopy: [
+          {
+            title: 'Hitamo ubwoko bwa konti',
+            subtitle: 'Hitamo uko ushaka gukoresha Umuhinzi Connect kugira ngo utangire.'
+          },
+          {
+            title: 'Tubwire ibyawe',
+            subtitle:
+              'Ongeraho amakuru yawe yo kwifatanya n’aho uherereye kugira ngo dushyireho konti yawe.'
+          },
+          {
+            title: 'Rinda konti yawe',
+            subtitle: 'Kora ijambo ry’ibanga rikomeye kandi wemere amabwiriza yacu.'
+          }
+        ],
+        continue: 'Komeza',
+        back: 'Subira',
+        accountType: 'Ubwoko bwa konti',
+        change: 'Hindura',
+        role: {
+          farmer: 'Umuhinzi',
+          buyer: 'Umuguzi',
+          farmerTitle: 'Gurisha umusaruro wawe mu buryo butaziguye ku baguzi.',
+          buyerTitle: 'Gura umusaruro mushya ku bahinzi bo mu karere.',
+          select: 'Hitamo Umuhinzi cyangwa Umuguzi kugira ngo ukomeze.',
+          chooseRequired: 'Hitamo ubwoko bwa konti',
+          chooseFirst: 'Banza uhitemo niba uri umuhinzi cyangwa umuguzi.'
+        },
+        fields: {
+          fullName: 'Amazina yombi',
+          fullNamePlaceholder: 'Amazina yawe yombi',
+          fullNameRequired: 'Amazina yombi arakenewe',
+          phone: 'Numero ya telefoni',
+          phonePlaceholder: '+250 78...',
+          phoneRequired: 'Numero ya telefoni irakenewe',
+          phoneMin: 'Nibura imibare 10',
+          email: 'Aderesi imeyili',
+          emailPlaceholder: 'you@example.rw',
+          emailRequired: 'Imeyili irakenewe',
+          emailInvalid: 'Shyiramo imeyili yemewe',
+          district: 'Akarere',
+          districtPlaceholder: 'urugero: Musanze',
+          sector: 'Umurenge',
+          sectorPlaceholder: 'urugero: Kinigi',
+          password: 'Ijambo ry’ibanga',
+          minChars: 'Nibura inyuguti 8',
+          passwordPlaceholder: 'Kora ijambo ry’ibanga rikomeye',
+          passwordRequired: 'Ijambo ry’ibanga rirakenewe',
+          passwordValidate:
+            'Bigomba kuba nibura inyuguti 8 zirimo inyuguti nkuru, nto, umubare cyangwa ikimenyetso',
+          confirm: 'Subiramo ijambo ry’ibanga',
+          confirmPlaceholder: 'Subiramo ijambo ry’ibanga',
+          confirmRequired: 'Nyamuneka subiramo ijambo ry’ibanga',
+          mismatch: 'Amagambo y’ibanga ntabwo ahura',
+          termsRequired:
+            'Ugomba kwemera Amabwiriza n’Politiki y’ibanga kugira ngo wiyandikishe'
+        },
+        passwordStrength: {
+          length: 'Inyuguti 8+',
+          upper: 'Inyuguti nkuru (A-Z)',
+          lower: 'Inyuguti nto (a-z)',
+          number: 'Umubare cyangwa ikimenyetso'
+        },
+        termsPrefix: 'Nemera',
+        termsOfService: 'Amabwiriza y’imikorere',
+        termsAnd: 'na',
+        privacy: 'Politiki y’ibanga',
+        termsSuffix: '. (Birakenewe)',
+        weakPassword:
+          'Nyamuneka kora ijambo ry’ibanga rikomeye rihura n’ibisabwa byose mbere yo gukomeza.',
+        createAccount: 'Fungura konti',
+        creatingAccount: 'Turi gufungura konti...',
+        haveAccount: 'Usanzwe ufite konti?',
+        signIn: 'Injira',
+        welcomeToast: 'Murakaza neza muri Umuhinzi Connect, {name}!',
+        errors: {
+          create: 'Ntibyakunze gufungura konti yawe'
+        }
+      },
+      forgot: {
+        panelBadge: 'Kugarura konti',
+        panelTitle: 'Umusaruro wawe urategereje. Tuzakugarura.',
+        panelText:
+          'Hindura ijambo ry’ibanga mu ntambwe eshatu zoroshye kandi usubire kugura no kugurisha umusaruro mushya kuri Umuhinzi Connect.',
+        resetLabel: 'Hindura ijambo ry’ibanga',
+        newTitle: 'Hitamo ijambo ry’ibanga rishya',
+        forEmail: 'Kuri',
+        newPassword: 'Ijambo ry’ibanga rishya',
+        newPasswordPlaceholder: 'Nibura inyuguti 8',
+        newPasswordRequired: 'Ijambo ry’ibanga rirakenewe',
+        minChars: 'Nibura inyuguti 8',
+        confirm: 'Emeza ijambo ry’ibanga',
+        confirmPlaceholder: 'Subiramo ijambo ry’ibanga rishya',
+        confirmRequired: 'Nyamuneka subiramo ijambo ry’ibanga',
+        mismatch: 'Amagambo y’ibanga ntabwo ahura',
+        resetButton: 'Hindura ijambo ry’ibanga',
+        updating: 'Turi kuvugurura...',
+        remembered: 'Wibutse?',
+        backToSignIn: 'Subira ku kwinjira',
+        otpLabel: 'Hindura ijambo ry’ibanga',
+        otpTitle: 'Reba imeyili yawe',
+        codeSent: 'Shyiramo kode y’imibare 6 yoherejwe kuri',
+        differentEmail: 'Koresha indi imeyili',
+        title: 'Wibagiwe ijambo ry’ibanga?',
+        description:
+          'Nta mpungenge. Shyiramo imeyili ihujwe na konti yawe ya Umuhinzi Connect kandi tuzakohereza kode y’umutekano y’ikoreshwa rimwe kugira ngo uyihindure.',
+        email: 'Imeyili',
+        emailRequired: 'Imeyili irakenewe',
+        emailInvalid: 'Shyiramo imeyili yemewe',
+        send: 'Ohereza kode',
+        sending: 'Turi kohereza kode...',
+        infoSent: 'Niba konti ibaho kuri iyo imeyili, twohereje kode y’imibare 6.',
+        infoSentDev:
+          'Niba konti ibaho kuri iyo imeyili, twohereje kode y’imibare 6. Kode y’iterambere: {code}',
+        codeVerified: 'Kode yemejwe. Hitamo ijambo ry’ibanga rishya.',
+        codeResent: 'Kode nshya yoherejwe.',
+        codeResentDev: 'Kode nshya yoherejwe. Kode y’iterambere: {code}',
+        updated: 'Ijambo ry’ibanga ryavuguruwe. Turi kukujyana ku kwinjira...',
+        errors: {
+          invalidCode: 'Iyo kode ntabwo ari yo cyangwa yarangiye',
+          resend: 'Ntibyakunze kohereza kode yindi',
+          reset: 'Ntibyakunze guhindura ijambo ry’ibanga'
+        }
+      },
+      otp: {
+        label: 'Kode y’igenzura',
+        digit: 'Umubare {index} kuri {length}',
+        noCode: 'Ntabwo wabonye kode?',
+        resendIn: 'Ohereza ukundi mu {time}',
+        resend: 'Ohereza kode ukundi',
+        expire: 'Ku mutekano wawe, kode zirangira nyuma y’iminota mike.'
+      }
     }
   }
 }

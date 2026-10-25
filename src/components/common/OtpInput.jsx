@@ -10,6 +10,7 @@
  *   disabled                   — lock input while a request is in flight
  */
 import React, { useState, useEffect, useRef } from 'react'
+import { useLanguage } from '../../context/LanguageContext'
 
 const STATUS_CLASSES = {
   error:
@@ -24,6 +25,7 @@ const BASE_CLASS =
   'h-14 w-11 rounded-xl border text-center text-xl font-bold text-ink caret-brand-600 outline-none transition-all duration-200 dark:text-white dark:caret-white sm:w-12'
 
 export default function OtpInput({ onComplete, onResend, status = 'idle', disabled = false, length = 6 }) {
+  const { t } = useLanguage()
   const [values, setValues] = useState(Array(length).fill(''))
   const [timeLeft, setTimeLeft] = useState(60)
   const refs = useRef([])
@@ -123,7 +125,7 @@ export default function OtpInput({ onComplete, onResend, status = 'idle', disabl
       `}</style>
 
       <div className="space-y-2.5">
-        <label className="text-sm font-medium text-ink dark:text-white">Verification code</label>
+        <label className="text-sm font-medium text-ink dark:text-white">{t('auth.otp.label')}</label>
         <div className="flex gap-2 sm:gap-2.5 justify-between">
           {values.map((digit, index) => (
             <input
@@ -141,16 +143,18 @@ export default function OtpInput({ onComplete, onResend, status = 'idle', disabl
               onKeyDown={(e) => handleKeyDown(index, e)}
               onPaste={handlePaste}
               className={`${BASE_CLASS} ${STATUS_CLASSES[status] ?? STATUS_CLASSES.idle}`}
-              aria-label={`Digit ${index + 1} of ${length}`}
+              aria-label={t('auth.otp.digit').replace('{index}', index + 1).replace('{length}', length)}
             />
           ))}
         </div>
 
         <div className="space-y-4 border-t border-black/10 pt-5 text-center dark:border-white/10">
           <div className="space-y-1.5">
-            <p className="text-sm text-muted dark:text-gray-400">Didn't receive the code?</p>
+            <p className="text-sm text-muted dark:text-gray-400">{t('auth.otp.noCode')}</p>
             {timeLeft > 0 ? (
-              <p className="text-sm font-semibold text-muted dark:text-gray-400">Resend in {formatTime()}</p>
+              <p className="text-sm font-semibold text-muted dark:text-gray-400">
+                {t('auth.otp.resendIn').replace('{time}', formatTime())}
+              </p>
             ) : (
               <button
                 type="button"
@@ -158,12 +162,12 @@ export default function OtpInput({ onComplete, onResend, status = 'idle', disabl
                 disabled={disabled}
                 className="text-sm font-bold text-ink hover:underline disabled:opacity-60 dark:text-white"
               >
-                Resend code
+                {t('auth.otp.resend')}
               </button>
             )}
           </div>
           <p className="text-xs text-muted dark:text-gray-400">
-            For your security, codes expire after a few minutes.
+            {t('auth.otp.expire')}
           </p>
         </div>
       </div>

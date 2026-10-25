@@ -13,12 +13,14 @@ import AuthDivider from '../components/common/AuthDivider'
 import Toast from '../components/common/Toast'
 import { useToastContext } from '../context/ToastContext'
 import { useTheme } from '../context/ThemeContext'
+import { useLanguage } from '../context/LanguageContext'
 import { ROUTE_PATHS } from '../constants/routePaths'
 
 export default function RegisterPage() {
   const year = new Date().getFullYear()
   const { toasts, dismissToast } = useToastContext()
   const { isDark } = useTheme()
+  const { t } = useLanguage()
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-white antialiased dark:bg-[#050505]">
@@ -28,7 +30,7 @@ export default function RegisterPage() {
         <AuthDivider />
 
         <div className="relative z-10">
-          <Link to={ROUTE_PATHS.HOME} className="inline-block" aria-label="Go to Umuhinzi Connect home">
+          <Link to={ROUTE_PATHS.HOME} className="inline-block" aria-label={t('auth.common.homeAria')}>
             <BrandLockup size={30} textClassName="text-[15px]" dark={!isDark} />
           </Link>
         </div>
@@ -44,26 +46,25 @@ export default function RegisterPage() {
               ? 'border-brand-400/25 bg-brand-400/10 text-brand-300'
               : 'border-brand-600/20 bg-brand-600/10 text-brand-700'
           }`}>
-            Join the marketplace
+            {t('auth.register.panelBadge')}
           </span>
           <h1 className="text-[45px] font-bold leading-tight tracking-tight text-ink dark:text-white xl:text-[54px]">
-            Grow your market. Reach every buyer.
+            {t('auth.register.panelTitle')}
           </h1>
           <p className="max-w-md text-sm leading-relaxed text-ink/65 dark:text-white/70">
-            Join Umuhinzi Connect as a farmer or buyer. List fresh harvests,
-            find reliable partners, and move Rwanda's produce forward.
+            {t('auth.register.panelText')}
           </p>
         </motion.div>
 
         <div className="relative z-10">
-          <p className="text-xs text-ink/35 dark:text-white/35">© {year} Umuhinzi Connect. All rights reserved.</p>
+          <p className="text-xs text-ink/35 dark:text-white/35">© {year} {t('auth.common.copyright')}</p>
         </div>
       </div>
 
       {/* Right register area */}
       <div className="auth-dark flex w-full flex-col justify-center overflow-y-auto bg-white p-8 dark:bg-[#050505] sm:p-12 md:w-[48%] lg:px-20">
         <div className="md:hidden mb-10">
-          <Link to={ROUTE_PATHS.HOME} className="inline-block" aria-label="Go to Umuhinzi Connect home">
+          <Link to={ROUTE_PATHS.HOME} className="inline-block" aria-label={t('auth.common.homeAria')}>
             <BrandLockup size={30} textClassName="text-[15px]" dark={!isDark} />
           </Link>
         </div>

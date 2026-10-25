@@ -10,6 +10,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { authApi } from '../../api/authApi'
+import { useLanguage } from '../../context/LanguageContext'
 import ButtonLoader from '../common/ButtonLoader'
 import OtpInput from '../common/OtpInput'
 import { ROUTE_PATHS } from '../../constants/routePaths'
@@ -24,6 +25,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function ForgotPasswordForm() {
   const navigate = useNavigate()
+  const { t } = useLanguage()
   const {
     register,
     handleSubmit,
@@ -64,17 +66,18 @@ export default function ForgotPasswordForm() {
       const remaining = MIN_LOADER_MS - (Date.now() - startedAt)
       if (remaining > 0) await sleep(remaining)
       setPendingEmail(normalized)
-      const devNote = response?.dev_otp ? ` Dev code: ${response.dev_otp}` : ''
       gotoStep(
         'otp',
-        `If an account exists for that email, we sent a 6-digit reset code.${devNote}`
+        response?.dev_otp
+          ? t('auth.forgot.infoSentDev').replace('{code}', response.dev_otp)
+          : t('auth.forgot.infoSent')
       )
-    } catch (error) {
+    } catch {
       const remaining = MIN_LOADER_MS - (Date.now() - startedAt)
       if (remaining > 0) await sleep(remaining)
       // Keep the response surface the same even if the email is unknown.
       setPendingEmail(email.trim().toLowerCase())
-      gotoStep('otp', 'If an account exists for that email, we sent a 6-digit reset code.')
+      gotoStep('otp', t('auth.forgot.infoSent'))
     } finally {
       setIsSubmitting(false)
     }
@@ -89,10 +92,10 @@ export default function ForgotPasswordForm() {
       const response = await authApi.verifyPasswordResetOtp(pendingEmail, code)
       setOtpStatus('success')
       setResetToken(response.resetToken)
-      setTimeout(() => gotoStep('new', 'Code verified. Choose a new password.'), 800)
+      setTimeout(() => gotoStep('new', t('auth.forgot.codeVerified')), 800)
     } catch (error) {
       setOtpStatus('error')
-      setErrorMessage(error?.message || 'That code is not valid or has expired')
+      setErrorMessage(error?.message || t('auth.forgot.errors.invalidCode'))
       setTimeout(() => setOtpStatus('idle'), 500)
     } finally {
       setIsSubmitting(false)
@@ -105,10 +108,13 @@ export default function ForgotPasswordForm() {
     setOtpStatus('idle')
     try {
       const response = await authApi.requestPasswordReset(pendingEmail)
-      const devNote = response?.dev_otp ? ` Dev code: ${response.dev_otp}` : ''
-      setInfoMessage(`A new code has been sent.${devNote}`)
+      setInfoMessage(
+        response?.dev_otp
+          ? t('auth.forgot.codeResentDev').replace('{code}', response.dev_otp)
+          : t('auth.forgot.codeResent')
+      )
     } catch (error) {
-      setErrorMessage(error?.message || 'Could not resend the code')
+      setErrorMessage(error?.message || t('auth.forgot.errors.resend'))
     }
   }
 
@@ -125,11 +131,11 @@ export default function ForgotPasswordForm() {
         () => navigate(ROUTE_PATHS.LOGIN, { replace: true, state: { passwordReset: true } }),
         1600
       )
-      setInfoMessage('Password updated. Redirecting to sign in...')
+      setInfoMessage(t('auth.forgot.updated'))
     } catch (error) {
       const remaining = MIN_LOADER_MS - (Date.now() - startedAt)
       if (remaining > 0) await sleep(remaining)
-      setErrorMessage(error?.message || 'Could not reset your password')
+      setErrorMessage(error?.message || t('auth.forgot.errors.reset'))
     } finally {
       setIsSubmitting(false)
     }
@@ -141,9 +147,9 @@ export default function ForgotPasswordForm() {
       <div className="w-full max-w-md mx-auto font-sans">
         <form onSubmit={handleSubmit(onNewPasswordSubmit)} className="space-y-5">
           <div className="space-y-1.5 mb-8">
-            <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-muted dark:text-gray-400">Reset password</h3>
-            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">Choose a new password</h1>
-            <p className="text-sm text-muted dark:text-gray-400">For <span className="font-semibold text-ink dark:text-white">{pendingEmail}</span></p>
+            <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-muted dark:text-gray-400">{t('auth.forgot.resetLabel')}</h3>
+            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">{t('auth.forgot.newTitle')}</h1>
+            <p className="text-sm text-muted dark:text-gray-400">{t('auth.forgot.forEmail')} <span className="font-semibold text-ink dark:text-white">{pendingEmail}</span></p>
           </div>
 
           {infoMessage && (
@@ -158,15 +164,15 @@ export default function ForgotPasswordForm() {
           )}
 
           <div className="space-y-1.5">
-            <label htmlFor="reset-new" className="text-sm font-medium text-ink/80 dark:text-gray-300">New password</label>
+            <label htmlFor="reset-new" className="text-sm font-medium text-ink/80 dark:text-gray-300">{t('auth.forgot.newPassword')}</label>
             <input
               id="reset-new"
               {...register('newPassword', {
-                required: 'Password is required',
-                minLength: { value: 8, message: 'At least 8 characters' },
+                required: t('auth.forgot.newPasswordRequired'),
+                minLength: { value: 8, message: t('auth.forgot.minChars') },
               })}
               type="password"
-              placeholder="At least 8 characters"
+              placeholder={t('auth.forgot.newPasswordPlaceholder')}
               autoComplete="new-password"
               className={`${inputClass} ${errors.newPassword ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
             />
@@ -174,15 +180,15 @@ export default function ForgotPasswordForm() {
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="reset-confirm" className="text-sm font-medium text-ink/80 dark:text-gray-300">Confirm password</label>
+            <label htmlFor="reset-confirm" className="text-sm font-medium text-ink/80 dark:text-gray-300">{t('auth.forgot.confirm')}</label>
             <input
               id="reset-confirm"
               {...register('confirmPassword', {
-                required: 'Please repeat your password',
-                validate: (value) => value === newPassword || 'Passwords do not match',
+                required: t('auth.forgot.confirmRequired'),
+                validate: (value) => value === newPassword || t('auth.forgot.mismatch'),
               })}
               type="password"
-              placeholder="Repeat your new password"
+              placeholder={t('auth.forgot.confirmPlaceholder')}
               autoComplete="new-password"
               className={`${inputClass} ${errors.confirmPassword ? 'border-red-500/60 dark:border-red-500/50' : ''}`}
             />
@@ -199,14 +205,14 @@ export default function ForgotPasswordForm() {
           >
             <span className="inline-flex items-center justify-center gap-2.5 min-h-[20px]">
               {isSubmitting && <ButtonLoader size={18} className="text-white" />}
-              <span className={isSubmitting ? 'opacity-90' : ''}>{isSubmitting ? 'Updating...' : 'Reset password'}</span>
+              <span className={isSubmitting ? 'opacity-90' : ''}>{isSubmitting ? t('auth.forgot.updating') : t('auth.forgot.resetButton')}</span>
             </span>
           </button>
 
           <p className="pt-2 text-center text-sm text-muted dark:text-gray-400">
-            Remembered it?{' '}
+            {t('auth.forgot.remembered')}{' '}
             <Link to={ROUTE_PATHS.LOGIN} className="font-semibold text-ink hover:underline dark:text-white">
-              Back to sign in
+              {t('auth.forgot.backToSignIn')}
             </Link>
           </p>
         </form>
@@ -220,10 +226,10 @@ export default function ForgotPasswordForm() {
       <div className="w-full max-w-md mx-auto font-sans">
         <div className="space-y-7">
           <div className="space-y-1.5">
-            <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-muted dark:text-gray-400">Reset your password</h3>
-            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">Check your email</h1>
+            <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-muted dark:text-gray-400">{t('auth.forgot.otpLabel')}</h3>
+            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">{t('auth.forgot.otpTitle')}</h1>
             <p className="pt-1 text-sm leading-relaxed text-muted dark:text-gray-400">
-              Enter the 6-digit code sent to{' '}
+              {t('auth.forgot.codeSent')}{' '}
               <span className="break-all font-semibold text-ink dark:text-white">{pendingEmail}</span>
             </p>
           </div>
@@ -255,7 +261,7 @@ export default function ForgotPasswordForm() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Use a different email
+              {t('auth.forgot.differentEmail')}
             </button>
           </div>
         </div>
@@ -268,9 +274,9 @@ export default function ForgotPasswordForm() {
     <div className="w-full max-w-md mx-auto font-sans">
       <form onSubmit={handleSubmit(onEmailSubmit)} className="space-y-5">
         <div className="space-y-1.5 mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">Forgot your password?</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">{t('auth.forgot.title')}</h1>
           <p className="text-sm leading-relaxed text-muted dark:text-gray-400">
-            No stress. Enter the email linked to your Umuhinzi Connect account and we'll send a one-time security code to reset it.
+            {t('auth.forgot.description')}
           </p>
         </div>
 
@@ -281,7 +287,7 @@ export default function ForgotPasswordForm() {
         )}
 
         <div className="space-y-1.5">
-          <label htmlFor="reset-email" className="text-sm font-medium text-ink/80 dark:text-gray-300">Email</label>
+          <label htmlFor="reset-email" className="text-sm font-medium text-ink/80 dark:text-gray-300">{t('auth.forgot.email')}</label>
           <div className="relative">
             <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted dark:text-gray-400">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -291,8 +297,8 @@ export default function ForgotPasswordForm() {
             <input
               id="reset-email"
               {...register('email', {
-                required: 'Email is required',
-                pattern: { value: EMAIL_RE, message: 'Enter a valid email' },
+                required: t('auth.forgot.emailRequired'),
+                pattern: { value: EMAIL_RE, message: t('auth.forgot.emailInvalid') },
               })}
               type="email"
               placeholder="you@example.rw"
@@ -312,15 +318,15 @@ export default function ForgotPasswordForm() {
           <span className="inline-flex items-center justify-center gap-2.5 min-h-[20px]">
             {isSubmitting && <ButtonLoader size={18} className="text-white" />}
             <span className={isSubmitting ? 'opacity-90' : ''}>
-              {isSubmitting ? 'Sending code...' : 'Send reset code'}
+              {isSubmitting ? t('auth.forgot.sending') : t('auth.forgot.send')}
             </span>
           </span>
         </button>
 
         <p className="pt-2 text-center text-sm text-muted dark:text-gray-400">
-          Remembered it?{' '}
+          {t('auth.forgot.remembered')}{' '}
           <Link to={ROUTE_PATHS.LOGIN} className="font-semibold text-ink hover:underline dark:text-white">
-            Back to sign in
+            {t('auth.forgot.backToSignIn')}
           </Link>
         </p>
       </form>

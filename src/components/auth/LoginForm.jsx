@@ -13,6 +13,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { authApi } from '../../api/authApi'
 import { useAuth } from '../../hooks/useAuth'
 import { useToastContext } from '../../context/ToastContext'
+import { useLanguage } from '../../context/LanguageContext'
 import { dashboardPathForRoles } from '../../utils/dashboardPath'
 import ButtonLoader from '../common/ButtonLoader'
 import OtpInput from '../common/OtpInput'
@@ -32,6 +33,7 @@ export default function LoginForm() {
   const location = useLocation()
   const { login } = useAuth()
   const { showToast } = useToastContext()
+  const { t } = useLanguage()
 
   const {
     register,
@@ -48,14 +50,14 @@ export default function LoginForm() {
   const [otpStatus, setOtpStatus] = useState('idle')
 
   const successMessage = location.state?.registered
-    ? 'Registration complete! Sign in to continue.'
+    ? t('auth.login.registered')
     : location.state?.passwordReset
-    ? 'Password reset successfully. Please sign in with your new password.'
+    ? t('auth.login.passwordReset')
     : ''
 
   const saveAuthAndRedirect = (response) => {
     if (!response?.token) {
-      throw new Error('Token missing from authentication response')
+      throw new Error(t('auth.login.errors.missingToken'))
     }
 
     const authUser = {
@@ -72,7 +74,7 @@ export default function LoginForm() {
     login(response.token, authUser)
 
     const firstName = (authUser.name || authUser.email || 'there').split(/[\s@_.]+/).filter(Boolean)[0] || 'there'
-    showToast(`Welcome back, ${firstName}!`, 'success')
+    showToast(t('auth.login.welcomeToast').replace('{name}', firstName), 'success')
 
     // A ?next= deep link wins; otherwise land on the role's dashboard.
     const next = new URLSearchParams(location.search).get('next')
@@ -100,7 +102,7 @@ export default function LoginForm() {
     } catch (error) {
       const remaining = MIN_LOADER_MS - (Date.now() - startedAt)
       if (remaining > 0) await sleep(remaining)
-      setErrorMessage(error?.message || 'Unable to sign in')
+      setErrorMessage(error?.message || t('auth.login.errors.unable'))
       setIsSubmitting(false)
     }
   }
@@ -116,7 +118,7 @@ export default function LoginForm() {
       setTimeout(() => saveAuthAndRedirect(response), 800)
     } catch (error) {
       setOtpStatus('error')
-      setErrorMessage(error?.message || 'OTP verification failed')
+      setErrorMessage(error?.message || t('auth.login.errors.otpFailed'))
       setTimeout(() => setOtpStatus('idle'), 500)
     } finally {
       setIsSubmitting(false)
@@ -130,7 +132,7 @@ export default function LoginForm() {
     try {
       await authApi.resendOtp(pendingUsername)
     } catch (error) {
-      setErrorMessage(error?.message || 'Could not resend the code')
+      setErrorMessage(error?.message || t('auth.login.errors.resend'))
     }
   }
 
@@ -145,8 +147,8 @@ export default function LoginForm() {
       {!otpRequired ? (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-1.5 mb-8">
-            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">Welcome back!</h1>
-            <p className="text-sm text-muted dark:text-gray-400">Sign in to buy and sell fresh harvests across Rwanda.</p>
+            <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">{t('auth.login.title')}</h1>
+            <p className="text-sm text-muted dark:text-gray-400">{t('auth.login.subtitle')}</p>
           </div>
 
           {successMessage && (
@@ -162,7 +164,7 @@ export default function LoginForm() {
           )}
 
           <div className="space-y-1.5">
-            <label htmlFor="login-phone" className="text-sm font-medium text-ink/80 dark:text-gray-300">Phone number</label>
+            <label htmlFor="login-phone" className="text-sm font-medium text-ink/80 dark:text-gray-300">{t('auth.login.phoneLabel')}</label>
             <div className="relative">
               <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted dark:text-gray-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -171,9 +173,9 @@ export default function LoginForm() {
               </span>
               <input
                 id="login-phone"
-                {...register('phone', { required: 'Enter your phone number' })}
+                {...register('phone', { required: t('auth.login.phoneRequired') })}
                 type="tel"
-                placeholder="Enter your phone number"
+                placeholder={t('auth.login.phonePlaceholder')}
                 autoComplete="tel"
                 className={`${inputBaseClass} ${errors.phone ? inputErrorClass : inputOkClass}`}
               />
@@ -183,12 +185,12 @@ export default function LoginForm() {
 
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label htmlFor="login-password" className="text-sm font-medium text-ink/80 dark:text-gray-300">Password</label>
+              <label htmlFor="login-password" className="text-sm font-medium text-ink/80 dark:text-gray-300">{t('auth.login.passwordLabel')}</label>
               <Link
                 to={ROUTE_PATHS.FORGOT_PASSWORD}
                 className="text-sm font-medium text-muted transition-colors hover:text-ink dark:text-gray-400 dark:hover:text-white"
               >
-                Forgot password?
+                {t('auth.login.forgot')}
               </Link>
             </div>
             <div className="relative">
@@ -199,7 +201,7 @@ export default function LoginForm() {
               </span>
               <input
                 id="login-password"
-                {...register('password', { required: 'Password is required' })}
+                {...register('password', { required: t('auth.login.passwordRequired') })}
                 type={showPassword ? 'text' : 'password'}
                 placeholder="••••••••"
                 autoComplete="current-password"
@@ -209,7 +211,7 @@ export default function LoginForm() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-muted transition-colors hover:text-ink focus:outline-none dark:text-gray-400 dark:hover:text-white"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-label={showPassword ? t('auth.common.hidePassword') : t('auth.common.showPassword')}
               >
                 {showPassword ? (
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -233,7 +235,7 @@ export default function LoginForm() {
                 <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <span className="text-sm text-muted dark:text-gray-400">Keep me logged in</span>
+            <span className="text-sm text-muted dark:text-gray-400">{t('auth.login.keepLoggedIn')}</span>
           </label>
 
           <button
@@ -245,15 +247,15 @@ export default function LoginForm() {
             <span className="inline-flex items-center justify-center gap-2.5 min-h-[20px]">
               {isSubmitting && <ButtonLoader size={18} className="text-white" />}
               <span className={isSubmitting ? 'opacity-90' : ''}>
-                {isSubmitting ? 'Signing in...' : 'Sign In'}
+                {isSubmitting ? t('auth.login.signingIn') : t('auth.login.signIn')}
               </span>
             </span>
           </button>
 
           <p className="pt-4 text-center text-sm text-muted dark:text-gray-400">
-            Don't have an account?{' '}
+            {t('auth.login.noAccount')}{' '}
             <Link to={ROUTE_PATHS.REGISTER} className="font-semibold text-ink hover:underline dark:text-white">
-              Create an account
+              {t('auth.login.createAccount')}
             </Link>
           </p>
         </form>
@@ -262,13 +264,13 @@ export default function LoginForm() {
         <div className="space-y-7">
           <div className="space-y-1.5">
             <h3 className="text-xs font-medium uppercase tracking-[0.14em] text-muted dark:text-gray-400">
-              Two-Factor Authentication
+              {t('auth.login.twoFactor')}
             </h3>
             <h1 className="text-2xl font-bold tracking-tight text-ink dark:text-white">
-              Security verification
+              {t('auth.login.securityTitle')}
             </h1>
             <p className="pt-1 text-sm leading-relaxed text-muted dark:text-gray-400">
-              Enter the 6-digit code sent to{' '}
+              {t('auth.login.codeSent')}{' '}
               <span className="break-all font-semibold text-ink dark:text-white">{pendingUsername}</span>
             </p>
           </div>
@@ -295,7 +297,7 @@ export default function LoginForm() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back to login
+              {t('auth.login.backToLogin')}
             </button>
           </div>
         </div>
