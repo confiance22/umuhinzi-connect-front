@@ -33,13 +33,13 @@ export default function CTA() {
             <Sprout size={26} strokeWidth={1.6} />
           </span>
           <p className="text-[10px] font-semibold uppercase tracking-[0.26em] text-white/40">
-            Grow with Umuhinzi Connect
+            {t('landing.cta.eyebrow')}
           </p>
           <h2 className="mx-auto mt-3 max-w-xl text-[clamp(1.8rem,4vw,3rem)] font-semibold leading-[1.12] tracking-[-0.03em] text-white">
-            Your harvest deserves a wider market.
+            {t('landing.cta.heading')}
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/55">
-            List what you grow, reach buyers across Rwanda and trade with prices you can trust.
+            {t('landing.cta.description')}
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">

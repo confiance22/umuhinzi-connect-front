@@ -11,20 +11,14 @@ const fadeUp = {
   })
 }
 
-const marketRows = [
-  { crop: 'Irish potatoes', region: 'Musanze', price: 'RWF 320', change: '+4.2%', up: true },
-  { crop: 'Tomatoes', region: 'Kigali', price: 'RWF 650', change: '+2.8%', up: true },
-  { crop: 'Maize', region: 'Nyagatare', price: 'RWF 410', change: '-1.1%', up: false }
-]
-
-const stats = [
-  { value: '1,200+', label: 'Verified farmers' },
-  { value: '30', label: 'Districts covered' },
-  { value: '0', label: 'Middle layers' }
-]
-
 export default function Hero() {
   const { t } = useLanguage()
+  const marketRows = t('landing.hero.marketRows')
+  const stats = [
+    { value: '1,200+', label: t('landing.hero.stats.farmers') },
+    { value: '30', label: t('landing.hero.stats.districts') },
+    { value: '0', label: t('landing.hero.stats.layers') }
+  ]
 
   return (
     <section
@@ -50,9 +44,9 @@ export default function Hero() {
             className="max-w-[680px]"
           >
             <h1 className="max-w-[660px] text-[clamp(3rem,6.3vw,5.7rem)] font-semibold leading-[0.95] tracking-[-0.055em]">
-              Good food starts with a{' '}
+              {t('landing.hero.headlinePrefix')}{' '}
               <span className="relative inline-block text-brand-700 dark:text-brand-300">
-                fair deal.
+                {t('landing.hero.headlineAccent')}
                 <svg
                   aria-hidden="true"
                   viewBox="0 0 220 14"
@@ -71,8 +65,7 @@ export default function Hero() {
             </h1>
 
             <p className="mt-7 max-w-[490px] text-[15px] leading-[1.8] text-ink/65 dark:text-white/60 sm:text-base">
-              Umuhinzi Connect puts Rwanda&apos;s harvests in front of real buyers — without the
-              layers that eat the margin.
+              {t('landing.hero.description')}
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
@@ -117,21 +110,23 @@ export default function Hero() {
               className="absolute -right-5 -top-7 size-28 rounded-full border border-[#0f3d25]/15 dark:border-white/15"
             />
             <div className="absolute -left-4 bottom-24 z-10 hidden rotate-[-3deg] rounded-2xl border border-[#0f3d25] bg-[#d9f99d] px-4 py-3 text-[8px] font-bold uppercase leading-[1.5] tracking-[0.18em] text-[#0f3d25] dark:border-brand-300/40 dark:bg-[#13301f] dark:text-brand-200 sm:block">
-              Direct trade
+              {t('landing.hero.directTrade')}
               <br />
-              No middlemen
+              {t('landing.hero.noMiddlemen')}
             </div>
 
             <div className="relative overflow-hidden rounded-t-[230px] rounded-b-[32px] border border-[#0f3d25]/20 bg-[#fcf9f1] px-6 pb-6 pt-20 shadow-[14px_14px_0_#e2dac7] dark:border-white/15 dark:bg-[#0b1710] dark:shadow-[14px_14px_0_#0d1a11] sm:px-7">
               <div className="mx-auto flex size-20 flex-col items-center justify-center rounded-full bg-[#0f3d25] text-center text-[#d9f99d] dark:bg-[#d9f99d] dark:text-[#0f3d25]">
-                <span className="text-[8px] font-semibold uppercase tracking-[0.2em]">Market</span>
+                <span className="text-[8px] font-semibold uppercase tracking-[0.2em]">
+                  {t('landing.hero.market')}
+                </span>
                 <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em]">
-                  Today
+                  {t('landing.hero.today')}
                 </span>
               </div>
 
               <p className="mt-5 text-center text-[8px] font-semibold uppercase tracking-[0.24em] text-ink/40 dark:text-white/35">
-                Farm-gate note / 25 Oct
+                {t('landing.hero.note')}
               </p>
 
               <div className="mt-5">
@@ -150,7 +145,7 @@ export default function Hero() {
                       <p className="text-sm font-semibold tabular-nums">
                         {row.price}
                         <span className="ml-0.5 text-[10px] font-normal text-ink/40 dark:text-white/35">
-                          /kg
+                          {t('landing.hero.unit')}
                         </span>
                       </p>
                       <p
@@ -170,39 +165,41 @@ export default function Hero() {
               <div className="mt-2 rounded-[18px] bg-[#0f3d25] px-4 py-3.5 text-[#f7f3e9] dark:bg-[#13301f]">
                 <div className="flex items-center justify-between gap-4">
                   <span className="text-[8px] font-semibold uppercase tracking-[0.18em] text-white/55">
-                    Basket average
+                    {t('landing.hero.basketAverage')}
                   </span>
                   <span className="text-xs font-semibold tabular-nums">RWF 460 /kg</span>
                 </div>
                 <p className="mt-1 text-[9px] text-[#d9f99d]/75 dark:text-brand-300/80">
-                  Up 12% from last season
+                  {t('landing.hero.upFromLastSeason')}
                 </p>
               </div>
             </div>
 
             <div className="mt-5 flex items-center justify-between gap-4 px-1 text-[8px] uppercase tracking-[0.16em] text-ink/40 dark:text-white/35">
-              <span>Source: Umuhinzi market desk</span>
+              <span>{t('landing.hero.source')}</span>
               <Link
                 to="/market-prices"
                 className="rounded-full border-b border-transparent pb-0.5 text-ink/65 transition-colors hover:border-brand-700 hover:text-brand-700 dark:text-white/55 dark:hover:border-brand-300 dark:hover:text-brand-300"
               >
-                All prices
+                {t('landing.hero.allPrices')}
               </Link>
             </div>
           </motion.div>
         </div>
 
         <div className="mt-14 hidden w-full flex-col gap-3 rounded-[28px] border border-[#0f3d25]/10 bg-[#fbf8ef]/75 px-5 py-4 text-[9px] font-semibold uppercase tracking-[0.2em] text-ink/40 dark:border-white/10 dark:bg-white/[0.025] dark:text-white/35 md:flex md:flex-row md:items-center md:gap-5 md:rounded-full md:px-7">
-          <span className="shrink-0 text-brand-700 dark:text-brand-300">Crop index</span>
+          <span className="shrink-0 text-brand-700 dark:text-brand-300">
+            {t('landing.hero.cropIndex')}
+          </span>
           <span className="hidden h-4 w-px bg-black/10 dark:bg-white/10 md:block" />
           <span className="truncate normal-case tracking-[0.08em]">
-            Potatoes · Maize · Beans · Tomatoes · Avocado · Rice
+            {t('landing.hero.cropList')}
           </span>
           <Link
             to="/market-prices"
             className="shrink-0 text-ink/60 transition-colors hover:text-brand-700 dark:text-white/50 dark:hover:text-brand-300 md:ml-auto"
           >
-            View all prices
+            {t('landing.hero.viewAllPrices')}
           </Link>
         </div>
       </div>

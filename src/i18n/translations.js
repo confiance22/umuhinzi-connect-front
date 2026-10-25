@@ -32,7 +32,168 @@ export const translations = {
     },
     lang: {
       en: 'ENG',
-      rw: 'RWA'
+      rw: 'RWA',
+      enName: 'English',
+      rwName: 'Ikinyarwanda'
+    },
+    landing: {
+      hero: {
+        headlinePrefix: 'Good food starts with a',
+        headlineAccent: 'fair deal.',
+        description:
+          'Umuhinzi Connect puts Rwanda’s harvests in front of real buyers — without the layers that eat the margin.',
+        directTrade: 'Direct trade',
+        noMiddlemen: 'No middlemen',
+        market: 'Market',
+        today: 'Today',
+        note: 'Farm-gate note / 25 Oct',
+        basketAverage: 'Basket average',
+        upFromLastSeason: 'Up 12% from last season',
+        source: 'Source: Umuhinzi market desk',
+        allPrices: 'All prices',
+        cropIndex: 'Crop index',
+        cropList: 'Potatoes · Maize · Beans · Tomatoes · Avocado · Rice',
+        viewAllPrices: 'View all prices',
+        unit: '/kg',
+        stats: {
+          farmers: 'Verified farmers',
+          districts: 'Districts covered',
+          layers: 'Middle layers'
+        },
+        marketRows: [
+          { crop: 'Irish potatoes', region: 'Musanze', price: 'RWF 320', change: '+4.2%', up: true },
+          { crop: 'Tomatoes', region: 'Kigali', price: 'RWF 650', change: '+2.8%', up: true },
+          { crop: 'Maize', region: 'Nyagatare', price: 'RWF 410', change: '-1.1%', up: false }
+        ]
+      },
+      features: {
+        title: 'Why Umuhinzi',
+        heading: 'A better way to trade fresh produce',
+        description:
+          'One marketplace for discovery, fair pricing and direct relationships across Rwanda’s agricultural food chain.',
+        items: [
+          {
+            title: 'Direct from farmers',
+            desc: 'Source fresh produce straight from the people who grow it, without unnecessary middlemen.'
+          },
+          {
+            title: 'Transparent prices',
+            desc: 'See daily market prices before you buy or sell so every decision starts from clarity.'
+          },
+          {
+            title: 'Nationwide reach',
+            desc: 'Connect with farmers and buyers across Rwanda, from the hills to the city markets.'
+          },
+          {
+            title: 'Trusted trade',
+            desc: 'Verified profiles and clear harvest details help both sides trade with confidence.'
+          }
+        ]
+      },
+      categories: {
+        title: 'Marketplace',
+        heading: 'Browse by category',
+        description: 'Find the produce you need, or list the harvest you are ready to sell.',
+        explore: 'Explore',
+        items: [
+          {
+            label: 'Vegetables',
+            detail: 'Leafy greens, tomatoes, onions and more'
+          },
+          {
+            label: 'Fruits',
+            detail: 'Avocado, bananas, citrus and seasonal fruit'
+          },
+          {
+            label: 'Grains',
+            detail: 'Maize, rice and other staple grains'
+          },
+          {
+            label: 'Legumes',
+            detail: 'Beans, peas and protein-rich pulses'
+          }
+        ]
+      },
+      harvestPreview: {
+        title: 'Fresh from the farm',
+        heading: 'Harvests ready for the market',
+        description:
+          'A preview of the produce farmers are listing right now. Browse everything on the marketplace.',
+        available: 'Available',
+        viewAll: 'View all harvests',
+        items: [
+          {
+            crop: 'Maize',
+            variety: 'Yellow maize',
+            farmer: 'Jean Bosco',
+            district: 'Nyagatare',
+            price: '450',
+            quantity: '1.2 t available'
+          },
+          {
+            crop: 'Beans',
+            variety: 'Red kidney beans',
+            farmer: 'Alice Mukamana',
+            district: 'Musanze',
+            price: '780',
+            quantity: '800 kg available'
+          },
+          {
+            crop: 'Irish potatoes',
+            variety: 'Kinigi variety',
+            farmer: 'Eric Nsengimana',
+            district: 'Musanze',
+            price: '320',
+            quantity: '2 t available'
+          },
+          {
+            crop: 'Avocado',
+            variety: 'Hass avocado',
+            farmer: 'Patrick Niyonsaba',
+            district: 'Kayanza',
+            price: '850',
+            quantity: '600 kg available'
+          }
+        ]
+      },
+      story: {
+        mission: 'Our mission',
+        heading: 'Built around the way Rwanda already trades.',
+        description:
+          'Farming is personal. Trade should feel the same. Umuhinzi Connect brings the marketplace into one clear space so farmers can reach more buyers and buyers can source with confidence.',
+        points: [
+          'A shared marketplace for farmers and buyers',
+          'Clear prices that make every trade easier to plan',
+          'Direct relationships that strengthen local food systems'
+        ],
+        snapshot: 'Market snapshot',
+        snapshotTitle: 'Today’s indicative prices',
+        daily: 'Daily',
+        explorePrices: 'Explore market prices',
+        prices: [
+          { crop: 'Maize', district: 'Nyagatare', price: '450', change: '+2.4%', up: true },
+          { crop: 'Beans', district: 'Musanze', price: '780', change: '+1.1%', up: true },
+          { crop: 'Potatoes', district: 'Huye', price: '320', change: '-0.8%', up: false }
+        ]
+      },
+      trustBar: {
+        label: 'Built for the food chain',
+        audiences: [
+          'Smallholder farmers',
+          'Farmer cooperatives',
+          'Fresh produce buyers',
+          'Restaurants & hotels',
+          'Local markets',
+          'Agri-traders',
+          'Institutional kitchens'
+        ]
+      },
+      cta: {
+        eyebrow: 'Grow with Umuhinzi Connect',
+        heading: 'Your harvest deserves a wider market.',
+        description:
+          'List what you grow, reach buyers across Rwanda and trade with prices you can trust.'
+      }
     },
     harvests: {
       badge: 'Fresh from the farm',
@@ -214,7 +375,168 @@ export const translations = {
     },
     lang: {
       en: 'ENG',
-      rw: 'RWA'
+      rw: 'RWA',
+      enName: 'English',
+      rwName: 'Ikinyarwanda'
+    },
+    landing: {
+      hero: {
+        headlinePrefix: 'Ibiryo byiza bitangira ku',
+        headlineAccent: 'gucuruza kuringana.',
+        description:
+          'Umuhinzi Connect ishyira umusaruro w’u Rwanda imbere y’abaguzi nyabo — nta bayobora hagati barya inyungu.',
+        directTrade: 'Ubucuruzi butaziguye',
+        noMiddlemen: 'Nta bayobora hagati',
+        market: 'Isoko',
+        today: 'Uyu munsi',
+        note: 'Ibiciro ku murima / 25 Ukwakira',
+        basketAverage: 'Impuzandengo y’ibicuruzwa',
+        upFromLastSeason: 'Byazamutse 12% ugereranyije n’igihembwe gishize',
+        source: 'Inkomoko: Ibiro by’isoko bya Umuhinzi',
+        allPrices: 'Ibiciro byose',
+        cropIndex: 'Urutonde rw’imyaka',
+        cropList: 'Ibirayi · Ibigori · Ibishyimbo · Inyanya · Avoka · Umuceri',
+        viewAllPrices: 'Reba ibiciro byose',
+        unit: '/kg',
+        stats: {
+          farmers: 'Abahinzi bemejwe',
+          districts: 'Uturere dufatwamo',
+          layers: 'Abayobora hagati'
+        },
+        marketRows: [
+          { crop: 'Ibirayi', region: 'Musanze', price: 'RWF 320', change: '+4.2%', up: true },
+          { crop: 'Inyanya', region: 'Kigali', price: 'RWF 650', change: '+2.8%', up: true },
+          { crop: 'Ibigori', region: 'Nyagatare', price: 'RWF 410', change: '-1.1%', up: false }
+        ]
+      },
+      features: {
+        title: 'Kuki Umuhinzi',
+        heading: 'Uburyo bwiza bwo gucuruza umusaruro mushya',
+        description:
+          'Isoko rimwe ryo kuvumbura, ibiciro byiza n’isano itaziguye mu rwego rw’ubuhinzi bw’u Rwanda.',
+        items: [
+          {
+            title: 'Uva ku bahinzi',
+            desc: 'Gura umusaruro mushya uhereye ku babuhinze, nta bayobora hagati badafite akamaro.'
+          },
+          {
+            title: 'Ibiciro bisobanutse',
+            desc: 'Reba ibiciro by’isoko buri munsi mbere yo kugura cyangwa kugurisha, kugira ngo icyemezo cyose gitangire mu mucyo.'
+          },
+          {
+            title: 'Ugere mu gihugu hose',
+            desc: 'Huza n’abahinzi n’abaguzi mu Rwanda hose, uhereye ku misozi kugera ku masoko y’umujyi.'
+          },
+          {
+            title: 'Ubucuruzi bwizewe',
+            desc: 'Umwirondoro wemejwe n’amakuru asobanutse y’umusaruro bifasha impande zombi gucuruza bizeruye.'
+          }
+        ]
+      },
+      categories: {
+        title: 'Isoko',
+        heading: 'Reba ukurikije icyiciro',
+        description: 'Shakisha umusaruro ukeneye, cyangwa shyira ku isoko umusaruro witeguye kugurisha.',
+        explore: 'Reba',
+        items: [
+          {
+            label: 'Imboga',
+            detail: 'Imboga z’amatabi, inyanya, ibitunguru n’ibindi'
+          },
+          {
+            label: 'Imbuto',
+            detail: 'Avoka, imineke, amacunga n’imbuto z’igihe'
+          },
+          {
+            label: 'Ibinyampeke',
+            detail: 'Ibigori, umuceri n’ibindi binyampeke by’ibanze'
+          },
+          {
+            label: 'Ibinyamisogwe',
+            detail: 'Ibishyimbo, amashaza n’ibinyamisogwe birimo poroteyine'
+          }
+        ]
+      },
+      harvestPreview: {
+        title: 'Umusaruro mushya',
+        heading: 'Umusaruro witeguye ku isoko',
+        description:
+          'Incamake y’umusaruro abahinzi bashyira ku isoko ubu. Reba byose ku isoko.',
+        available: 'Bihari',
+        viewAll: 'Reba umusaruro wose',
+        items: [
+          {
+            crop: 'Ibigori',
+            variety: 'Ibigori by’umuhondo',
+            farmer: 'Jean Bosco',
+            district: 'Nyagatare',
+            price: '450',
+            quantity: 'Toni 1.2 zihari'
+          },
+          {
+            crop: 'Ibishyimbo',
+            variety: 'Ibishyimbo bitukura',
+            farmer: 'Alice Mukamana',
+            district: 'Musanze',
+            price: '780',
+            quantity: 'kg 800 zihari'
+          },
+          {
+            crop: 'Ibirayi',
+            variety: 'Ubwoko bwa Kinigi',
+            farmer: 'Eric Nsengimana',
+            district: 'Musanze',
+            price: '320',
+            quantity: 'Toni 2 zihari'
+          },
+          {
+            crop: 'Avoka',
+            variety: 'Avoka ya Hass',
+            farmer: 'Patrick Niyonsaba',
+            district: 'Kayanza',
+            price: '850',
+            quantity: 'kg 600 zihari'
+          }
+        ]
+      },
+      story: {
+        mission: 'Intego yacu',
+        heading: 'Twubakiye ku buryo u Rwanda rusanzwe gucuruza.',
+        description:
+          'Ubuhinzi ni ubuzima bwite. Ubucuruzi bugombye kumera gutyo. Umuhinzi Connect ishyira isoko ahantu hamwe hasobanutse kugira ngo abahinzi bagere ku baguzi benshi n’abaguzi bagure bizeruye.',
+        points: [
+          'Isoko rusange ry’abahinzi n’abaguzi',
+          'Ibiciro bisobanutse byoroshya gutegura ubucuruzi bwose',
+          'Isano itaziguye ikomeza uburyo bw’ibiribwa mu karere'
+        ],
+        snapshot: 'Incamake y’isoko',
+        snapshotTitle: 'Ibiciro by’uyu munsi',
+        daily: 'Buri munsi',
+        explorePrices: 'Reba ibiciro by’isoko',
+        prices: [
+          { crop: 'Ibigori', district: 'Nyagatare', price: '450', change: '+2.4%', up: true },
+          { crop: 'Ibishyimbo', district: 'Musanze', price: '780', change: '+1.1%', up: true },
+          { crop: 'Ibirayi', district: 'Huye', price: '320', change: '-0.8%', up: false }
+        ]
+      },
+      trustBar: {
+        label: 'Yakorewe uruhererekane rw’ibiribwa',
+        audiences: [
+          'Abahinzi bato',
+          'Amakoperative y’abahinzi',
+          'Abaguzi b’umusaruro mushya',
+          'Resitora na hoteli',
+          'Amasoko yo mu karere',
+          'Abacuruzi b’ubuhinzi',
+          'Ibigo byo gukoreramo ibiryo'
+        ]
+      },
+      cta: {
+        eyebrow: 'Kura hamwe na Umuhinzi Connect',
+        heading: 'Umusaruro wawe ukwiye isoko rinini.',
+        description:
+          'Shyira ku isoko ibyo uhinga, gere ku baguzi mu Rwanda hose kandi ucuruze ku biciro wizera.'
+      }
     },
     harvests: {
       badge: 'Umusaruro mushya',
