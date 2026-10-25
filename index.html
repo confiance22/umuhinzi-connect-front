@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Umuhinzi Connect — list and buy fresh harvests directly from Rwandan farmers."
+    />
+    <title>Umuhinzi Connect</title>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem('umuhinzi_theme')
+          if (theme !== 'light' && theme !== 'dark') theme = 'dark'
+          if (theme === 'dark') document.documentElement.classList.add('dark')
+          document.documentElement.style.colorScheme = theme
+          var lang = localStorage.getItem('umuhinzi_lang')
+          document.documentElement.lang = lang === 'rw' ? 'rw' : 'en'
+        } catch (error) {
+          document.documentElement.classList.add('dark')
+        }
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

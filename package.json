@@ -1,0 +1,36 @@
+{
+  "name": "umuhinzi-front",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Umuhinzi Connect frontend — a farmer-to-buyer harvest marketplace for Rwanda. React + Vite + Tailwind CSS.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fontsource/poppins": "^5.3.0",
+    "axios": "^1.7.7",
+    "framer-motion": "^12.23.26",
+    "lenis": "^1.3.16",
+    "lucide-react": "^0.555.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "react-router-dom": "^6.28.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
+    "vite": "^5.4.11"
+  },
+  "overrides": {
+    "framer-motion": {
+      "motion-dom": "12.23.23",
+      "motion-utils": "12.23.6"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+/* Umuhinzi Connect — global styles + Tailwind entry point. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Auth brand-panel — soft green in light mode, deep black in dark mode. */
+.auth-panel {
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(34, 197, 94, 0.12) 0%, transparent 45%),
+    radial-gradient(80% 80% at 100% 100%, rgba(34, 197, 94, 0.07) 0%, transparent 50%),
+    linear-gradient(135deg, #f7faf8 0%, #eef7f0 55%, #ffffff 100%);
+}
+
+.dark .auth-panel {
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(34, 197, 94, 0.2) 0%, transparent 45%),
+    radial-gradient(80% 80% at 100% 100%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #07160d 0%, #030906 55%, #000000 100%);
+}
+
+/* Flat fill for primary auth buttons (Sign In, Continue, Create account,
+   Reset password, Send reset code). */
+.auth-button {
+  background: #16a34a;
+  box-shadow: 0 10px 30px -12px rgba(34, 197, 94, 0.55);
+  transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.auth-button:hover:not(:disabled) {
+  background: #15803d;
+  box-shadow: 0 12px 34px -12px rgba(34, 197, 94, 0.7);
+}
+
+/* Keep browser autofill aligned with the auth theme. */
+.auth-dark input:-webkit-autofill,
+.auth-dark input:-webkit-autofill:hover,
+.auth-dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0d0d0d;
+  caret-color: #0d0d0d;
+  -webkit-box-shadow: 0 0 0 1000px #f7faf8 inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+.dark .auth-dark input:-webkit-autofill,
+.dark .auth-dark input:-webkit-autofill:hover,
+.dark .auth-dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff;
+  caret-color: #ffffff;
+  -webkit-box-shadow: 0 0 0 1000px #111111 inset;
+  transition: background-color 9999s ease-out 0s;
+}
+
+/* Landing-page marquee and float animations (ported from the reference). */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 16s linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
