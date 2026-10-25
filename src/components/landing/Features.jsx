@@ -53,15 +53,15 @@ export default function Features() {
                   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
                 }
               }}
-              className="group h-full rounded-2xl border border-black/5 bg-white p-6 shadow-[0_18px_50px_-38px_rgba(5,46,22,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-[0_24px_60px_-34px_rgba(5,46,22,0.45)] dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none"
+              className="group h-full rounded-2xl border border-black/5 bg-white p-5 shadow-[0_18px_50px_-38px_rgba(5,46,22,0.4)] transition-all duration-300 hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-[0_24px_60px_-34px_rgba(5,46,22,0.45)] dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-[0_12px_30px_-14px_rgba(22,163,74,0.8)] transition-transform duration-300 group-hover:scale-105">
-                <feature.icon size={21} strokeWidth={1.8} />
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 text-white shadow-[0_12px_30px_-14px_rgba(22,163,74,0.8)] transition-transform duration-300 group-hover:scale-105">
+                <feature.icon size={19} strokeWidth={1.8} />
               </span>
-              <h3 className="mt-5 text-[15px] font-semibold text-ink dark:text-white">
+              <h3 className="mt-4 text-[15px] font-semibold text-ink dark:text-white">
                 {feature.title}
               </h3>
-              <p className="mt-2 text-[13px] leading-[1.7] text-muted dark:text-gray-400">
+              <p className="mt-1.5 text-[12.5px] leading-[1.6] text-muted dark:text-gray-400">
                 {feature.desc}
               </p>
             </motion.div>
