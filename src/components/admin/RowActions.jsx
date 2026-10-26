@@ -47,30 +47,38 @@ export const RowActionMenu = ({ primary, items = [] }) => {
   const positionMenu = () => {
     if (!controlRef.current) return
     const rect = controlRef.current.getBoundingClientRect()
-    const menuHeight = menuRef.current?.offsetHeight || 0
+    const menuHeight = menuRef.current?.offsetHeight || 160
     const viewportPadding = 8
     const viewportWidth = window.innerWidth
-    const minLeft = window.scrollX + viewportPadding
-    const maxLeft = window.scrollX + viewportWidth - MENU_WIDTH - viewportPadding
-    const desiredLeft = rect.left + window.scrollX
-    const fitsBelow = rect.bottom + menuHeight + viewportPadding * 2 <= window.innerHeight
-    const fitsAbove = rect.top - menuHeight - viewportPadding * 2 >= viewportPadding
+    const viewportHeight = window.innerHeight
+
+    // Compute left within viewport bounds
+    let left = rect.left
+    if (left + MENU_WIDTH > viewportWidth - viewportPadding) {
+      left = Math.max(viewportPadding, rect.right - MENU_WIDTH)
+    }
+    if (left < viewportPadding) {
+      left = viewportPadding
+    }
+
+    // Determine whether to open downward or upward
+    const fitsBelow = rect.bottom + menuHeight + viewportPadding <= viewportHeight
+    const fitsAbove = rect.top - menuHeight - viewportPadding >= 0
     const openUpward = !fitsBelow && fitsAbove
+
     const top = openUpward
-      ? Math.max(window.scrollY + viewportPadding, rect.top + window.scrollY - menuHeight - 8)
-      : rect.bottom + window.scrollY + 8
-    setCoords({
-      top,
-      left: Math.min(Math.max(desiredLeft, minLeft), Math.max(minLeft, maxLeft)),
-    })
+      ? Math.max(viewportPadding, rect.top - menuHeight - 6)
+      : Math.min(viewportHeight - menuHeight - viewportPadding, rect.bottom + 6)
+
+    setCoords({ top, left })
   }
 
-  const toggle = () => {
+  const toggle = (e) => {
+    e?.stopPropagation?.()
     if (open) {
       setOpen(false)
       return
     }
-    setCoords({ top: 0, left: 0 })
     setOpen(true)
   }
 
@@ -88,16 +96,17 @@ export const RowActionMenu = ({ primary, items = [] }) => {
     const onKey = (e) => {
       if (e.key === 'Escape') close()
     }
-    const onResize = () => positionMenu()
+    const onReposition = () => positionMenu()
+
     document.addEventListener('mousedown', onDown)
     document.addEventListener('keydown', onKey)
-    window.addEventListener('resize', onResize)
-    window.addEventListener('scroll', close, true)
+    window.addEventListener('resize', onReposition)
+    window.addEventListener('scroll', onReposition, true)
     return () => {
       document.removeEventListener('mousedown', onDown)
       document.removeEventListener('keydown', onKey)
-      window.removeEventListener('resize', onResize)
-      window.removeEventListener('scroll', close, true)
+      window.removeEventListener('resize', onReposition)
+      window.removeEventListener('scroll', onReposition, true)
     }
   }, [open])
 
@@ -139,8 +148,8 @@ export const RowActionMenu = ({ primary, items = [] }) => {
         createPortal(
           <div
             ref={menuRef}
-            style={{ top: coords.top, left: coords.left, position: 'absolute' }}
-            className="w-[220px] bg-card border border-line rounded-2xl shadow-soft py-1.5 z-[9999] animate-[fadeIn_0.15s_ease]"
+            style={{ top: coords.top, left: coords.left, position: 'fixed' }}
+            className="w-[220px] bg-white border border-line rounded-2xl shadow-xl py-1.5 z-[99999] animate-[fadeIn_0.15s_ease]"
           >
             {normalizedItems.map((item, i) =>
               item === 'divider' ? (

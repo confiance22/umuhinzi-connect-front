@@ -180,6 +180,30 @@ export const HarvestFormPage = () => {
     )
   }
 
+  if (isEdit && error && !form.crop_name) {
+    return (
+      <div className="mx-auto max-w-xl py-12 text-center">
+        <div className="rounded-2xl border border-line bg-card p-8 shadow-soft">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-600">
+            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <h2 className="text-base font-semibold text-ink">{error}</h2>
+          <p className="mt-1 text-xs text-muted">The requested harvest listing could not be found or has been removed.</p>
+          <Link
+            to={ROUTE_PATHS.PRODUCTS}
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+          >
+            {t('portal.farmer.form.back')}
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <div>
