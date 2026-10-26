@@ -172,7 +172,7 @@ export const ManagerDashboard = () => {
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Management Dashboard</h1>
           <p className="text-sm text-muted mt-1">Products, stock levels and your team at a glance.</p>
         </div>
-        <div className="flex items-center gap-2.5 text-xs font-semibold bg-brand-700 text-white rounded-full px-4 py-2.5 relative overflow-hidden">
+        <div className="flex items-center gap-2.5 text-xs font-semibold bg-brand-600 text-white rounded-full px-4 py-2.5 relative overflow-hidden">
           <span className="absolute -right-3 -bottom-3 w-14 h-14 rounded-full bg-white/25 pointer-events-none" />
           <span className="relative flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
@@ -193,7 +193,7 @@ export const ManagerDashboard = () => {
             }`}
           >
             <div className="flex items-start justify-between">
-              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-700 text-white' : 'bg-page text-ink'}`}>
+              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'}`}>
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d={card.icon} />
                 </svg>
@@ -290,7 +290,7 @@ export const ManagerDashboard = () => {
                   to={link.to}
                   className="group flex items-center gap-3.5 p-2.5 rounded-xl hover:bg-page transition-colors"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-page group-hover:bg-brand-700 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <span className="w-10 h-10 rounded-xl bg-page group-hover:bg-brand-600 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d={link.icon} />
                     </svg>
@@ -307,9 +307,9 @@ export const ManagerDashboard = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-brand-700 p-6 relative overflow-hidden shadow-[0_8px_32px_rgba(15,118,110,0.25)]">
+          <div className="rounded-2xl bg-brand-600 p-6 relative overflow-hidden shadow-[0_8px_32px_rgba(15,118,110,0.25)]">
             <div className="absolute -bottom-10 -right-8 w-32 h-32 rounded-full bg-white/20 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-20 h-20 rounded-full bg-brand-800/40 blur-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-20 h-20 rounded-full bg-brand-700/40 blur-2xl pointer-events-none" />
             <div className="relative">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">Restock alert</p>
               <p className="text-xl font-bold text-white mt-2 leading-snug">

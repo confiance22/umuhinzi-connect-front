@@ -6,7 +6,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 const ACTION_TONES = {
-  ink: 'hover:text-ink hover:bg-brand-700/10',
+  ink: 'hover:text-ink hover:bg-brand-600/10',
   amber: 'hover:text-amber-600 hover:bg-amber-50',
   emerald: 'hover:text-emerald-600 hover:bg-emerald-50',
   gray: 'hover:text-ink/70 hover:bg-ink/[0.06]',
@@ -119,7 +119,7 @@ export const RowActionMenu = ({ primary, items = [] }) => {
           onClick={toggle}
           aria-expanded={open}
           className={`inline-flex items-center justify-center gap-2 pl-3.5 pr-3 h-8 text-sm font-medium rounded-full transition-[transform,background-color,color] duration-150 active:scale-[0.98] ${
-            open ? 'bg-brand-800 text-white' : 'bg-brand-700 text-white hover:bg-brand-800'
+            open ? 'bg-brand-700 text-white' : 'bg-brand-600 text-white hover:bg-brand-700'
           }`}
         >
           <span>Actions</span>

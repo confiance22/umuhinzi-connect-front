@@ -1,31 +1,30 @@
 /**
- * roles.js — supported roles in StockRwa.
+ * roles.js — supported Umuhinzi Connect roles.
  *
- * SUPER_ADMIN  — platform-wide administrator. The only role that can open the
- *                Admin portal (/admin/*) to manage users, roles and permissions.
- * SHOP_MANAGER — full access inside a shop: workers, reports, settings, QR
- *                generation and stock-in approval. (Formerly "owner".)
- * WORKER       — shop-floor stock worker: products + stock-out + QR scanning.
- *                Stock-in is blocked by default unless the manager grants the
- *                role the `stock:in` permission (see topics: theft risk).
- *
- * Role drives route guards (routes/ProtectedRoute.jsx, utils/permissionHelpers.js)
- * and UI affordances (hide manager/super-admin-only links/buttons).
+ * SUPER_ADMIN — platform administrator. The only role that can open the admin
+ *               portal to manage users, roles and permissions.
+ * FARMER      — manages their own harvest listings and buyer conversations.
+ * BUYER       — discovers harvests, posts requests and contacts farmers.
  */
 export const ROLES = {
   SUPER_ADMIN: 'super_admin',
+  FARMER: 'farmer',
+  BUYER: 'buyer',
+  // Kept so older, unrouted portal modules still compile.
   SHOP_MANAGER: 'shop_manager',
   WORKER: 'worker',
 }
 
 export const ROLE_LABELS = {
   [ROLES.SUPER_ADMIN]: 'Super Admin',
+  [ROLES.FARMER]: 'Farmer',
+  [ROLES.BUYER]: 'Buyer',
   [ROLES.SHOP_MANAGER]: 'Shop Manager',
   [ROLES.WORKER]: 'Worker',
 }
 
 export const OWNER_ONLY_ROUTES = {
-  WORKERS: true,
-  REPORTS: true,
-  SETTINGS: true,
+  USERS: true,
+  ROLES: true,
+  PERMISSIONS: true,
 }

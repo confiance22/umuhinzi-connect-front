@@ -1,14 +1,14 @@
 /**
  * Brand — Umuhinzi Connect brand lockup using the shared logo mark.
- * dark=true renders the dark mark for light/solid backgrounds.
  */
-import logo from '../../assets/logo/umuhinzi-logo.svg'
+import logo from '../../assets/logo/umuhinzi-connect-logo.svg'
+import { BRAND_FIRST, BRAND_NAME, BRAND_SECOND } from '../../constants/brand'
 
-export const BrandMark = ({ size = 34, className = '', dark = false }) => (
+export const BrandMark = ({ size = 34, className = '' }) => (
   <img
     src={logo}
-    alt="Umuhinzi Connect logo"
-    className={`shrink-0 object-contain ${dark ? '' : 'brightness-0 invert'} ${className}`}
+    alt={`${BRAND_NAME} logo`}
+    className={`shrink-0 object-contain ${className}`}
     style={{ width: size, height: size }}
   />
 )
@@ -16,18 +16,19 @@ export const BrandMark = ({ size = 34, className = '', dark = false }) => (
 export const BrandLockup = ({
   dark = false,
   hideText = false,
+  bold = false,
   size = 34,
   textClassName = 'text-base'
 }) => (
   <div className="flex items-center gap-2">
-    <BrandMark size={size} dark={dark} />
+    <BrandMark size={size} />
     {!hideText && (
       <span
-        className={`font-semibold tracking-tight whitespace-nowrap ${textClassName} ${
+        className={`${bold ? 'font-bold' : 'font-semibold'} tracking-tight whitespace-nowrap ${textClassName} ${
           dark ? 'text-ink' : 'text-white'
         }`}
       >
-        Umuhinzi <span className={dark ? 'text-brand-700' : 'text-brand-300'}>Connect</span>
+        {BRAND_FIRST} <span className={dark ? 'text-brand-700' : 'text-brand-300'}>{BRAND_SECOND}</span>
       </span>
     )}
   </div>

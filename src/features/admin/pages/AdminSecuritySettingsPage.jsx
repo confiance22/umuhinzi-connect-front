@@ -163,7 +163,7 @@ export const AdminSecuritySettingsPage = () => {
             </div>
             <Link
               to={ROUTE_PATHS.ADMIN_ACCOUNT}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-700 px-6 py-2.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-700 hover:text-white shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-600 px-6 py-2.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-600 hover:text-white shrink-0"
             >
               Review account
             </Link>

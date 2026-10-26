@@ -1,68 +1,72 @@
 /**
- * permissions.js — the StockRwa permission catalog + seed roles.
+ * permissions.js — Umuhinzi Connect permission catalog.
  *
- * Mirrors the shape served by the Auth/User API (id, name, description,
- * category, active).
- *
- * Note: "stock:in" governs who may receive/record stock-in. The Worker role is
- * seeded WITHOUT it — a shop manager grants it explicitly (roles → Worker →
- * Permissions) to allow a specific worker group to receive stock.
+ * Mirrors the keys seeded by the backend. The admin UI groups permissions by
+ * these categories when editing farmer and buyer access.
  */
-export const PERMISSION_CATEGORIES = ['Products', 'Stock', 'QR', 'Workers', 'Reports', 'Admin']
+export const PERMISSION_CATEGORIES = ['Platform', 'Users', 'Access', 'Marketplace']
 
 const p = (id, name, category, description) => ({ id, name, category, description, active: true })
 
 export const DEFAULT_PERMISSIONS = [
-  p('perm_products_view', 'products:view', 'Products', 'View the product catalog and product details'),
-  p('perm_products_manage', 'products:manage', 'Products', 'Create, edit and archive products'),
-  p('perm_products_delete', 'products:delete', 'Products', 'Permanently delete products'),
-  p('perm_stock_in', 'stock:in', 'Stock', 'Receive and record stock-in movements'),
-  p('perm_stock_out', 'stock:out', 'Stock', 'Issue and record stock-out movements'),
-  p('perm_stock_check', 'stock:check', 'Stock', 'Run and view periodic stock checks / counts'),
-  p('perm_stock_history', 'stock:history', 'Stock', 'View stock movement history'),
-  p('perm_qr_generate', 'qr:generate', 'QR', 'Print QR labels for products'),
-  p('perm_qr_scan', 'qr:scan', 'QR', 'Scan product QR codes'),
-  p('perm_workers_manage', 'workers:manage', 'Workers', 'Add, edit and deactivate workers and grant stock-in access'),
-  p('perm_reports_view', 'reports:view', 'Reports', 'View reports and export summaries'),
-  p('perm_admin_users', 'admin:users', 'Admin', 'Manage platform user accounts'),
-  p('perm_admin_roles', 'admin:roles', 'Admin', 'Create and edit roles'),
-  p('perm_admin_permissions', 'admin:permissions', 'Admin', 'Assign permissions to roles'),
+  p('perm_platform_view', 'platform:view', 'Platform', 'View the platform overview'),
+  p('perm_users_view', 'users:view', 'Users', 'View user accounts'),
+  p('perm_users_create', 'users:create', 'Users', 'Create user accounts'),
+  p('perm_users_update', 'users:update', 'Users', 'Edit user accounts'),
+  p('perm_users_status', 'users:status', 'Users', 'Enable, disable and lock accounts'),
+  p('perm_users_delete', 'users:delete', 'Users', 'Delete user accounts'),
+  p('perm_roles_view', 'roles:view', 'Access', 'View roles'),
+  p('perm_roles_manage', 'roles:manage', 'Access', 'Create and edit roles'),
+  p('perm_permissions_view', 'permissions:view', 'Access', 'View permissions'),
+  p('perm_harvests_view', 'harvests:view', 'Marketplace', 'View harvest listings'),
+  p('perm_harvests_manage_own', 'harvests:manage_own', 'Marketplace', 'Manage own harvest listings'),
+  p('perm_harvests_moderate', 'harvests:moderate', 'Marketplace', 'Moderate harvest listings'),
+  p('perm_requests_create', 'requests:create', 'Marketplace', 'Create buyer requests'),
+  p('perm_requests_manage_own', 'requests:manage_own', 'Marketplace', 'Manage own buyer requests'),
+  p('perm_requests_view', 'requests:view', 'Marketplace', 'View buyer requests'),
+  p('perm_messages_send', 'messages:send', 'Marketplace', 'Send messages'),
+  p('perm_messages_view', 'messages:view', 'Marketplace', 'View conversations'),
 ]
 
-export const ADMIN_ONLY_KEYS = ['admin:users', 'admin:roles', 'admin:permissions']
+export const ADMIN_ONLY_KEYS = [
+  'platform:view',
+  'users:view',
+  'users:create',
+  'users:update',
+  'users:status',
+  'users:delete',
+  'roles:view',
+  'roles:manage',
+  'permissions:view',
+]
 
-/** Default stack shipped with the app (mirrors constants/roles.js). */
+export const FARMER_DEFAULT_KEYS = ['harvests:view', 'harvests:manage_own', 'requests:view']
+export const BUYER_DEFAULT_KEYS = ['harvests:view', 'requests:create', 'requests:manage_own']
+
+/** Default access stack (mirrors the backend seed). */
 export const SEED_ROLES = [
   {
-    id: 1,
+    id: 'seed-super-admin',
     name: 'Super Admin',
     key: 'super_admin',
-    description: 'Platform-wide administrator. Full access to the admin portal, users, roles and permissions.',
-    method: 'SYSTEM',
+    description: 'Platform administrator with full access to users, roles and permissions.',
     active: true,
-    createdAt: new Date().toISOString(),
     permissions: DEFAULT_PERMISSIONS,
   },
   {
-    id: 2,
-    name: 'Shop Manager',
-    key: 'shop_manager',
-    description: 'Owns the shop: workers, reports, settings, QR generation and stock-in approval.',
-    method: 'SYSTEM',
+    id: 'seed-farmer',
+    name: 'Farmer',
+    key: 'farmer',
+    description: 'Lists harvests and connects with buyers.',
     active: true,
-    createdAt: new Date().toISOString(),
-    permissions: DEFAULT_PERMISSIONS.filter((pp) => !ADMIN_ONLY_KEYS.includes(pp.name)),
+    permissions: DEFAULT_PERMISSIONS.filter((pp) => FARMER_DEFAULT_KEYS.includes(pp.name)),
   },
   {
-    id: 3,
-    name: 'Worker',
-    key: 'worker',
-    description: 'Shop-floor stock worker. Records stock-out and scans QR codes. Stock-in must be granted by the manager.',
-    method: 'SYSTEM',
+    id: 'seed-buyer',
+    name: 'Buyer',
+    key: 'buyer',
+    description: 'Discovers harvests, posts requests and contacts farmers.',
     active: true,
-    createdAt: new Date().toISOString(),
-    permissions: DEFAULT_PERMISSIONS.filter((pp) =>
-      ['products:view', 'stock:out', 'stock:check', 'stock:history', 'qr:scan'].includes(pp.name)
-    ),
+    permissions: DEFAULT_PERMISSIONS.filter((pp) => BUYER_DEFAULT_KEYS.includes(pp.name)),
   },
 ]

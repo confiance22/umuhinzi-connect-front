@@ -4,6 +4,7 @@
  * and enable/disable account actions.
  */
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { Table } from '../../../components/common/Table'
 import { RowActionMenu, DockIcons } from '../../../components/admin/RowActions'
 import ConfirmDeleteModal from '../../../components/admin/ConfirmDeleteModal'
@@ -13,7 +14,7 @@ import { useAuth } from '../../../hooks/useAuth'
 import { useToastContext } from '../../../context/ToastContext'
 
 const AVATAR_STYLES = [
-  'bg-brand-700/20 text-brand-700',
+  'bg-brand-600/20 text-brand-700',
   'bg-rose-100 text-rose-700',
   'bg-amber-100 text-amber-700',
   'bg-emerald-100 text-emerald-700',
@@ -57,7 +58,7 @@ const resolveUserStatus = (user) => {
   return user.enabled === false ? 'Inactive' : 'Active'
 }
 
-const TEMP_PASSWORD = 'TempPass@1'
+const TEMP_PASSWORD = 'TempPass@2026'
 
 const filterFieldClass =
   'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-white text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all duration-200'
@@ -149,7 +150,7 @@ export const UserManagementPage = () => {
       if (q) {
         const hit =
           (u.name || '').toLowerCase().includes(q) ||
-          (u.username || '').toLowerCase().includes(q) ||
+          (u.phone || u.username || '').toLowerCase().includes(q) ||
           (u.email || '').toLowerCase().includes(q)
         if (!hit) return false
       }
@@ -166,26 +167,32 @@ export const UserManagementPage = () => {
   }
 
   const handleSaveUser = async (userData) => {
-    const roleIds = Array.isArray(userData.roleIds) ? userData.roleIds.filter(Boolean) : userData.roleId ? [userData.roleId] : []
     try {
       if (editingUser) {
         await adminApi.updateUser(editingUser.id, {
           name: userData.name,
-          username: userData.username,
+          phone: userData.phone,
           email: userData.email,
           enabled: userData.status !== 'Inactive',
-          roleIds,
+          role: userData.role,
         })
         showToast('User updated', 'success')
       } else {
         await adminApi.createUser({
           name: userData.name,
-          username: userData.username,
+          phone: userData.phone,
           email: userData.email,
           password: TEMP_PASSWORD,
-          roleIds,
+          role: userData.role,
         })
-        setNewUserCreds({ name: userData.name, username: userData.username, email: userData.email, password: TEMP_PASSWORD })
+        const roleName = roles.find((role) => role.key === userData.role)?.name || userData.role
+        setNewUserCreds({
+          name: userData.name,
+          phone: userData.phone,
+          email: userData.email,
+          roleName,
+          password: TEMP_PASSWORD,
+        })
       }
       await fetchUsers()
       setIsUserModalOpen(false)
@@ -273,11 +280,11 @@ export const UserManagementPage = () => {
       },
     },
     {
-      key: 'username',
-      header: 'Username',
+      key: 'phone',
+      header: 'Phone',
       sortable: true,
-      sortValue: (u) => u.username || '',
-      render: (u) => <span className="text-sm text-muted">{u.username || '—'}</span>,
+      sortValue: (u) => u.phone || u.username || '',
+      render: (u) => <span className="text-sm text-muted">{u.phone || u.username || '—'}</span>,
     },
     {
       key: 'email',
@@ -287,30 +294,16 @@ export const UserManagementPage = () => {
       render: (u) => <span className="text-sm text-muted">{u.email || '—'}</span>,
     },
     {
-      key: 'roles',
-      header: 'Roles',
+      key: 'role',
+      header: 'Role',
       sortable: true,
       sortValue: getUserRoleName,
-      render: (u) => {
-        const list = Array.isArray(u.roles) && u.roles.length > 0 ? u.roles : null
-        if (!list) return <span className="text-xs text-gray-300">—</span>
-        return (
-          <div className="flex flex-wrap gap-1.5">
-            {list.map((r) => {
-              const name = r?.name || String(r)
-              return (
-                <span
-                  key={r?.id || name}
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-page text-ink border border-line"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-700 ring-1 ring-line shrink-0" />
-                  {name}
-                </span>
-              )
-            })}
-          </div>
-        )
-      },
+      render: (u) => (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-page text-ink border border-line">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand-600 ring-1 ring-line shrink-0" />
+          {getUserRoleName(u)}
+        </span>
+      ),
     },
     {
       key: 'status',
@@ -367,7 +360,7 @@ export const UserManagementPage = () => {
             setEditingUser(null)
             setIsUserModalOpen(true)
           }}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-700 text-white text-sm font-medium hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
         >
           New User
         </button>
@@ -380,7 +373,7 @@ export const UserManagementPage = () => {
             {SearchIcon}
             <input
               type="text"
-              placeholder="Name, username or email..."
+              placeholder="Name, phone or email..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={`${filterFieldClass} pl-10`}
@@ -446,15 +439,15 @@ export const UserManagementPage = () => {
         open={deleteTarget !== null}
         title="Delete user"
         message="Are you sure you want to delete"
-        itemName={deleteTarget?.name || deleteTarget?.username || ''}
+        itemName={deleteTarget?.name || deleteTarget?.phone || deleteTarget?.email || ''}
         isLoading={isDeleting}
         onClose={() => setDeleteTarget(null)}
         onConfirm={confirmDelete}
       />
 
-      {newUserCreds && (
+      {newUserCreds && createPortal(
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0A0A0A]/40 backdrop-blur-sm p-4"
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-[#0A0A0A]/40 backdrop-blur-sm p-4"
           onClick={() => setNewUserCreds(null)}
         >
           <div
@@ -476,8 +469,10 @@ export const UserManagementPage = () => {
 
             <div className="p-6 space-y-3">
               {[
+                { label: 'Phone', value: newUserCreds.phone, mono: true },
                 { label: 'Email', value: newUserCreds.email },
-                { label: 'Password', value: newUserCreds.password, mono: true },
+                { label: 'Role', value: newUserCreds.roleName },
+                { label: 'Temporary password', value: newUserCreds.password, mono: true },
               ].map((row) => (
                 <div key={row.label} className="flex items-center justify-between gap-3 rounded-xl border border-[#192540]/[0.08] bg-[#192540]/[0.02] px-3.5 py-2.5">
                   <div className="min-w-0">
@@ -486,7 +481,7 @@ export const UserManagementPage = () => {
                   </div>
                   <button
                     onClick={() => copyCredential(row.value)}
-                    className="shrink-0 inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold text-brand-700 bg-brand-700/[0.08] hover:bg-brand-700/15 transition-colors"
+                    className="shrink-0 inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold text-brand-700 bg-brand-600/[0.08] hover:bg-brand-600/15 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="9" y="9" width="13" height="13" rx="2" />
@@ -518,7 +513,8 @@ export const UserManagementPage = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   )

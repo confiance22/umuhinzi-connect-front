@@ -315,7 +315,7 @@ export const ShopsPage = () => {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-700 text-white text-sm font-medium hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
         >
           New Shop
         </button>
@@ -441,7 +441,7 @@ export const ShopsPage = () => {
                   <button type="button" onClick={() => setShowCreate(false)} disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                     Cancel
                   </button>
-                  <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-brand-700 text-white text-sm font-medium hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                  <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                     {submitting ? 'Creating…' : 'Create Shop'}
                   </button>
                 </div>

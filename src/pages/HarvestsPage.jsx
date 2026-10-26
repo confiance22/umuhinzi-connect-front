@@ -1,13 +1,16 @@
 import { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Apple,
+  ArrowDown,
   ArrowRight,
   ArrowUpRight,
+  BadgeCheck,
   Banana,
   Bean,
   Carrot,
   Cherry,
+  ChevronDown,
   Citrus,
   Leaf,
   MapPin,
@@ -25,8 +28,36 @@ import { useLanguage } from '../context/LanguageContext'
 
 const categories = ['all', 'vegetables', 'fruits', 'grains', 'legumes']
 
+const categoryTheme = {
+  vegetables: {
+    art: 'bg-[#e7efda] dark:bg-[#10261a]',
+    ink: 'text-[#0f3d25] dark:text-[#d9f99d]',
+    chip: 'bg-[#0f3d25] text-[#fbf7ec] dark:bg-[#d9f99d] dark:text-[#0f3d25]',
+    dot: 'bg-[#0f3d25] dark:bg-[#d9f99d]'
+  },
+  fruits: {
+    art: 'bg-[#f4e3c9] dark:bg-[#2a1e10]',
+    ink: 'text-[#7a3d1f] dark:text-[#f4c58c]',
+    chip: 'bg-[#7a3d1f] text-[#fbf7ec] dark:bg-[#f4c58c] dark:text-[#2a1e10]',
+    dot: 'bg-[#a4472b] dark:bg-[#f4c58c]'
+  },
+  grains: {
+    art: 'bg-[#f1e8c7] dark:bg-[#251f0d]',
+    ink: 'text-[#6b4b10] dark:text-[#efd47d]',
+    chip: 'bg-[#6b4b10] text-[#fbf7ec] dark:bg-[#efd47d] dark:text-[#251f0d]',
+    dot: 'bg-[#a97a17] dark:bg-[#efd47d]'
+  },
+  legumes: {
+    art: 'bg-[#eeded7] dark:bg-[#291715]',
+    ink: 'text-[#6d2f32] dark:text-[#f0a6a0]',
+    chip: 'bg-[#6d2f32] text-[#fbf7ec] dark:bg-[#f0a6a0] dark:text-[#291715]',
+    dot: 'bg-[#8f3c3c] dark:bg-[#f0a6a0]'
+  }
+}
+
 const harvests = [
   {
+    lot: 'UC-01',
     nameKey: 'harvests.crops.maize',
     variety: 'Yellow maize',
     category: 'grains',
@@ -35,10 +66,10 @@ const harvests = [
     price: 450,
     quantity: '1.2 t',
     rating: 4.8,
-    icon: Wheat,
-    tone: 'from-amber-100 via-orange-50 to-white dark:from-amber-900/30 dark:via-orange-900/10 dark:to-transparent'
+    icon: Wheat
   },
   {
+    lot: 'UC-02',
     nameKey: 'harvests.crops.beans',
     variety: 'Red kidney beans',
     category: 'legumes',
@@ -47,10 +78,10 @@ const harvests = [
     price: 780,
     quantity: '800 kg',
     rating: 4.9,
-    icon: Bean,
-    tone: 'from-rose-100 via-red-50 to-white dark:from-rose-900/30 dark:via-red-900/10 dark:to-transparent'
+    icon: Bean
   },
   {
+    lot: 'UC-03',
     nameKey: 'harvests.crops.potatoes',
     variety: 'Kinigi variety',
     category: 'vegetables',
@@ -59,10 +90,10 @@ const harvests = [
     price: 320,
     quantity: '2 t',
     rating: 4.7,
-    icon: Sprout,
-    tone: 'from-emerald-100 via-green-50 to-white dark:from-emerald-900/30 dark:via-green-900/10 dark:to-transparent'
+    icon: Sprout
   },
   {
+    lot: 'UC-04',
     nameKey: 'harvests.crops.tomatoes',
     variety: 'Fresh red tomatoes',
     category: 'vegetables',
@@ -71,10 +102,10 @@ const harvests = [
     price: 600,
     quantity: '500 kg',
     rating: 4.6,
-    icon: Cherry,
-    tone: 'from-red-100 via-rose-50 to-white dark:from-red-900/30 dark:via-rose-900/10 dark:to-transparent'
+    icon: Cherry
   },
   {
+    lot: 'UC-05',
     nameKey: 'harvests.crops.rice',
     variety: 'Paddy rice',
     category: 'grains',
@@ -83,10 +114,10 @@ const harvests = [
     price: 950,
     quantity: '1.5 t',
     rating: 4.8,
-    icon: Wheat,
-    tone: 'from-yellow-100 via-amber-50 to-white dark:from-yellow-900/30 dark:via-amber-900/10 dark:to-transparent'
+    icon: Wheat
   },
   {
+    lot: 'UC-06',
     nameKey: 'harvests.crops.cassava',
     variety: 'Fresh cassava',
     category: 'vegetables',
@@ -95,10 +126,10 @@ const harvests = [
     price: 280,
     quantity: '1 t',
     rating: 4.5,
-    icon: Leaf,
-    tone: 'from-lime-100 via-emerald-50 to-white dark:from-lime-900/30 dark:via-emerald-900/10 dark:to-transparent'
+    icon: Leaf
   },
   {
+    lot: 'UC-07',
     nameKey: 'harvests.crops.onions',
     variety: 'Red onions',
     category: 'vegetables',
@@ -107,10 +138,10 @@ const harvests = [
     price: 520,
     quantity: '700 kg',
     rating: 4.7,
-    icon: Salad,
-    tone: 'from-fuchsia-100 via-pink-50 to-white dark:from-fuchsia-900/30 dark:via-pink-900/10 dark:to-transparent'
+    icon: Salad
   },
   {
+    lot: 'UC-08',
     nameKey: 'harvests.crops.avocado',
     variety: 'Hass avocado',
     category: 'fruits',
@@ -119,10 +150,10 @@ const harvests = [
     price: 850,
     quantity: '600 kg',
     rating: 4.9,
-    icon: Apple,
-    tone: 'from-green-100 via-lime-50 to-white dark:from-green-900/30 dark:via-lime-900/10 dark:to-transparent'
+    icon: Apple
   },
   {
+    lot: 'UC-09',
     nameKey: 'harvests.crops.bananas',
     variety: 'Cooking bananas',
     category: 'fruits',
@@ -131,10 +162,10 @@ const harvests = [
     price: 350,
     quantity: '2.5 t',
     rating: 4.6,
-    icon: Banana,
-    tone: 'from-yellow-100 via-lime-50 to-white dark:from-yellow-900/30 dark:via-lime-900/10 dark:to-transparent'
+    icon: Banana
   },
   {
+    lot: 'UC-10',
     nameKey: 'harvests.crops.oranges',
     variety: 'Sweet oranges',
     category: 'fruits',
@@ -143,10 +174,10 @@ const harvests = [
     price: 700,
     quantity: '900 kg',
     rating: 4.7,
-    icon: Citrus,
-    tone: 'from-orange-100 via-amber-50 to-white dark:from-orange-900/30 dark:via-amber-900/10 dark:to-transparent'
+    icon: Citrus
   },
   {
+    lot: 'UC-11',
     nameKey: 'harvests.crops.cabbage',
     variety: 'Green cabbage',
     category: 'vegetables',
@@ -155,10 +186,10 @@ const harvests = [
     price: 250,
     quantity: '1.4 t',
     rating: 4.4,
-    icon: Salad,
-    tone: 'from-emerald-100 via-teal-50 to-white dark:from-emerald-900/30 dark:via-teal-900/10 dark:to-transparent'
+    icon: Salad
   },
   {
+    lot: 'UC-12',
     nameKey: 'harvests.crops.carrots',
     variety: 'Fresh carrots',
     category: 'vegetables',
@@ -167,8 +198,7 @@ const harvests = [
     price: 400,
     quantity: '750 kg',
     rating: 4.8,
-    icon: Carrot,
-    tone: 'from-orange-100 via-amber-50 to-white dark:from-orange-900/30 dark:via-amber-900/10 dark:to-transparent'
+    icon: Carrot
   }
 ]
 
@@ -178,205 +208,390 @@ const stats = [
   { value: '24', labelKey: 'harvests.stats.crops', icon: Sprout }
 ]
 
+function initialsOf(name) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join('')
+}
+
+function HarvestCard({ harvest, featured, t }) {
+  const Icon = harvest.icon
+  const theme = categoryTheme[harvest.category] || categoryTheme.vegetables
+
+  return (
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -4 }}
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[26px] border border-[#0f3d25]/15 bg-[#fbf7ec] text-[#13251a] shadow-[10px_12px_0_rgba(15,61,37,0.045)] transition-shadow hover:shadow-[12px_16px_0_rgba(15,61,37,0.07)] dark:border-white/[0.12] dark:bg-[#0b1710] dark:text-[#f2eee3] dark:shadow-[10px_12px_0_rgba(0,0,0,0.18)] ${
+        featured ? 'sm:col-span-2' : ''
+      }`}
+    >
+      <div className={featured ? 'grid h-full sm:grid-cols-[0.92fr_1.08fr]' : 'flex h-full flex-col'}>
+        <div
+          className={`relative overflow-hidden ${theme.art} ${
+            featured ? 'min-h-[230px] p-6 sm:min-h-[340px]' : 'aspect-[4/3] p-5'
+          }`}
+        >
+          <div className="relative z-10 flex items-start justify-between gap-2">
+            <span className="rounded-full border border-[#0f3d25]/15 bg-[#fbf7ec]/75 px-2.5 py-1 text-[7px] font-bold uppercase tracking-[0.15em] text-[#0f3d25]/65 dark:border-white/15 dark:bg-white/5 dark:text-white/45">
+              {t('harvests.lot')} {harvest.lot}
+            </span>
+            <span
+              className={`rounded-full px-2.5 py-1 text-[7px] font-bold uppercase tracking-[0.12em] ${
+                featured ? 'bg-[#0f3d25] text-[#d9f99d] dark:bg-[#d9f99d] dark:text-[#0f3d25]' : 'bg-[#fbf7ec]/80 text-[#0f3d25]/55 dark:bg-white/5 dark:text-white/40'
+              }`}
+            >
+              {featured ? t('harvests.featuredLot') : t(`harvests.categories.${harvest.category}`)}
+            </span>
+          </div>
+
+          <div className={`flex items-center justify-center ${featured ? 'mt-10' : 'mt-4'}`}>
+            <div
+              className={`relative flex items-center justify-center rounded-full border border-[#0f3d25]/15 bg-[#fbf7ec]/35 dark:border-white/10 dark:bg-white/[0.035] ${
+                featured ? 'size-44' : 'size-28'
+              }`}
+            >
+              <div className="absolute inset-3 rounded-full border border-dashed border-[#0f3d25]/15 dark:border-white/10" />
+              <Icon
+                className={`${theme.ink} transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 ${
+                  featured ? 'size-24' : 'size-14'
+                }`}
+                strokeWidth={featured ? 0.9 : 1.2}
+              />
+              <span className="absolute -right-2 bottom-5 inline-flex items-center gap-1 rounded-full border border-[#0f3d25]/15 bg-[#fbf7ec] px-2 py-1 text-[8px] font-semibold text-[#13251a] shadow-sm dark:border-white/10 dark:bg-[#0b1710] dark:text-white">
+                <Star className="size-2.5 fill-amber-400 text-amber-400" />
+                {harvest.rating}
+              </span>
+            </div>
+          </div>
+
+          <div className="relative z-10 mt-5 flex items-center justify-between text-[7px] font-semibold uppercase tracking-[0.14em] text-[#0f3d25]/45 dark:text-white/35">
+            <span>{t('harvests.origin')}</span>
+            <span className="inline-flex items-center gap-1">
+              <span className={`size-1.5 rounded-full ${theme.dot}`} />
+              {harvest.district}
+            </span>
+          </div>
+        </div>
+
+        <div className={`flex flex-1 flex-col ${featured ? 'p-6 sm:p-8' : 'p-5'}`}>
+          <div className="flex items-center justify-between gap-3 text-[7px] font-semibold uppercase tracking-[0.14em] text-[#13251a]/40 dark:text-white/35">
+            <span>{t(`harvests.categories.${harvest.category}`)}</span>
+            <span>{t('harvests.availableNow')}</span>
+          </div>
+
+          <h3
+            className={`mt-3 font-serif leading-[0.92] tracking-[-0.045em] ${
+              featured ? 'text-[38px] sm:text-[50px]' : 'text-[29px]'
+            }`}
+          >
+            {t(harvest.nameKey)}
+          </h3>
+          <p className="mt-2 text-[11px] text-[#13251a]/50 dark:text-white/40">{harvest.variety}</p>
+
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            <span className="inline-flex items-center gap-1 rounded-full border border-[#0f3d25]/10 px-2.5 py-1 text-[8px] text-[#13251a]/55 dark:border-white/10 dark:text-white/40">
+              <MapPin className="size-3" />
+              {harvest.district}
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full border border-[#0f3d25]/10 px-2.5 py-1 text-[8px] text-[#13251a]/55 dark:border-white/10 dark:text-white/40">
+              <Package className="size-3" />
+              {harvest.quantity}
+            </span>
+          </div>
+
+          <div className="mt-5 flex items-center gap-2">
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-full bg-[#0f3d25] text-[8px] font-bold text-[#d9f99d] dark:bg-[#d9f99d] dark:text-[#0f3d25]">
+              {initialsOf(harvest.farmer)}
+            </span>
+            <div className="min-w-0">
+              <p className="truncate text-[10px] font-medium">{harvest.farmer}</p>
+              <p className="inline-flex items-center gap-1 text-[7px] uppercase tracking-[0.12em] text-[#13251a]/35 dark:text-white/30">
+                <BadgeCheck className="size-2.5" />
+                {t('harvests.verifiedGrower')}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-auto flex items-end justify-between gap-3 border-t border-[#0f3d25]/10 pt-5 dark:border-white/10">
+            <div>
+              <p className="text-[7px] font-semibold uppercase tracking-[0.16em] text-[#13251a]/35 dark:text-white/30">
+                {t('landing.hero.farmGate')}
+              </p>
+              <p className="mt-1 flex items-baseline gap-1">
+                <span className={`font-serif leading-none tracking-[-0.04em] ${featured ? 'text-[34px]' : 'text-[27px]'}`}>
+                  {harvest.price.toLocaleString()}
+                </span>
+                <span className="text-[9px] text-[#13251a]/40 dark:text-white/30">RWF</span>
+              </p>
+            </div>
+            <button
+              type="button"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-[#0f3d25]/15 px-3 py-2 text-[9px] font-semibold transition-colors hover:border-[#0f3d25] hover:bg-[#0f3d25] hover:text-[#fbf7ec] dark:border-white/15 dark:hover:border-[#d9f99d] dark:hover:bg-[#d9f99d] dark:hover:text-[#0f3d25]"
+            >
+              {t('harvests.viewLot')}
+              <ArrowUpRight className="size-3" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  )
+}
+
 export default function HarvestsPage() {
   const { t } = useLanguage()
   const [query, setQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
+  const [sort, setSort] = useState('featured')
 
   const filteredHarvests = useMemo(() => {
     const needle = query.trim().toLowerCase()
-    return harvests.filter((harvest) => {
-      const matchesCategory =
-        activeCategory === 'all' || harvest.category === activeCategory
+    const items = harvests.filter((harvest) => {
+      const matchesCategory = activeCategory === 'all' || harvest.category === activeCategory
       const haystack = `${t(harvest.nameKey)} ${harvest.variety} ${harvest.farmer} ${harvest.district}`.toLowerCase()
       return matchesCategory && (!needle || haystack.includes(needle))
     })
-  }, [activeCategory, query, t])
+
+    if (sort === 'price-low') return [...items].sort((a, b) => a.price - b.price)
+    if (sort === 'price-high') return [...items].sort((a, b) => b.price - a.price)
+    if (sort === 'rating') return [...items].sort((a, b) => b.rating - a.rating)
+    return items
+  }, [activeCategory, query, sort, t])
+
+  const today = new Date().toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  })
 
   return (
     <PublicShell>
-      <section className="mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="mx-auto max-w-3xl text-center"
-        >
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-brand-700 dark:text-brand-300">
-            <Sprout className="size-3.5" />
-            {t('harvests.badge')}
-          </span>
-          <h1 className="mt-5 text-3xl font-bold tracking-tight text-ink dark:text-white sm:text-4xl md:text-5xl">
-            {t('harvests.title')}
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-muted dark:text-gray-400 sm:text-base">
-            {t('harvests.subtitle')}
-          </p>
-        </motion.div>
+      <section data-hero className="mx-auto max-w-[1180px]">
+        <div className="grid gap-8 border-b border-[#0f3d25]/10 pb-10 dark:border-white/10 lg:grid-cols-[1fr_350px] lg:items-end lg:gap-12">
+          <motion.div
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <div className="flex flex-wrap items-center gap-3 text-[8px] font-semibold uppercase tracking-[0.16em]">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d9f99d] px-3 py-1.5 text-[#0f3d25] dark:bg-[#d9f99d]/15 dark:text-[#d9f99d]">
+                <span className="size-1.5 animate-pulse rounded-full bg-[#0f3d25] dark:bg-[#d9f99d]" />
+                {t('harvests.boardLabel')}
+              </span>
+              <span className="text-[#13251a]/35 dark:text-white/30">{today}</span>
+            </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-          className="mt-10 grid gap-3 sm:grid-cols-3"
-        >
-          {stats.map((stat) => {
-            const Icon = stat.icon
-            return (
-              <div
-                key={stat.labelKey}
-                className="flex items-center gap-4 rounded-2xl border border-black/5 bg-white/80 p-5 shadow-[0_18px_45px_-34px_rgba(5,46,22,0.3)] backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none"
+            <h1 className="mt-6 max-w-[760px] font-serif text-[clamp(3.1rem,7vw,6.1rem)] leading-[0.88] tracking-[-0.06em]">
+              {t('harvests.title')}
+            </h1>
+            <p className="mt-6 max-w-[540px] text-sm leading-[1.8] text-[#13251a]/55 dark:text-white/45 sm:text-[15px]">
+              {t('harvests.subtitle')}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <a
+                href="#harvest-board"
+                className="inline-flex items-center gap-2 rounded-full bg-[#0f3d25] px-6 py-3 text-xs font-semibold text-[#f7f3e9] transition-colors hover:bg-[#14532d] dark:bg-[#d9f99d] dark:text-[#0f3d25] dark:hover:bg-white"
               >
-                <span className="flex size-11 items-center justify-center rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-300">
-                  <Icon className="size-5" />
-                </span>
-                <div>
-                  <p className="text-xl font-bold text-ink dark:text-white">{stat.value}</p>
-                  <p className="text-xs text-muted dark:text-gray-400">{t(stat.labelKey)}</p>
-                </div>
-              </div>
-            )
-          })}
-        </motion.div>
+                {t('harvests.boardTitle')}
+                <ArrowDown className="size-3.5" />
+              </a>
+              <Link
+                to="/register"
+                className="inline-flex items-center gap-2 rounded-full border border-[#0f3d25]/20 px-6 py-3 text-xs font-semibold text-[#13251a]/70 transition-colors hover:border-[#0f3d25] hover:text-[#0f3d25] dark:border-white/20 dark:text-white/55 dark:hover:border-white/40 dark:hover:text-white"
+              >
+                {t('harvests.ctaButton')}
+                <ArrowRight className="size-3.5" />
+              </Link>
+            </div>
+          </motion.div>
 
-        <div className="mt-8 rounded-3xl border border-black/5 bg-white/80 p-3 shadow-[0_20px_55px_-38px_rgba(5,46,22,0.35)] backdrop-blur dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted dark:text-gray-400" />
-              <input
-                type="search"
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder={t('harvests.searchPlaceholder')}
-                className="h-12 w-full rounded-full border border-black/5 bg-white pl-11 pr-4 text-sm text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 dark:border-white/10 dark:bg-white/5 dark:text-white dark:placeholder:text-gray-500"
-              />
+          <motion.aside
+            initial={{ opacity: 0, y: 30, rotate: 2 }}
+            animate={{ opacity: 1, y: 0, rotate: 0 }}
+            transition={{ duration: 0.75, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+            className="relative overflow-hidden rounded-[28px] border border-[#0f3d25]/15 bg-[#fbf7ec] p-5 text-[#13251a] shadow-[10px_12px_0_rgba(15,61,37,0.06)] dark:border-white/[0.12] dark:bg-[#0b1710] dark:text-[#f2eee3] dark:shadow-[10px_12px_0_rgba(0,0,0,0.2)]"
+          >
+            <div className="flex items-center justify-between gap-4 text-[7px] font-semibold uppercase tracking-[0.16em] text-[#13251a]/40 dark:text-white/35">
+              <span>{t('harvests.harvestIndex')}</span>
+              <span>{today}</span>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-4 py-2 text-xs font-semibold transition-colors ${
-                    activeCategory === category
-                      ? 'bg-brand-600 text-white shadow-[0_8px_20px_-12px_rgba(22,163,74,0.9)]'
-                      : 'border border-black/5 bg-white text-muted hover:border-brand-500/30 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-gray-300 dark:hover:text-brand-300'
-                  }`}
-                >
-                  {t(`harvests.categories.${category}`)}
-                </button>
-              ))}
+
+            <div className="mt-5 flex items-end gap-3">
+              <p className="font-serif text-[76px] leading-[0.72] tracking-[-0.07em]">
+                {String(harvests.length).padStart(2, '0')}
+              </p>
+              <p className="mb-1 text-[9px] uppercase leading-[1.5] tracking-[0.14em] text-[#13251a]/40 dark:text-white/35">
+                {t('harvests.results')}
+                <br />
+                {t('harvests.availableNow')}
+              </p>
             </div>
-          </div>
+
+            <div className="mt-6 divide-y divide-[#0f3d25]/10 border-y border-[#0f3d25]/10 dark:divide-white/10 dark:border-white/10">
+              {stats.map((stat) => {
+                const Icon = stat.icon
+                return (
+                  <div key={stat.labelKey} className="flex items-center justify-between gap-3 py-2.5">
+                    <span className="inline-flex items-center gap-2 text-[9px] text-[#13251a]/55 dark:text-white/40">
+                      <Icon className="size-3.5" />
+                      {t(stat.labelKey)}
+                    </span>
+                    <span className="font-serif text-lg leading-none">{stat.value}</span>
+                  </div>
+                )
+              })}
+            </div>
+
+            <div className="mt-5 rounded-[18px] bg-[#0f3d25] p-4 text-[#f7f3e9] dark:bg-[#d9f99d] dark:text-[#0f3d25]">
+              <p className="text-[8px] font-semibold uppercase tracking-[0.16em] opacity-55">
+                {t('harvests.boardNote')}
+              </p>
+              <p className="mt-2 font-serif text-[17px] leading-[1.25]">{t('harvests.everyLot')}</p>
+            </div>
+          </motion.aside>
         </div>
 
-        {filteredHarvests.length > 0 ? (
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredHarvests.map((harvest, index) => {
-              const Icon = harvest.icon
-              return (
-                <motion.article
-                  key={harvest.nameKey}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.3) }}
-                  whileHover={{ y: -4 }}
-                  className="group overflow-hidden rounded-3xl border border-black/5 bg-white shadow-[0_18px_45px_-32px_rgba(5,46,22,0.28)] transition-shadow hover:shadow-[0_24px_60px_-34px_rgba(5,46,22,0.36)] dark:border-white/10 dark:bg-white/[0.04] dark:shadow-none"
-                >
-                  <div className={`relative aspect-[4/3] bg-gradient-to-br ${harvest.tone}`}>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Icon
-                        className="size-16 text-brand-700/70 transition-transform duration-300 group-hover:scale-110 dark:text-brand-300/70"
-                        strokeWidth={1.2}
-                      />
-                    </div>
-                    <span className="absolute left-4 top-4 rounded-full border border-brand-500/20 bg-white/90 px-3 py-1 text-[11px] font-semibold text-brand-800 backdrop-blur dark:border-brand-400/20 dark:bg-black/40 dark:text-brand-200">
-                      {t(`harvests.categories.${harvest.category}`)}
-                    </span>
-                    <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-semibold text-ink backdrop-blur dark:bg-black/40 dark:text-white">
-                      <Star className="size-3 fill-amber-400 text-amber-400" />
-                      {harvest.rating}
-                    </span>
-                  </div>
-
-                  <div className="p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <h3 className="truncate text-lg font-semibold text-ink dark:text-white">
-                          {t(harvest.nameKey)}
-                        </h3>
-                        <p className="mt-1 truncate text-xs text-muted dark:text-gray-400">
-                          {harvest.variety}
-                        </p>
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <p className="text-lg font-bold text-brand-700 dark:text-brand-300">
-                          {harvest.price.toLocaleString()}{' '}
-                          <span className="text-xs font-medium">RWF</span>
-                        </p>
-                        <p className="text-[11px] text-muted dark:text-gray-400">
-                          {t('common.perKg')}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 space-y-2 text-xs text-muted dark:text-gray-400">
-                      <p className="inline-flex items-center gap-1.5">
-                        <MapPin className="size-3.5" />
-                        {harvest.district}
-                      </p>
-                      <p className="inline-flex items-center gap-1.5">
-                        <Package className="size-3.5" />
-                        {harvest.quantity} {t('harvests.available')}
-                      </p>
-                    </div>
-
-                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-black/5 pt-4 dark:border-white/10">
-                      <span className="min-w-0 truncate text-xs text-muted dark:text-gray-400">
-                        {t('harvests.from')}{' '}
-                        <span className="font-medium text-ink dark:text-white">
-                          {harvest.farmer}
-                        </span>
-                      </span>
-                      <button
-                        type="button"
-                        className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-500/10 px-3 py-1.5 text-xs font-semibold text-brand-700 transition-colors hover:bg-brand-600 hover:text-white dark:text-brand-300 dark:hover:text-white"
-                      >
-                        {t('harvests.viewHarvest')}
-                        <ArrowUpRight className="size-3.5" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.article>
-              )
-            })}
-          </div>
-        ) : (
-          <div className="mt-8 rounded-3xl border border-dashed border-black/10 bg-white/60 p-12 text-center dark:border-white/10 dark:bg-white/[0.03]">
-            <Search className="mx-auto size-8 text-brand-500" />
-            <h3 className="mt-4 text-lg font-semibold text-ink dark:text-white">
-              {t('harvests.noResults')}
-            </h3>
-            <p className="mt-2 text-sm text-muted dark:text-gray-400">
-              {t('harvests.noResultsHint')}
+        <section id="harvest-board" className="scroll-mt-28 pt-10">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[8px] font-semibold uppercase tracking-[0.18em] text-[#0f3d25]/45 dark:text-brand-200/40">
+                {t('harvests.boardLabel')}
+              </p>
+              <h2 className="mt-2 font-serif text-3xl tracking-[-0.045em] sm:text-4xl">
+                {t('harvests.boardTitle')}
+              </h2>
+            </div>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-[#13251a]/35 dark:text-white/30">
+              {filteredHarvests.length} {t('harvests.results')} · {t('harvests.boardSubtitle')}
             </p>
           </div>
-        )}
 
-        <section className="relative mt-16 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 to-brand-800 p-8 text-white shadow-[0_30px_80px_-40px_rgba(22,163,74,0.65)] sm:p-12">
-          <div className="absolute -right-12 -top-12 size-48 rounded-full bg-white/10 blur-2xl" />
-          <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-            <div>
-              <h2 className="text-2xl font-semibold sm:text-3xl">{t('harvests.ctaTitle')}</h2>
-              <p className="mt-3 max-w-xl text-sm text-brand-50/90">{t('harvests.ctaSubtitle')}</p>
+          <div className="sticky top-[74px] z-30 mt-5 rounded-[22px] border border-[#0f3d25]/10 bg-[#f6f1e6]/90 p-2.5 shadow-[0_18px_45px_-34px_rgba(15,61,37,0.25)] backdrop-blur-xl dark:border-white/10 dark:bg-[#07100a]/90 dark:shadow-none">
+            <div className="flex flex-col gap-2.5 xl:flex-row xl:items-center">
+              <div className="relative min-w-0 flex-1">
+                <Search className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#13251a]/35 dark:text-white/30" />
+                <input
+                  type="search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={t('harvests.searchPlaceholder')}
+                  className="h-11 w-full rounded-full border border-[#0f3d25]/10 bg-[#fbf7ec] pl-11 pr-4 text-xs text-[#13251a] outline-none transition-colors placeholder:text-[#13251a]/35 focus:border-[#0f3d25]/40 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-white/25"
+                />
+              </div>
+
+              <div className="flex flex-wrap gap-1.5">
+                {categories.map((category) => {
+                  const active = activeCategory === category
+                  const count =
+                    category === 'all'
+                      ? harvests.length
+                      : harvests.filter((harvest) => harvest.category === category).length
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => setActiveCategory(category)}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-[9px] font-semibold transition-colors ${
+                        active
+                          ? 'bg-[#0f3d25] text-[#fbf7ec] dark:bg-[#d9f99d] dark:text-[#0f3d25]'
+                          : 'border border-[#0f3d25]/10 bg-transparent text-[#13251a]/50 hover:border-[#0f3d25]/30 hover:text-[#0f3d25] dark:border-white/10 dark:text-white/40 dark:hover:border-white/25 dark:hover:text-white'
+                      }`}
+                    >
+                      {t(`harvests.categories.${category}`)}
+                      <span className={active ? 'opacity-50' : 'opacity-35'}>{count}</span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="relative shrink-0 xl:w-48">
+                <select
+                  value={sort}
+                  onChange={(event) => setSort(event.target.value)}
+                  aria-label={t('harvests.sortBy')}
+                  className="h-11 w-full appearance-none rounded-full border border-[#0f3d25]/10 bg-[#fbf7ec] pl-4 pr-9 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#13251a]/60 outline-none transition-colors focus:border-[#0f3d25]/40 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/60"
+                >
+                  <option value="featured">{t('harvests.sortFeatured')}</option>
+                  <option value="price-low">{t('harvests.sortPriceLow')}</option>
+                  <option value="price-high">{t('harvests.sortPriceHigh')}</option>
+                  <option value="rating">{t('harvests.sortRating')}</option>
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 size-3.5 -translate-y-1/2 text-[#13251a]/35 dark:text-white/30" />
+              </div>
+            </div>
+          </div>
+
+          {filteredHarvests.length > 0 ? (
+            <motion.div layout className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              <AnimatePresence mode="popLayout">
+                {filteredHarvests.map((harvest, index) => (
+                  <HarvestCard
+                    key={harvest.lot}
+                    harvest={harvest}
+                    featured={index === 0}
+                    t={t}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-5 flex flex-col items-center rounded-[28px] border border-dashed border-[#0f3d25]/20 bg-[#fbf7ec]/60 px-6 py-16 text-center dark:border-white/15 dark:bg-white/[0.025]"
+            >
+              <span className="flex size-14 items-center justify-center rounded-full border border-[#0f3d25]/15 bg-[#d9f99d]/50 text-[#0f3d25] dark:border-white/10 dark:bg-white/5 dark:text-[#d9f99d]">
+                <Search className="size-5" />
+              </span>
+              <h3 className="mt-5 font-serif text-2xl">{t('harvests.noResults')}</h3>
+              <p className="mt-2 max-w-sm text-xs leading-relaxed text-[#13251a]/45 dark:text-white/35">
+                {t('harvests.noResultsHint')}
+              </p>
+            </motion.div>
+          )}
+
+          <p className="mt-5 flex items-center gap-2 text-[8px] uppercase tracking-[0.12em] text-[#13251a]/30 dark:text-white/25">
+            <span className="size-1.5 rounded-full bg-[#0f3d25] dark:bg-[#d9f99d]" />
+            {t('harvests.boardFooter')}
+          </p>
+        </section>
+
+        <section className="relative mt-16 overflow-hidden rounded-[30px] border border-[#0f3d25] bg-[#0f3d25] text-[#f7f3e9] dark:border-white/10 dark:bg-[#0b1710]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-20 -top-28 size-72 rounded-full border border-[#f7f3e9]/10 dark:border-white/10"
+          />
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-36 right-28 size-64 rounded-full border border-[#f7f3e9]/[0.06] dark:border-white/[0.06]"
+          />
+          <div className="relative flex flex-col gap-8 p-8 sm:p-12 md:flex-row md:items-end md:justify-between">
+            <div className="max-w-xl">
+              <p className="inline-flex items-center gap-2 text-[8px] font-semibold uppercase tracking-[0.18em] text-[#d9f99d]/70 dark:text-brand-200/60">
+                <span className="size-1.5 rounded-full bg-[#d9f99d] dark:bg-brand-200" />
+                {t('harvests.boardLabel')}
+              </p>
+              <h2 className="mt-4 font-serif text-3xl leading-[1.02] tracking-[-0.045em] sm:text-4xl">
+                {t('harvests.ctaTitle')}
+              </h2>
+              <p className="mt-4 max-w-md text-xs leading-relaxed text-[#f7f3e9]/55 dark:text-white/40 sm:text-sm">
+                {t('harvests.ctaSubtitle')}
+              </p>
             </div>
             <Link
               to="/register"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 shadow-sm transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-[#d9f99d] px-6 py-3 text-xs font-semibold text-[#0f3d25] transition-colors hover:bg-white md:self-auto"
             >
               {t('harvests.ctaButton')}
-              <ArrowRight className="size-4" />
+              <ArrowRight className="size-3.5" />
             </Link>
           </div>
         </section>

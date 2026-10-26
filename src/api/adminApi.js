@@ -1,7 +1,7 @@
 /**
  * adminApi.js — Super Admin portal endpoints (users / roles / permissions).
  * Every method throws Error(message) on failure (mapped from the backend body).
- * Everything is backed by the live StockRwa API; errors surface as Error(message).
+ * Everything is backed by the live Umuhinzi Connect API.
  */
 import axiosInstance from './axiosInstance'
 import { API_ENDPOINTS } from '../constants/apiEndpoints'

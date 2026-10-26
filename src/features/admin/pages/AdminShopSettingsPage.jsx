@@ -170,7 +170,7 @@ export const AdminShopSettingsPage = () => {
               </button>
               <Link
                 to={ROUTE_PATHS.ADMIN_SHOPS}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-700 px-6 py-2.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-700 hover:text-white"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-600 px-6 py-2.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-600 hover:text-white"
               >
                 Review pending shops
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

@@ -33,6 +33,14 @@
     linear-gradient(135deg, #07160d 0%, #030906 55%, #000000 100%);
 }
 
+/* Portal sidebar — fixed dark auth-panel tone (matches the login brand panel). */
+.portal-sidebar {
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(34, 197, 94, 0.2) 0%, transparent 45%),
+    radial-gradient(80% 80% at 100% 100%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+    linear-gradient(135deg, #07160d 0%, #030906 55%, #000000 100%);
+}
+
 /* Flat fill for primary auth buttons (Sign In, Continue, Create account,
    Reset password, Send reset code). */
 .auth-button {

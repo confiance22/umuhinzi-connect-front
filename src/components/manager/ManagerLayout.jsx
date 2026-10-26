@@ -47,9 +47,12 @@ const NAV = [
   },
   {
     id: 'chat',
-    title: 'Chat',
+    title: 'Communication',
     icon: 'chat',
-    items: [{ label: 'Shop Chat', to: ROUTE_PATHS.CHAT, icon: 'chat', badge: 0 }],
+    items: [
+      { label: 'Shop Chat', to: ROUTE_PATHS.CHAT, icon: 'chat', badge: 0 },
+      { label: 'Notifications', to: ROUTE_PATHS.NOTIFICATIONS, icon: 'bell' },
+    ],
   },
   {
     id: 'reports',

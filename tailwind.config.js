@@ -34,6 +34,7 @@ export default {
       },
       fontFamily: {
         sans: ['Poppins', 'ui-sans-serif', 'system-ui', '-apple-system', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        serif: ['"Iowan Old Style"', '"Palatino Linotype"', 'Palatino', 'Georgia', 'serif'],
       },
       borderRadius: {
         card: '0.875rem',

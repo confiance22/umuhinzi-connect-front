@@ -273,7 +273,7 @@ export const AdminReportsPage = () => {
                 type="button"
                 onClick={() => changeDays(opt.value)}
                 className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors ${
-                  days === opt.value ? 'bg-brand-700 text-white' : 'text-muted hover:text-ink'
+                  days === opt.value ? 'bg-brand-600 text-white' : 'text-muted hover:text-ink'
                 }`}
               >
                 {opt.label}
@@ -301,7 +301,7 @@ export const AdminReportsPage = () => {
             }`}
           >
             <div className="flex items-start justify-between">
-              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-700 text-white' : 'bg-page text-ink'}`}>
+              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'}`}>
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d={card.icon} />
                 </svg>

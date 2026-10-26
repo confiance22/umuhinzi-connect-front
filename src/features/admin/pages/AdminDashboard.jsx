@@ -1,7 +1,5 @@
 /**
- * AdminDashboard — Super Admin command center (Soma Command Center port).
- * KPI cards (users / active / roles / admins), recent account activity, and
- * admin fast-track links.
+ * AdminDashboard — Umuhinzi Connect platform overview for super admins.
  */
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
@@ -11,23 +9,19 @@ import { ROUTE_PATHS } from '../../../constants/routePaths'
 
 const EMPTY_STATS = {
   totalUsers: 0,
+  totalFarmers: 0,
+  totalBuyers: 0,
   totalSuperAdmins: 0,
-  totalManagers: 0,
-  totalWorkers: 0,
   activeUsers: 0,
   lockedUsers: 0,
   totalRoles: 0,
   totalPermissions: 0,
 }
 
-const roleNames = (user) =>
-  (user?.roles || []).map((r) => (typeof r === 'string' ? r : r?.key || r?.name || '').toUpperCase())
-
-const hasAnyRole = (user, wanted) => {
-  const single = String(user?.role || '').toUpperCase()
-  if (wanted.includes(single)) return true
-  const names = roleNames(user)
-  return wanted.some((w) => names.includes(w) || names.includes(w.replace('_', ' ')))
+const roleKeyOf = (user) => {
+  if (user?.role) return user.role
+  const first = Array.isArray(user?.roles) ? user.roles[0] : null
+  return typeof first === 'string' ? first : first?.key || ''
 }
 
 const timeAgo = (isoDate) => {
@@ -71,12 +65,13 @@ export const AdminDashboard = () => {
       const users = usersRes.status === 'fulfilled' && Array.isArray(usersRes.value) ? usersRes.value : []
       const roles = rolesRes.status === 'fulfilled' && Array.isArray(rolesRes.value) ? rolesRes.value : []
       const permissions = permsRes.status === 'fulfilled' && Array.isArray(permsRes.value) ? permsRes.value : []
+      const countRole = (key) => users.filter((user) => roleKeyOf(user) === key).length
 
       setStats({
         totalUsers: users.length,
-        totalSuperAdmins: users.filter((u) => hasAnyRole(u, ['SUPER_ADMIN'])).length,
-        totalManagers: users.filter((u) => hasAnyRole(u, ['SHOP_MANAGER', 'SHOP MANAGER'])).length,
-        totalWorkers: users.filter((u) => hasAnyRole(u, ['WORKER'])).length,
+        totalFarmers: countRole('farmer'),
+        totalBuyers: countRole('buyer'),
+        totalSuperAdmins: countRole('super_admin'),
         activeUsers: users.filter((u) => u.enabled !== false && u.accountNonLocked !== false).length,
         lockedUsers: users.filter((u) => u.accountNonLocked === false).length,
         totalRoles: roles.length,
@@ -84,14 +79,14 @@ export const AdminDashboard = () => {
       })
 
       const activity = [...users]
-        .filter((u) => u.createdAt)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .filter((u) => u.createdAt || u.created_at)
+        .sort((a, b) => new Date(b.createdAt || b.created_at) - new Date(a.createdAt || a.created_at))
         .slice(0, 6)
         .map((u) => ({
           id: u.id,
           type: 'User',
-          action: `New account created — ${u.name || u.username || u.email}`,
-          time: timeAgo(u.createdAt),
+          action: `New account created — ${u.name || u.phone || u.email}`,
+          time: timeAgo(u.createdAt || u.created_at),
         }))
       setRecentActivity(activity)
 
@@ -109,15 +104,21 @@ export const AdminDashboard = () => {
     {
       label: 'Total Users',
       value: stats.totalUsers,
-      sub: `${stats.totalManagers} managers · ${stats.totalWorkers} workers`,
+      sub: `${stats.activeUsers} active · ${stats.lockedUsers} locked`,
       accent: true,
       icon: 'M17 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
     },
     {
-      label: 'Active Accounts',
-      value: stats.activeUsers,
-      sub: `${stats.lockedUsers} locked`,
-      icon: 'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3',
+      label: 'Farmers',
+      value: stats.totalFarmers,
+      sub: 'Harvest sellers',
+      icon: 'M12 22V8M5 12l7-7 7 7M5 22h14M8 22v-6h8v6',
+    },
+    {
+      label: 'Buyers',
+      value: stats.totalBuyers,
+      sub: 'Marketplace buyers',
+      icon: 'M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0',
     },
     {
       label: 'Roles Configured',
@@ -125,19 +126,13 @@ export const AdminDashboard = () => {
       sub: `${stats.totalPermissions} permissions`,
       icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4',
     },
-    {
-      label: 'Super Admins',
-      value: stats.totalSuperAdmins,
-      sub: 'Platform operators',
-      icon: 'M12 2 4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z',
-    },
   ]
 
   const quickLinks = [
-    { label: 'Manage Users', desc: 'Audit accounts & statuses', to: ROUTE_PATHS.ADMIN_USERS, icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' },
-    { label: 'Review Shops', desc: 'Approve incoming shop registrations', to: ROUTE_PATHS.ADMIN_SHOPS, icon: 'M3 9l1.5-4h15L21 9M4 9v11h16V9M4 9h16M9 20v-6h6v6' },
-    { label: 'Manage Roles', desc: 'Configure role permissions', to: ROUTE_PATHS.ADMIN_ROLES, icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' },
-    { label: 'Permissions', desc: 'Fine-grained privileges', to: ROUTE_PATHS.ADMIN_PERMISSIONS, icon: 'M15.5 7.5 21 2M18 5l-3 3M11 11a4 4 0 1 1-5.66 5.66A4 4 0 0 1 11 11z' },
+    { label: 'Manage Users', desc: 'Review accounts and access status', to: ROUTE_PATHS.ADMIN_USERS, icon: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' },
+    { label: 'Manage Roles', desc: 'Configure farmer and buyer access', to: ROUTE_PATHS.ADMIN_ROLES, icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z' },
+    { label: 'Permissions', desc: 'Review the platform permission catalog', to: ROUTE_PATHS.ADMIN_PERMISSIONS, icon: 'M15.5 7.5 21 2M18 5l-3 3M11 11a4 4 0 1 1-5.66 5.66A4 4 0 0 1 11 11z' },
+    { label: 'My Account', desc: 'Update profile and password', to: ROUTE_PATHS.ADMIN_ACCOUNT, icon: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z' },
   ]
 
   if (isLoading) {
@@ -162,20 +157,14 @@ export const AdminDashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
           <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
-            Global Oversight
+            Platform Oversight
           </span>
-          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Command Center</h1>
-          <p className="text-sm text-muted mt-1">Real-time platform health, growth, and user distribution.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Platform Overview</h1>
+          <p className="text-sm text-muted mt-1">Account health and access across Umuhinzi Connect.</p>
         </div>
-        <div className="flex items-center gap-2.5 text-xs font-semibold bg-brand-700 text-white rounded-full px-4 py-2.5 relative overflow-hidden">
-          <span className="absolute -right-3 -bottom-3 w-14 h-14 rounded-full bg-white/25 pointer-events-none" />
-          <span className="relative flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
-            <span className="uppercase tracking-wide text-[11px]">System Operational</span>
-          </span>
-          <span className="relative hidden sm:block text-[10px] font-medium text-white/70 before:content-['·'] before:mr-2">
-            Environment · Rwanda
-          </span>
+        <div className="flex items-center gap-2.5 text-xs font-semibold bg-brand-600 text-white rounded-full px-4 py-2.5">
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
+          <span className="uppercase tracking-wide text-[11px]">System Operational</span>
         </div>
       </div>
 
@@ -187,13 +176,11 @@ export const AdminDashboard = () => {
               card.accent ? 'bg-ink border-ink' : 'bg-card border-line shadow-soft'
             }`}
           >
-            <div className="flex items-start justify-between">
-              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-700 text-white' : 'bg-page text-ink'}`}>
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={card.icon} />
-                </svg>
-              </span>
-            </div>
+            <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'}`}>
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d={card.icon} />
+              </svg>
+            </span>
             <p className={`text-3xl font-bold tracking-tight tabular-nums mt-4 ${card.accent ? 'text-white' : 'text-ink'}`}>{card.value}</p>
             <p className={`text-sm font-medium mt-0.5 ${card.accent ? 'text-white/80' : 'text-muted'}`}>{card.label}</p>
             <p className={`text-xs mt-2 ${card.accent ? 'text-white/50' : 'text-muted'}`}>{card.sub}</p>
@@ -204,14 +191,14 @@ export const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-card border border-line rounded-2xl shadow-soft">
           <div className="flex items-center justify-between px-6 py-4 border-b border-line">
-            <h3 className="text-sm font-semibold text-ink">Recent Activity</h3>
+            <h3 className="text-sm font-semibold text-ink">Recent Accounts</h3>
             <Link to={ROUTE_PATHS.ADMIN_USERS} className="text-xs font-medium text-gray-400 hover:text-ink transition-colors">
               View all
             </Link>
           </div>
           <div className="divide-y divide-line">
             {recentActivity.length === 0 ? (
-              <div className="px-6 py-14 text-center text-sm text-gray-400">No recent platform activity recorded.</div>
+              <div className="px-6 py-14 text-center text-sm text-gray-400">No accounts recorded yet.</div>
             ) : (
               recentActivity.map((act) => (
                 <div key={act.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-page/60 transition-colors">
@@ -234,7 +221,7 @@ export const AdminDashboard = () => {
 
         <div className="space-y-5">
           <div className="bg-card border border-line rounded-2xl shadow-soft p-5">
-            <h3 className="text-sm font-semibold text-ink mb-4">Admin Fast-Track</h3>
+            <h3 className="text-sm font-semibold text-ink mb-4">Quick Actions</h3>
             <div className="space-y-1.5">
               {quickLinks.map((link) => (
                 <Link
@@ -242,7 +229,7 @@ export const AdminDashboard = () => {
                   to={link.to}
                   className="group flex items-center gap-3.5 p-2.5 rounded-xl hover:bg-page transition-colors"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-page group-hover:bg-brand-700 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <span className="w-10 h-10 rounded-xl bg-page group-hover:bg-brand-600 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d={link.icon} />
                     </svg>
@@ -259,24 +246,20 @@ export const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-brand-700 p-6 relative overflow-hidden shadow-soft">
-            <div className="absolute -bottom-10 -right-8 w-32 h-32 rounded-full bg-white/20 pointer-events-none" />
-            <div className="absolute top-0 right-0 w-20 h-20 rounded-full bg-brand-800/40 blur-2xl pointer-events-none" />
-            <div className="relative">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">Access control</p>
-              <p className="text-xl font-bold text-white mt-2 leading-snug">
-                {stats.totalPermissions} permissions across {stats.totalRoles} roles
-              </p>
-              <Link
-                to={ROUTE_PATHS.ADMIN_ROLES}
-                className="inline-flex items-center justify-center gap-2 mt-5 bg-ink text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-ink-soft transition-[transform,background-color,color,gap] duration-150 hover:gap-2.5 active:scale-[0.98]"
-              >
-                Review access
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </Link>
-            </div>
+          <div className="rounded-2xl bg-brand-600 p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">Access control</p>
+            <p className="text-xl font-bold text-white mt-2 leading-snug">
+              {stats.totalPermissions} permissions across {stats.totalRoles} roles
+            </p>
+            <Link
+              to={ROUTE_PATHS.ADMIN_ROLES}
+              className="inline-flex items-center justify-center gap-2 mt-5 bg-ink text-white text-xs font-semibold px-5 py-2.5 rounded-full hover:bg-ink-soft transition-[transform,background-color,color,gap] duration-150 hover:gap-2.5 active:scale-[0.98]"
+            >
+              Review access
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
           </div>
         </div>
       </div>

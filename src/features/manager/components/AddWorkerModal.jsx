@@ -136,7 +136,7 @@ export const AddWorkerModal = ({ isOpen, onClose, onSubmit, editingWorker }) => 
         </button>
 
         <div className="mb-6 pr-8">
-          <span className="w-11 h-11 rounded-2xl bg-brand-700/15 text-brand-700 flex items-center justify-center mb-3">
+          <span className="w-11 h-11 rounded-2xl bg-brand-600/15 text-brand-700 flex items-center justify-center mb-3">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 10h-6M19 7v6" />
             </svg>
@@ -308,7 +308,7 @@ export const AddWorkerModal = ({ isOpen, onClose, onSubmit, editingWorker }) => 
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-full text-sm font-medium bg-brand-700 text-white hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+              className="px-6 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
             >
               {isEditMode ? 'Save changes' : 'Add team member'}
             </button>

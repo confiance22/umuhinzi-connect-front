@@ -2,13 +2,25 @@ export const translations = {
   en: {
     nav: {
       home: 'Home',
-      harvests: 'Browse Harvests',
+      harvests: 'Harvests',
+      platform: 'Platform',
       howItWorks: 'How It Works',
-      marketPrices: 'Market Prices'
+      forFarmers: 'For Farmers',
+      forBuyers: 'For Buyers',
+      about: 'About',
+      contact: 'Contact',
+      marketPrices: 'Market Prices',
+      howItWorksDesc: 'See the full journey',
+      forFarmersDesc: 'Sell directly with confidence',
+      forBuyersDesc: 'Source fresh produce with ease'
     },
     common: {
       signIn: 'Sign in',
       getStarted: 'Get Started',
+      dashboard: 'Dashboard',
+      messages: 'Messages',
+      signOut: 'Sign out',
+      signedInAs: 'Signed in as',
       viewDetails: 'View details',
       learnMore: 'Learn more',
       browseHarvests: 'Browse harvests',
@@ -41,7 +53,7 @@ export const translations = {
         headlinePrefix: 'Good food starts with a',
         headlineAccent: 'fair deal.',
         description:
-          'Umuhinzi Connect puts Rwanda’s harvests in front of real buyers — without the layers that eat the margin.',
+          'Umuhinzi Connect puts Rwanda’s harvests in front of real buyers, without the layers that eat the margin.',
         directTrade: 'Direct trade',
         noMiddlemen: 'No middlemen',
         market: 'Market',
@@ -49,12 +61,40 @@ export const translations = {
         note: 'Farm-gate note / 25 Oct',
         basketAverage: 'Basket average',
         upFromLastSeason: 'Up 12% from last season',
-        source: 'Source: Umuhinzi market desk',
+        source: 'Source: Umuhinzi Connect market desk',
         allPrices: 'All prices',
         cropIndex: 'Crop index',
         cropList: 'Potatoes · Maize · Beans · Tomatoes · Avocado · Rice',
         viewAllPrices: 'View all prices',
         unit: '/kg',
+        passportKicker: 'Field passport',
+        passportSeries: 'Harvest series 01',
+        passportLot: 'Primary lot',
+        origin: 'Origin',
+        altitude: 'Altitude',
+        altitudeValue: '1,850 m',
+        harvested: 'Harvested',
+        harvestedValue: '24 Oct',
+        grade: 'Grade',
+        gradeValue: 'A',
+        farmGate: 'Farm-gate',
+        verified: 'Origin verified',
+        otherLots: 'More from this week',
+        season: 'Season 2026 A',
+        passportNote:
+          'Grown in the highlands, sorted at the cooperative, and priced before it leaves the district.',
+        agasekeKicker: 'Woven harvest',
+        agasekeTitle: 'The market basket',
+        agasekeNote: 'Handwoven in Rwanda, filled with this week’s freshest lots.',
+        wovenIn: 'Woven in Rwanda',
+        seedKicker: 'The seed library',
+        seedNote: 'Open-pollinated lots, traced to the hills where they were grown.',
+        seedLabel: 'Seed packet',
+        seedLot: 'Lot',
+        seedWeight: 'Net weight',
+        seedWeightValue: '1 kg',
+        seedSeason: 'Season 2026 A',
+        seedOpen: 'Open-pollinated',
         stats: {
           farmers: 'Verified farmers',
           districts: 'Districts covered',
@@ -67,7 +107,7 @@ export const translations = {
         ]
       },
       features: {
-        title: 'Why Umuhinzi',
+        title: 'Why Umuhinzi Connect',
         heading: 'A better way to trade fresh produce',
         description:
           'One marketplace for discovery, fair pricing and direct relationships across Rwanda’s agricultural food chain.',
@@ -190,9 +230,28 @@ export const translations = {
       },
       cta: {
         eyebrow: 'Grow with Umuhinzi Connect',
+        headingLead: 'Your harvest deserves a',
+        headingAccent: 'wider market.',
         heading: 'Your harvest deserves a wider market.',
         description:
-          'List what you grow, reach buyers across Rwanda and trade with prices you can trust.'
+          'List what you grow, reach buyers across Rwanda and trade with prices you can trust.',
+        proofs: ['Free to join', 'You set your price', 'Buyers come to you'],
+        cardKicker: 'Live marketplace',
+        cardLot: 'Lot 024',
+        cardLabel: 'Fresh listing / today',
+        cardTitle: 'Irish potatoes',
+        cardOrigin: 'Kayonza · 240 kg',
+        cardPriceLabel: 'Farm-gate price',
+        cardPrice: 'RWF 380',
+        cardPriceUnit: '/kg',
+        cardTrend: 'Updated today',
+        cardGrowerLabel: 'Grower',
+        cardGrower: 'Jeanette M.',
+        cardBadge: 'Direct',
+        cardFooter: 'Your harvest could be next',
+        cardFee: 'No listing fee',
+        cardStampLead: 'Your harvest',
+        cardStampAccent: 'here'
       }
     },
     harvests: {
@@ -205,6 +264,25 @@ export const translations = {
         districts: 'Districts covered',
         crops: 'Crop varieties'
       },
+      boardLabel: 'Live harvest board',
+      boardNote: 'Farm-gate lots, listed by the grower.',
+      boardTitle: 'The board',
+      boardSubtitle: 'Every lot, one clear view.',
+      boardFooter: 'Prices shown per kilogram. Confirm with the grower before ordering.',
+      harvestIndex: 'Harvest index',
+      everyLot: 'Every lot is listed by the grower.',
+      results: 'lots',
+      sortBy: 'Sort by',
+      sortFeatured: 'Featured',
+      sortPriceLow: 'Price: low to high',
+      sortPriceHigh: 'Price: high to low',
+      sortRating: 'Top rated',
+      featuredLot: 'Featured lot',
+      lot: 'Lot',
+      origin: 'Origin',
+      availableNow: 'Available now',
+      verifiedGrower: 'Verified grower',
+      viewLot: 'View lot',
       searchPlaceholder: 'Search crops, farmers or districts...',
       categories: {
         all: 'All',
@@ -241,6 +319,16 @@ export const translations = {
       title: 'How Umuhinzi Connect works',
       subtitle:
         'A clear path from the farm to the market, built for farmers and buyers who value fresh produce and fair prices.',
+      routeLabel: 'The trade route',
+      routeNote: 'From the hills to the market, without detours.',
+      routeStops: ['Grow', 'List', 'Connect', 'Deliver'],
+      summary: '2 journeys · 8 steps',
+      farmGate: 'Farm gate',
+      marketDoor: 'Market door',
+      stepsLabel: 'The steps',
+      standardsLabel: 'The standard',
+      farmersCta: 'Start selling',
+      buyersCta: 'Browse harvests',
       farmers: {
         label: 'For farmers',
         title: 'Sell your harvest with confidence',
@@ -315,6 +403,18 @@ export const translations = {
       title: 'Daily market prices',
       subtitle:
         'Track indicative prices for staple crops across key markets in Rwanda, updated every day.',
+      deskLabel: 'Market desk',
+      boardLabel: 'Today’s board',
+      basketAverage: 'Basket average',
+      marketPulse: 'Market pulse',
+      boardNote: 'Indicative farm-gate prices, collected from partner markets.',
+      trend: 'Trend',
+      range: 'Range',
+      low: 'Low',
+      high: 'High',
+      topMover: 'Top mover',
+      live: 'Live',
+      allMarkets: 'All markets',
       updated: 'Updated today',
       searchPlaceholder: 'Search crops or markets...',
       district: 'District',
@@ -333,11 +433,212 @@ export const translations = {
       ctaSubtitle: 'Browse fresh harvests and connect directly with farmers.',
       ctaButton: 'Browse harvests'
     },
+    about: {
+      badge: 'About Umuhinzi Connect',
+      title: 'A shorter road from the harvest to the market.',
+      subtitle:
+        'We are building a fairer agricultural marketplace for Rwanda, where farmers keep more of what they grow and buyers get produce they can trust.',
+      stamp: 'Rooted in Rwanda',
+      farmLabel: 'Farm',
+      buyerLabel: 'Buyer',
+      note: 'A marketplace should feel like a handshake, not a maze.',
+      stats: [
+        { value: '1,240+', label: 'Verified farmers' },
+        { value: '30', label: 'Districts covered' },
+        { value: '12', label: 'Crop categories' },
+        { value: '0', label: 'Middlemen' }
+      ],
+      missionLabel: 'Our mission',
+      missionTitle: 'Make fair trade feel normal.',
+      missionBody:
+        'Umuhinzi Connect exists to give farmers a direct line to the people who need their produce. We combine simple technology with honest market information so every transaction starts with clarity.',
+      storyLabel: 'Why we started',
+      storyTitle: 'The market was missing a straight line.',
+      storyBody:
+        'Too often, the person growing the food is the last to know what it is worth. We built a shared table where farmers can set a price, buyers can see the source, and both sides can meet without guesswork.',
+      valuesLabel: 'What we protect',
+      valuesTitle: 'The things we refuse to trade away.',
+      values: [
+        {
+          title: 'Farmer-first',
+          desc: 'Every product decision starts with the person doing the growing.'
+        },
+        {
+          title: 'Radical clarity',
+          desc: 'Clear prices, clear origins, and no hidden layers between buyer and seller.'
+        },
+        {
+          title: 'Local by design',
+          desc: 'Built around Rwandan markets, districts, seasons, and the way trade actually happens.'
+        },
+        {
+          title: 'Built to last',
+          desc: 'We favour steady trust over quick growth and lasting relationships over transactions.'
+        }
+      ],
+      ctaTitle: 'Join the market that starts at the farm.',
+      ctaSubtitle:
+        'Create an account, list your harvest, or source directly from growers across Rwanda.',
+      ctaButton: 'Create free account',
+      secondaryCta: 'Contact us'
+    },
+    contact: {
+      badge: 'Contact',
+      title: 'Let’s talk about what you grow.',
+      subtitle:
+        'Questions, partnerships, or a harvest that needs a buyer. Send us a note and a real person will get back to you.',
+      formTitle: 'Send a message',
+      formNote: 'Tell us a little about you and what you need.',
+      name: 'Full name',
+      namePlaceholder: 'Your name',
+      email: 'Email address',
+      emailPlaceholder: 'you@example.com',
+      phone: 'Phone number',
+      phonePlaceholder: '+250 7XX XXX XXX',
+      role: 'I am a',
+      rolePlaceholder: 'Select one',
+      roles: ['Farmer', 'Buyer', 'Partner', 'Other'],
+      subject: 'Subject',
+      subjectPlaceholder: 'How can we help?',
+      message: 'Message',
+      messagePlaceholder: 'Tell us what is on your mind...',
+      send: 'Send message',
+      sending: 'Sending...',
+      sentTitle: 'Message ready.',
+      sentBody: 'Thanks for reaching out. Your message is with us.',
+      another: 'Send another message',
+      supportLabel: 'Farmer support',
+      supportValue: 'Mon–Sat · 8:00–18:00',
+      officeLabel: 'Office',
+      officeValue: 'Kigali, Rwanda',
+      emailLabel: 'Email',
+      emailValue: 'info@umuhinziconnect.rw',
+      phoneLabel: 'Phone',
+      phoneValue: '0784646650',
+      helpTitle: 'What to expect',
+      helpPoints: [
+        'A reply from a person, not an automated loop.',
+        'Practical help for farmers and buyers.',
+        'Partnership conversations are welcome.'
+      ]
+    },
+    farmersPage: {
+      badge: 'For farmers',
+      title: 'Your harvest deserves a direct buyer.',
+      subtitle:
+        'List what you grow, set your own price, and connect with buyers who are ready to purchase across Rwanda.',
+      primaryCta: 'Start selling',
+      secondaryCta: 'See market prices',
+      cardLabel: 'Your farm gate',
+      cardTitle: 'You set the price. You keep the relationship.',
+      cardNote: 'A direct line from your harvest to the buyer.',
+      cardRows: [
+        { label: 'Your crop', value: 'Red kidney beans' },
+        { label: 'Your price', value: '780 RWF / kg' },
+        { label: 'Your buyer', value: 'Direct' }
+      ],
+      benefitsLabel: 'Why farmers join',
+      benefitsTitle: 'More control, less guesswork.',
+      benefits: [
+        {
+          title: 'Set your price',
+          desc: 'List your harvest at the price that works for your farm.'
+        },
+        {
+          title: 'Reach real buyers',
+          desc: 'Get discovered by buyers looking for exactly what you grow.'
+        },
+        {
+          title: 'Skip the middlemen',
+          desc: 'Build direct relationships and keep more of the value.'
+        },
+        {
+          title: 'Read the market',
+          desc: 'Use daily price signals before you negotiate your next lot.'
+        }
+      ],
+      stepsLabel: 'Getting started',
+      stepsTitle: 'From harvest to handshake.',
+      steps: [
+        {
+          title: 'Create your account',
+          desc: 'Register with your phone number or email in a few minutes.'
+        },
+        {
+          title: 'List your harvest',
+          desc: 'Add your crop, quantity, location, and asking price.'
+        },
+        {
+          title: 'Meet your buyer',
+          desc: 'Respond to interest, agree on delivery, and complete the sale.'
+        }
+      ],
+      ctaTitle: 'Ready to sell your next harvest?',
+      ctaSubtitle: 'Join farmers across Rwanda who are trading directly with buyers.',
+      ctaButton: 'Create farmer account'
+    },
+    buyersPage: {
+      badge: 'For buyers',
+      title: 'Source freshness, not uncertainty.',
+      subtitle:
+        'Browse verified harvests, compare farm-gate prices, and buy directly from the people who grow your food.',
+      primaryCta: 'Browse harvests',
+      secondaryCta: 'See market prices',
+      cardLabel: 'Sourcing desk',
+      cardTitle: 'Know the farm behind every lot.',
+      cardNote: 'Fresh supply, clear origins, direct conversations.',
+      cardRows: [
+        { label: 'Today’s lot', value: 'Hass avocado' },
+        { label: 'Origin', value: 'Kayanza' },
+        { label: 'Farm gate', value: '850 RWF / kg' }
+      ],
+      benefitsLabel: 'Why buyers join',
+      benefitsTitle: 'Better supply starts with better sightlines.',
+      benefits: [
+        {
+          title: 'Verified growers',
+          desc: 'Know who grew your produce and where it comes from.'
+        },
+        {
+          title: 'Transparent pricing',
+          desc: 'Compare farm-gate prices before you commit to an order.'
+        },
+        {
+          title: 'Direct relationships',
+          desc: 'Talk to the farmer, agree on quality, and plan repeat supply.'
+        },
+        {
+          title: 'Nationwide reach',
+          desc: 'Find produce across districts without chasing scattered contacts.'
+        }
+      ],
+      stepsLabel: 'How to source',
+      stepsTitle: 'From search to delivery.',
+      steps: [
+        {
+          title: 'Browse the board',
+          desc: 'Filter by crop, district, quantity, or price.'
+        },
+        {
+          title: 'Compare the market',
+          desc: 'Check daily price signals before you start a conversation.'
+        },
+        {
+          title: 'Order with confidence',
+          desc: 'Connect with the grower, confirm the lot, and arrange delivery.'
+        }
+      ],
+      ctaTitle: 'Find your next fresh lot.',
+      ctaSubtitle: 'Browse harvests from verified farmers across Rwanda.',
+      ctaButton: 'Browse harvests'
+    },
     footer: {
       tagline:
         'Connecting Rwandan farmers and buyers from the farm to the market, with fair prices and fresh produce.',
       platform: 'Platform',
       account: 'Account',
+      contact: 'Contact',
+      follow: 'Follow us',
       copyright: 'Umuhinzi Connect. All rights reserved.',
       madeIn: 'Built in Rwanda'
     },
@@ -360,7 +661,7 @@ export const translations = {
         registered: 'Registration complete! Sign in to continue.',
         passwordReset: 'Password reset successfully. Please sign in with your new password.',
         phoneLabel: 'Phone number',
-        phonePlaceholder: 'Enter your phone number',
+        phonePlaceholder: '0788 000 003 or +250 788 000 003',
         phoneRequired: 'Enter your phone number',
         passwordLabel: 'Password',
         passwordRequired: 'Password is required',
@@ -523,13 +824,25 @@ export const translations = {
   rw: {
     nav: {
       home: 'Ahabanza',
-      harvests: 'Reba Umusaruro',
+      harvests: 'Umusaruro',
+      platform: 'Urubuga',
       howItWorks: 'Uko Bikorwa',
-      marketPrices: 'Ibiciro ku Isoko'
+      forFarmers: 'Abahinzi',
+      forBuyers: 'Abaguzi',
+      about: 'Abo turi bo',
+      contact: 'Twandikire',
+      marketPrices: 'Ibiciro ku Isoko',
+      howItWorksDesc: 'Reba urugendo rwose',
+      forFarmersDesc: 'Gurisha uhereye ku murima',
+      forBuyersDesc: 'Gura umusaruro mushya'
     },
     common: {
       signIn: 'Injira',
       getStarted: 'Tangira',
+      dashboard: 'Imbonerahamwe',
+      messages: 'Ubutumwa',
+      signOut: 'Sohoka',
+      signedInAs: 'Winjiye nka',
       viewDetails: 'Reba birambuye',
       learnMore: 'Menya byinshi',
       browseHarvests: 'Reba umusaruro',
@@ -562,7 +875,7 @@ export const translations = {
         headlinePrefix: 'Ibiryo byiza bitangira ku',
         headlineAccent: 'gucuruza kuringana.',
         description:
-          'Umuhinzi Connect ishyira umusaruro w’u Rwanda imbere y’abaguzi nyabo — nta bayobora hagati barya inyungu.',
+          'Umuhinzi Connect ishyira umusaruro w’u Rwanda imbere y’abaguzi nyabo, nta bayobora hagati barya inyungu.',
         directTrade: 'Ubucuruzi butaziguye',
         noMiddlemen: 'Nta bayobora hagati',
         market: 'Isoko',
@@ -570,12 +883,40 @@ export const translations = {
         note: 'Ibiciro ku murima / 25 Ukwakira',
         basketAverage: 'Impuzandengo y’ibicuruzwa',
         upFromLastSeason: 'Byazamutse 12% ugereranyije n’igihembwe gishize',
-        source: 'Inkomoko: Ibiro by’isoko bya Umuhinzi',
+        source: 'Inkomoko: Ibiro by’isoko bya Umuhinzi Connect',
         allPrices: 'Ibiciro byose',
         cropIndex: 'Urutonde rw’imyaka',
         cropList: 'Ibirayi · Ibigori · Ibishyimbo · Inyanya · Avoka · Umuceri',
         viewAllPrices: 'Reba ibiciro byose',
         unit: '/kg',
+        passportKicker: 'Pasiporo y’umusaruro',
+        passportSeries: 'Umusaruro wa mbere',
+        passportLot: 'Umukoro w’ibanze',
+        origin: 'Aho ukomoka',
+        altitude: 'Ubutumburuke',
+        altitudeValue: '1,850 m',
+        harvested: 'Isarura',
+        harvestedValue: '24 Ukwakira',
+        grade: 'Ubwiza',
+        gradeValue: 'A',
+        farmGate: 'Ku murima',
+        verified: 'Inkomoko yemejwe',
+        otherLots: 'Ibindi by’iki cyumweru',
+        season: 'Igihembwe 2026 A',
+        passportNote:
+          'Byahinzwe mu misozi, bitunganirizwa mu koperative, kandi bigurwa mbere y’uko biva mu karere.',
+        agasekeKicker: 'Umusaruro uboshye',
+        agasekeTitle: 'Agaseke k’isoko',
+        agasekeNote: 'Agaseke kaboshye mu Rwanda, kuzuyemo umusaruro mushya w’iki cyumweru.',
+        wovenIn: 'Kaboshye mu Rwanda',
+        seedKicker: 'Ububiko bw’imbuto',
+        seedNote: 'Imbuto z’umusaruro zikomoka mu misozi aho zahinzwe.',
+        seedLabel: 'Ipaki y’imbuto',
+        seedLot: 'Umukoro',
+        seedWeight: 'Ibiro',
+        seedWeightValue: '1 kg',
+        seedSeason: 'Igihembwe 2026 A',
+        seedOpen: 'Imbuto zisanzwe',
         stats: {
           farmers: 'Abahinzi bemejwe',
           districts: 'Uturere dufatwamo',
@@ -588,7 +929,7 @@ export const translations = {
         ]
       },
       features: {
-        title: 'Kuki Umuhinzi',
+        title: 'Kuki Umuhinzi Connect',
         heading: 'Uburyo bwiza bwo gucuruza umusaruro mushya',
         description:
           'Isoko rimwe ryo kuvumbura, ibiciro byiza n’isano itaziguye mu rwego rw’ubuhinzi bw’u Rwanda.',
@@ -711,9 +1052,28 @@ export const translations = {
       },
       cta: {
         eyebrow: 'Kura hamwe na Umuhinzi Connect',
+        headingLead: 'Umusaruro wawe ukwiye',
+        headingAccent: 'isoko rinini.',
         heading: 'Umusaruro wawe ukwiye isoko rinini.',
         description:
-          'Shyira ku isoko ibyo uhinga, gere ku baguzi mu Rwanda hose kandi ucuruze ku biciro wizera.'
+          'Shyira ku isoko ibyo uhinga, gere ku baguzi mu Rwanda hose kandi ucuruze ku biciro wizera.',
+        proofs: ['Kwinjira ni ubuntu', 'Ushyiraho igiciro', 'Abaguzi bakugeraho'],
+        cardKicker: 'Isoko rihari',
+        cardLot: 'Igitangwa 024',
+        cardLabel: 'Igitangwa gishya / uyu munsi',
+        cardTitle: 'Ibirayi',
+        cardOrigin: 'Kayonza · 240 kg',
+        cardPriceLabel: 'Igiciro ku muhinzi',
+        cardPrice: 'RWF 380',
+        cardPriceUnit: '/kg',
+        cardTrend: 'Byavuguruwe uyu munsi',
+        cardGrowerLabel: 'Umuhinzi',
+        cardGrower: 'Jeanette M.',
+        cardBadge: 'Direct',
+        cardFooter: 'Umusaruro wawe ushobora kubaho hano',
+        cardFee: 'Nta mafaranga yo kwandika',
+        cardStampLead: 'Umusaruro wawe',
+        cardStampAccent: 'hano'
       }
     },
     harvests: {
@@ -726,6 +1086,25 @@ export const translations = {
         districts: 'Uturere dufatwamo',
         crops: 'Ubwoko bw’imyaka'
       },
+      boardLabel: 'Urutonde rw’umusaruro',
+      boardNote: 'Umusaruro ku biciro by’umurima, watangajwe n’umuhinzi.',
+      boardTitle: 'Urutonde',
+      boardSubtitle: 'Umusaruro wose, ahantu hamwe.',
+      boardFooter: 'Ibiciro byerekanwa kuri kilogarama. Emeza n’umuhinzi mbere yo gutumiza.',
+      harvestIndex: 'Urutonde rw’umusaruro',
+      everyLot: 'Buri mukoro watangajwe n’umuhinzi.',
+      results: 'ibice',
+      sortBy: 'Shungura',
+      sortFeatured: 'Ibyatoranyijwe',
+      sortPriceLow: 'Igiciro: gito kugeza kinini',
+      sortPriceHigh: 'Igiciro: kinini kugeza gito',
+      sortRating: 'Byakunzwe cyane',
+      featuredLot: 'Umukoro watoranyijwe',
+      lot: 'Umukoro',
+      origin: 'Inkomoko',
+      availableNow: 'Bihari ubu',
+      verifiedGrower: 'Umuhinzi wemejwe',
+      viewLot: 'Reba umukoro',
       searchPlaceholder: 'Shakisha imyaka, umuhinzi cyangwa akarere...',
       categories: {
         all: 'Byose',
@@ -762,6 +1141,16 @@ export const translations = {
       title: 'Uko Umuhinzi Connect ikorwa',
       subtitle:
         'Uburyo bworoshye bwo guhuza abahinzi n’abaguzi, uhereye ku musaruro kugera ku isoko.',
+      routeLabel: 'Inzira y’ubucuruzi',
+      routeNote: 'Kuva ku misozi kugera ku isoko, nta nzira zinyuranye.',
+      routeStops: ['Hinga', 'Tangaza', 'Huza', 'Tanga'],
+      summary: 'Ingendo 2 · Intambwe 8',
+      farmGate: 'Irembo ry’umurima',
+      marketDoor: 'Irembo ry’isoko',
+      stepsLabel: 'Intambwe',
+      standardsLabel: 'Ibisabwa',
+      farmersCta: 'Tangira kugurisha',
+      buyersCta: 'Reba umusaruro',
       farmers: {
         label: 'Abahinzi',
         title: 'Gurisha umusaruro wawe mu buryo bworoshye',
@@ -837,6 +1226,18 @@ export const translations = {
       title: 'Ibiciro by’amasoko ku munsi',
       subtitle:
         'Reba ibiciro by’umusaruro rusange mu masoko y’ibanze mu Rwanda, bivugururwa buri munsi.',
+      deskLabel: 'Ibiro by’isoko',
+      boardLabel: 'Urutonde rw’uyu munsi',
+      basketAverage: 'Impuzandengo y’isoko',
+      marketPulse: 'Imiterere y’isoko',
+      boardNote: 'Ibiciro by’urugero ku murima, bikoranywe mu masoko afatanyabikorwa.',
+      trend: 'Imigendekere',
+      range: 'Intera',
+      low: 'Hasī',
+      high: 'Hejuru',
+      topMover: 'Byazamutse cyane',
+      live: 'Bihari',
+      allMarkets: 'Amasoko yose',
       updated: 'Byavuguruwe uyu munsi',
       searchPlaceholder: 'Shakisha umusaruro cyangwa isoko...',
       district: 'Akarere',
@@ -855,11 +1256,212 @@ export const translations = {
       ctaSubtitle: 'Reba umusaruro mushya kandi uhuze n’abahinzi.',
       ctaButton: 'Reba umusaruro'
     },
+    about: {
+      badge: 'Ibijyanye na Umuhinzi Connect',
+      title: 'Inzira ngufi kuva ku musaruro kugera ku isoko.',
+      subtitle:
+        'Turimo kubaka isoko ry’ubuhinzi ryubahiriza ubutabera mu Rwanda, aho abahinzi bagumana umusaruro wabo mwinshi n’abaguzi babona umusaruro bizewe.',
+      stamp: 'Byavukiye mu Rwanda',
+      farmLabel: 'Umurima',
+      buyerLabel: 'Umuguzi',
+      note: 'Isoko rigomba kumera nk’ukubana mu ntoki, ntabwo ari urujijo.',
+      stats: [
+        { value: '1,240+', label: 'Abahinzi bemejwe' },
+        { value: '30', label: 'Uturere dufatwamo' },
+        { value: '12', label: 'Ubwoko bw’imyaka' },
+        { value: '0', label: 'Abahuza' }
+      ],
+      missionLabel: 'Intego yacu',
+      missionTitle: 'Gutuma ubucuruzi bw’ubutabera busanzwe.',
+      missionBody:
+        'Umuhinzi Connect ihari kugira ngo abahinzi bagire umurongo utaziguye ku bakeneye umusaruro wabo. Duhuza tekinoloji yoroshye n’amakuru y’isoko y’ukuri kugira ngo buri gucuruza gutangire mu mucyo.',
+      storyLabel: 'Impamvu twatangiye',
+      storyTitle: 'Isoko ryaburaga umurongo utaziguye.',
+      storyBody:
+        'Inshuro nyinshi, uhinga ibiribwa ni we uheruka kumenya igiciro cyabyo. Twubatse ahantu hamwe aho umuhinzi ashobora gushyira igiciro, umuguzi akabona inkomoko, kandi bombi bagahura nta kwibeshya.',
+      valuesLabel: 'Ibyo turinda',
+      valuesTitle: 'Ibintu tudashaka kwangiza.',
+      values: [
+        {
+          title: 'Umuhinzi mbere',
+          desc: 'Buri cyemezo cy’umusaruro gitangira ku muhinzi.'
+        },
+        {
+          title: 'Umucyo nyakuri',
+          desc: 'Ibiciro bisobanutse, inkomoko isobanutse, nta nzira zihishe.'
+        },
+        {
+          title: 'Byubakiye ku Rwanda',
+          desc: 'Byubakiwe ku masoko, uturere, ibihe n’uburyo ubucuruzi bukorwa mu Rwanda.'
+        },
+        {
+          title: 'Byubakiwe guhoraho',
+          desc: 'Dushyira imbere icyizere kirambye kuruta gukura vuba.'
+        }
+      ],
+      ctaTitle: 'Injira mu isoko ritangira ku murima.',
+      ctaSubtitle:
+        'Fungura konti, tangaza umusaruro wawe, cyangwa gura uhereye ku bahinzi b’u Rwanda.',
+      ctaButton: 'Fungura konti ku buntu',
+      secondaryCta: 'Twandikire'
+    },
+    contact: {
+      badge: 'Twandikire',
+      title: 'Reka tuvuge ku byo uhinga.',
+      subtitle:
+        'Ibibazo, ubufatanye, cyangwa umusaruro ukenera umuguzi. Twandikire, kandi umuntu nyakuri azagusubiza.',
+      formTitle: 'Ohereza ubutumwa',
+      formNote: 'Tubwire ho bike kuri wowe n’icyo ukeneye.',
+      name: 'Amazina yombi',
+      namePlaceholder: 'Amazina yawe',
+      email: 'Aderesi imeyili',
+      emailPlaceholder: 'wowe@urugero.com',
+      phone: 'Numero ya telefoni',
+      phonePlaceholder: '+250 7XX XXX XXX',
+      role: 'Ndi',
+      rolePlaceholder: 'Hitamo',
+      roles: ['Umuhinzi', 'Umuguzi', 'Umufatanyabikorwa', 'Undi'],
+      subject: 'Impamvu',
+      subjectPlaceholder: 'Twagufasha gute?',
+      message: 'Ubutumwa',
+      messagePlaceholder: 'Tubwire ibiri ku mutima...',
+      send: 'Ohereza ubutumwa',
+      sending: 'Birohereza...',
+      sentTitle: 'Ubutumwa bwiteguye.',
+      sentBody: 'Murakoze kudwandikira. Ubutumwa bwawe burafite.',
+      another: 'Ohereza ubundi butumwa',
+      supportLabel: 'Ubufasha bw’abahinzi',
+      supportValue: 'Kuwa mbere–Kuwa gatandatu · 8:00–18:00',
+      officeLabel: 'Ibiro',
+      officeValue: 'Kigali, u Rwanda',
+      emailLabel: 'Imeyili',
+      emailValue: 'info@umuhinziconnect.rw',
+      phoneLabel: 'Telefoni',
+      phoneValue: '0784646650',
+      helpTitle: 'Ibyo witega',
+      helpPoints: [
+        'Gusubizwa n’umuntu, ntabwo ari sisitemu yikora gusa.',
+        'Ubufasha bufatika ku bahinzi n’abaguzi.',
+        'Ibiganiro by’ubufatanye birakiriwe.'
+      ]
+    },
+    farmersPage: {
+      badge: 'Ku bahinzi',
+      title: 'Umusaruro wawe ukwiriye umuguzi utaziguye.',
+      subtitle:
+        'Tangaza ibyo uhinga, shyira igiciro wawe, kandi uhuze n’abaguzi babishaka mu Rwanda.',
+      primaryCta: 'Tangira kugurisha',
+      secondaryCta: 'Reba ibiciro by’isoko',
+      cardLabel: 'Irembo ry’umurima wawe',
+      cardTitle: 'Ni wowe ushyira igiciro. Ni wowe ugumana umubano.',
+      cardNote: 'Umurongo utaziguye kuva ku musaruro wawe kugera ku muguzi.',
+      cardRows: [
+        { label: 'Umusaruro wawe', value: 'Ibishyimbo bitukura' },
+        { label: 'Igiciro cyawe', value: '780 RWF / kg' },
+        { label: 'Umuguzi wawe', value: 'Utaziguye' }
+      ],
+      benefitsLabel: 'Impamvu abahinzi baturiye',
+      benefitsTitle: 'Igenzura ryinshi, kwibeshya bike.',
+      benefits: [
+        {
+          title: 'Shyira igiciro',
+          desc: 'Tangaza umusaruro wawe ku giciro gikwiriye umurima wawe.'
+        },
+        {
+          title: 'Gera ku baguzi nyabo',
+          desc: 'Menyeshwa n’abaguzi bashaka ibyo uhinga.'
+        },
+        {
+          title: 'Simbuka abahuza',
+          desc: 'Ubaka umubano utaziguye kandi ugumane agaciro kenshi.'
+        },
+        {
+          title: 'Soma isoko',
+          desc: 'Koresha ibimenyetso by’ibiciro bya buri munsi mbere yo kuganira.'
+        }
+      ],
+      stepsLabel: 'Gutangira',
+      stepsTitle: 'Kuva ku musaruro kugera ku kubana mu ntoki.',
+      steps: [
+        {
+          title: 'Fungura konti',
+          desc: 'Iyandikishe ukoresheje telefoni cyangwa imeyili mu minota mike.'
+        },
+        {
+          title: 'Tangaza umusaruro',
+          desc: 'Ongeraho umusaruro, ingano, aho uherereye n’igiciro ushaka.'
+        },
+        {
+          title: 'Hura n’umuguzi',
+          desc: 'Subiza abashaka kugura, mwumvikane ku gutanga, kandi urangize ubucuruzi.'
+        }
+      ],
+      ctaTitle: 'Witeguye kugurisha umusaruro utaha?',
+      ctaSubtitle: 'Injira mu bahinzi b’u Rwanda bagurisha uhereye ku murima.',
+      ctaButton: 'Fungura konti y’umuhinzi'
+    },
+    buyersPage: {
+      badge: 'Ku baguzi',
+      title: 'Gura umusaruro mushya, nta gukekeranya.',
+      subtitle:
+        'Reba umusaruro wemejwe, gereranya ibiciro by’umurima, kandi gura uhereye ku bantu bhinga ibyo urya.',
+      primaryCta: 'Reba umusaruro',
+      secondaryCta: 'Reba ibiciro by’isoko',
+      cardLabel: 'Ibiro byo kugura',
+      cardTitle: 'Menya umurima uri inyuma ya buri mukoro.',
+      cardNote: 'Umusaruro mushya, inkomoko isobanutse, ibiganiro bitaziguye.',
+      cardRows: [
+        { label: 'Umukoro w’uyu munsi', value: 'Avoka ya Hass' },
+        { label: 'Inkomoko', value: 'Kayanza' },
+        { label: 'Irembo ry’umurima', value: '850 RWF / kg' }
+      ],
+      benefitsLabel: 'Impamvu abaguzi baturiye',
+      benefitsTitle: 'Umusaruro mwiza utangira n’uko ubona ibintu neza.',
+      benefits: [
+        {
+          title: 'Abahinzi bemejwe',
+          desc: 'Menya uhinga umusaruro wawe n’aho ukomoka.'
+        },
+        {
+          title: 'Ibiciro bisobanutse',
+          desc: 'Gereranya ibiciro by’umurima mbere yo kwemeza itumiza.'
+        },
+        {
+          title: 'Umubano utaziguye',
+          desc: 'Vugana n’umuhinzi, mwumvikane ku bwiza, kandi muteze imbere ibihe.'
+        },
+        {
+          title: 'Kugera mu gihugu hose',
+          desc: 'Shakisha umusaruro mu turere dutandukanye nta guhiga abantu.'
+        }
+      ],
+      stepsLabel: 'Uko wagura',
+      stepsTitle: 'Kuva ku gushakisha kugera ku gutanga.',
+      steps: [
+        {
+          title: 'Reba urutonde',
+          desc: 'Shungura ku musaruro, akarere, ingano cyangwa igiciro.'
+        },
+        {
+          title: 'Gereranya isoko',
+          desc: 'Reba ibimenyetso by’ibiciro bya buri munsi mbere yo kuganira.'
+        },
+        {
+          title: 'Tumiza wizeye',
+          desc: 'Hura n’umuhinzi, emeza umukoro, kandi utegure gutanga.'
+        }
+      ],
+      ctaTitle: 'Shaka umukoro wawe mushya utaha.',
+      ctaSubtitle: 'Reba umusaruro w’abahinzi bemejwe mu Rwanda.',
+      ctaButton: 'Reba umusaruro'
+    },
     footer: {
       tagline:
         'Guhuza abahinzi n’abaguzi mu Rwanda, uhereye ku murima kugera ku isoko, ku biciro byiza n’umusaruro mushya.',
       platform: 'Urubuga',
       account: 'Konti',
+      contact: 'Twandikire',
+      follow: 'Dukurikire',
       copyright: 'Umuhinzi Connect. Uburenganzira bwose burafitwe.',
       madeIn: 'Yubakiwe mu Rwanda'
     },
@@ -883,7 +1485,7 @@ export const translations = {
         passwordReset:
           'Ijambo ry’ibanga ryahinduwe neza. Injira ukoresheje ijambo ry’ibanga rishya.',
         phoneLabel: 'Numero ya telefoni',
-        phonePlaceholder: 'Shyiramo numero yawe ya telefoni',
+        phonePlaceholder: '0788 000 003 cyangwa +250 788 000 003',
         phoneRequired: 'Shyiramo numero yawe ya telefoni',
         passwordLabel: 'Ijambo ry’ibanga',
         passwordRequired: 'Ijambo ry’ibanga rirakenewe',

@@ -1,9 +1,9 @@
 /**
- * NotificationsPage — Full-page notifications center with comprehensive multi-filter suite.
+ * NotificationsPage - Full-page notifications center with a multi-filter suite.
  * Features:
  *   - Search keyword filter (title & message)
  *   - Status filter tabs (All / Unread / Read)
- *   - Category / Type filter (Stock & Audits, Shop Management, Team/Workers, System)
+ *   - Category / Type filter (Harvests, Orders, Farmers & Buyers, Accounts, System)
  *   - Date Range filter (All Time, Today, Past 7 Days, Past 30 Days)
  *   - Bulk actions: Mark all read, Clear all notifications
  *   - Per-notification quick actions: Toggle Read/Unread, Delete
@@ -20,25 +20,28 @@ import ConfirmDeleteModal from '../components/admin/ConfirmDeleteModal'
 const TYPE_CONFIG = {
   all: { label: 'All Categories', color: 'bg-gray-100 text-gray-700' },
   stock: {
-    label: 'Stock & Audits',
+    label: 'Harvests & Listings',
     badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" />
+        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
       </svg>
     ),
   },
   shop: {
-    label: 'Shop Approvals',
+    label: 'Orders & Requests',
     badge: 'bg-amber-50 text-amber-700 border-amber-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 9l1.5-4h15L21 9M4 9v11h16V9M4 9h16M9 20v-6h6v6" />
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+        <path d="M3 6h18" />
+        <path d="M16 10a4 4 0 0 1-8 0" />
       </svg>
     ),
   },
   team: {
-    label: 'Team & Staff',
+    label: 'Farmers & Buyers',
     badge: 'bg-violet-50 text-violet-700 border-violet-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -47,7 +50,7 @@ const TYPE_CONFIG = {
     ),
   },
   user: {
-    label: 'User Roles',
+    label: 'Accounts & Access',
     badge: 'bg-teal-50 text-teal-700 border-teal-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -56,7 +59,7 @@ const TYPE_CONFIG = {
     ),
   },
   info: {
-    label: 'System & Logs',
+    label: 'System Alerts',
     badge: 'bg-gray-100 text-gray-700 border-gray-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -159,14 +162,14 @@ export default function NotificationsPage({ scope: propScope }) {
             <h1 className="text-2xl sm:text-3xl font-bold text-ink tracking-tight">
               Notifications
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-700 text-white">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-600 text-white">
               {unread} unread
             </span>
           </div>
           <p className="text-sm text-gray-500 mt-1">
             {activeScope === 'system'
-              ? 'System alerts, shop activity, and compliance events.'
-              : 'Inventory movements, worker activity, and stock loss warnings.'}
+              ? 'Platform activity, account changes, and marketplace alerts.'
+              : 'Harvest updates, buyer requests, and account activity.'}
           </p>
         </div>
 
@@ -175,7 +178,7 @@ export default function NotificationsPage({ scope: propScope }) {
           {unread > 0 && (
             <button
               onClick={handleMarkAllRead}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-50 px-3.5 py-2 text-sm font-medium text-brand-700 transition-[transform,background-color,color] duration-150 hover:bg-brand-100 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-50 px-3.5 py-2 text-sm font-medium text-brand-600 transition-[transform,background-color,color] duration-150 hover:bg-brand-100 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
             >
               Mark all as read
             </button>
@@ -235,7 +238,7 @@ export default function NotificationsPage({ scope: propScope }) {
               onClick={() => setStatusFilter('unread')}
               className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
                 statusFilter === 'unread'
-                  ? 'bg-white text-brand-700 shadow-soft'
+                  ? 'bg-white text-brand-600 shadow-soft'
                   : 'text-gray-500 hover:text-ink'
               }`}
             >
@@ -266,11 +269,11 @@ export default function NotificationsPage({ scope: propScope }) {
                 className="text-xs font-semibold bg-white border border-line rounded-lg px-2.5 py-1.5 text-ink outline-none focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25"
               >
                 <option value="all">All Categories</option>
-                <option value="stock">Stock & Audits</option>
-                <option value="shop">Shop Management</option>
-                <option value="team">Team & Workers</option>
-                <option value="user">User Roles</option>
-                <option value="info">System & Logs</option>
+                <option value="stock">Harvests & Listings</option>
+                <option value="shop">Orders & Requests</option>
+                <option value="team">Farmers & Buyers</option>
+                <option value="user">Accounts & Access</option>
+                <option value="info">System Alerts</option>
               </select>
             </div>
 
@@ -294,7 +297,7 @@ export default function NotificationsPage({ scope: propScope }) {
           {isFiltered && (
             <button
               onClick={resetFilters}
-              className="text-xs font-semibold text-brand-700 hover:text-brand-800 underline underline-offset-2"
+              className="text-xs font-semibold text-brand-600 hover:text-brand-800 underline underline-offset-2"
             >
               Reset filters
             </button>
@@ -316,12 +319,12 @@ export default function NotificationsPage({ scope: propScope }) {
             <p className="text-sm text-gray-500 max-w-sm mx-auto mt-1">
               {isFiltered
                 ? 'No notifications match your active filter criteria. Try resetting the filters.'
-                : "You're all caught up! When updates or stock audit alerts occur, they will appear here."}
+                : "You're all caught up! Harvest updates, order activity, and account alerts will appear here."}
             </p>
             {isFiltered && (
               <button
                 onClick={resetFilters}
-                className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-brand-700 px-4 py-2 text-sm font-medium text-white transition-[transform,background-color,color] duration-150 hover:bg-brand-800 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-[transform,background-color,color] duration-150 hover:bg-brand-700 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
               >
                 Clear all filters
               </button>
@@ -335,7 +338,7 @@ export default function NotificationsPage({ scope: propScope }) {
               <div
                 key={n.id}
                 className={`group rounded-2xl border transition-all duration-200 p-4 sm:p-5 flex items-start gap-4 shadow-soft hover:shadow-md ${
-                  n.read ? 'border-line bg-card' : 'border-brand-700/30 bg-brand-50/20'
+                  n.read ? 'border-line bg-card' : 'border-brand-600/30 bg-brand-50/20'
                 }`}
               >
                 {/* Category Icon Badge */}
@@ -359,7 +362,7 @@ export default function NotificationsPage({ scope: propScope }) {
                     </span>
 
                     {!n.read && (
-                      <span className="w-2 h-2 rounded-full bg-brand-700 inline-block" title="Unread" />
+                      <span className="w-2 h-2 rounded-full bg-brand-600 inline-block" title="Unread" />
                     )}
 
                     <span className="text-xs text-gray-400 ml-auto">
@@ -379,7 +382,7 @@ export default function NotificationsPage({ scope: propScope }) {
                   <button
                     onClick={() => (n.read ? markUnread(n.id) : markRead(n.id))}
                     title={n.read ? 'Mark as unread' : 'Mark as read'}
-                    className="rounded-full p-1.5 text-gray-400 transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-brand-700 active:scale-[0.98]"
+                    className="rounded-full p-1.5 text-gray-400 transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-brand-600 active:scale-[0.98]"
                   >
                     {n.read ? (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

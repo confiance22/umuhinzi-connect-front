@@ -1,7 +1,6 @@
 /**
- * PermissionsPage — read-only catalog of every fine-grained privilege
- * (Soma Connect design port). Search / category / status filters + sortable
- * DataTable.
+ * PermissionsPage — read-only catalog of every Umuhinzi Connect privilege.
+ * Search / category / status filters + sortable DataTable.
  */
 import React, { useState, useEffect, useMemo } from 'react'
 import { Table } from '../../../components/common/Table'
@@ -140,9 +139,9 @@ export const PermissionsPage = () => {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">USER MANAGEMENT</span>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">ACCESS CONTROL</span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-1">Permissions</h1>
-          <p className="text-sm text-muted mt-1">Fine-grained privileges that power every role.</p>
+          <p className="text-sm text-muted mt-1">Fine-grained privileges granted to farmer and buyer roles.</p>
         </div>
       </div>
 

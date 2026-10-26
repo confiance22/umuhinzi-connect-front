@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Check, ChevronDown, Languages } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
+import EarthIcon from './EarthIcon'
 
 const options = [
   { code: 'en', label: 'lang.enName' },
@@ -38,13 +39,10 @@ export default function LanguageToggle({ className = '' }) {
         aria-label={t('common.toggleLanguage')}
         aria-haspopup="menu"
         aria-expanded={open}
-        className={`inline-flex h-9 items-center gap-1.5 rounded-full border border-black/10 bg-white/70 px-2.5 text-[11px] font-semibold tracking-wide text-ink/70 transition-colors hover:border-brand-500/40 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:border-brand-400/40 dark:hover:text-brand-300 ${className}`}
+        title={t('common.toggleLanguage')}
+        className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/70 text-ink/70 transition-colors hover:border-brand-500/40 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:border-brand-400/40 dark:hover:text-brand-300 ${className}`}
       >
-        <Languages className="size-3.5" />
-        <span>{lang === 'en' ? t('lang.en') : t('lang.rw')}</span>
-        <ChevronDown
-          className={`size-3 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-        />
+        <EarthIcon className="size-[19px]" />
       </button>
 
       {open && (

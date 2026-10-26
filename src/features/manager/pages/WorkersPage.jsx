@@ -266,7 +266,7 @@ export const WorkersPage = () => {
         disabled={busy || !worker.enabled}
         onClick={() => handleToggleStockIn(worker, !on)}
         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline focus:outline-2 focus:outline-brand-500/40 disabled:opacity-50 disabled:pointer-events-none ${
-          on ? 'bg-brand-700' : 'bg-ink/15'
+          on ? 'bg-brand-600' : 'bg-ink/15'
         }`}
       >
         <span
@@ -405,7 +405,7 @@ export const WorkersPage = () => {
             setEditingWorker(null)
             setIsModalOpen(true)
           }}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-700 text-white text-sm font-medium hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           New Team Member
         </button>

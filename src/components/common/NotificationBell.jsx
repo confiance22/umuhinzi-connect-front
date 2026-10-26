@@ -10,7 +10,7 @@ import { notificationApi } from '../../api/notificationApi'
 import { ROUTE_PATHS } from '../../constants/routePaths'
 
 const TYPE_STYLES = {
-  user: 'bg-brand-700/15 text-brand-700',
+  user: 'bg-brand-600/15 text-brand-600',
   team: 'bg-violet-100 text-violet-600',
   shop: 'bg-amber-100 text-amber-600',
   stock: 'bg-emerald-100 text-emerald-600',
@@ -35,7 +35,8 @@ const TYPE_ICON = {
   ),
   stock: (
     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10" />
+      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z" />
+      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
     </svg>
   ),
   info: (
@@ -63,8 +64,15 @@ export default function NotificationBell({ scope = 'system' }) {
     const onClick = (e) => {
       if (ref.current && !ref.current.contains(e.target)) setOpen(false)
     }
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
     document.addEventListener('mousedown', onClick)
-    return () => document.removeEventListener('mousedown', onClick)
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.removeEventListener('mousedown', onClick)
+      document.removeEventListener('keydown', onKeyDown)
+    }
   }, [])
 
   const fullPageHref =
@@ -75,11 +83,12 @@ export default function NotificationBell({ scope = 'system' }) {
       <button
         onClick={() => setOpen((o) => !o)}
         aria-label="Notifications"
+        aria-expanded={open}
         className="relative w-9 h-9 rounded-full flex items-center justify-center text-gray-400 hover:text-ink hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
       >
         {BellIcon}
         {unread > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-brand-700 text-white text-xs font-bold flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center">
             {unread > 9 ? '9+' : unread}
           </span>
         )}
@@ -89,12 +98,12 @@ export default function NotificationBell({ scope = 'system' }) {
         <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-card rounded-2xl shadow-soft border border-line overflow-hidden z-50 animate-[fadeIn_0.15s_ease]">
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
             <p className="text-sm font-semibold text-ink">
-              {scope === 'system' ? 'System notifications' : 'Shop notifications'}
+              {scope === 'system' ? 'Platform notifications' : 'Your notifications'}
             </p>
             {unread > 0 ? (
               <button
                 onClick={markAllRead}
-                className="text-xs font-semibold text-brand-700 hover:text-brand-800"
+                className="text-xs font-semibold text-brand-600 hover:text-brand-700"
               >
                 Mark all read
               </button>
@@ -134,12 +143,11 @@ export default function NotificationBell({ scope = 'system' }) {
             )}
           </div>
 
-          {/* ── Direct link to full Notifications page ── */}
           <div className="p-2.5 border-t border-gray-100 bg-gray-50/70">
             <Link
               to={fullPageHref}
               onClick={() => setOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-brand-700 hover:bg-brand-50 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+              className="w-full inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
             >
               <span>View all notifications</span>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

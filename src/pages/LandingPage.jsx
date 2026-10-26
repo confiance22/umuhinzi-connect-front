@@ -8,7 +8,7 @@ import Categories from '../components/landing/Categories'
 import HarvestPreview from '../components/landing/HarvestPreview'
 import Story from '../components/landing/Story'
 import CTA from '../components/landing/CTA'
-import Footer from '../components/landing/Footer'
+import PublicFooter from '../components/public/PublicFooter'
 
 export default function LandingPage() {
   return (
@@ -25,7 +25,7 @@ export default function LandingPage() {
         <Story />
         <CTA />
       </div>
-      <Footer />
+      <PublicFooter />
     </div>
   )
 }

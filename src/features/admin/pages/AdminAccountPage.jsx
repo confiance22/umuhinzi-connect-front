@@ -1,16 +1,12 @@
 /**
- * AdminAccountPage — signed-in Super Admin's profile (Soma admin account port).
- * Profile Overview (read-only) + Change Password tabs. Password changes are
- * written straight to the backend (POST /admin/me/password).
+ * AdminAccountPage — signed-in super admin profile and password settings.
  */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAuthContext } from '../../../context/AuthContext'
 import { useToastContext } from '../../../context/ToastContext'
 import { adminApi } from '../../../api/adminApi'
-import { workerApi } from '../../../api/workerApi'
-import UsernameField, { usernameValid } from '../../../components/common/UsernameField'
-import { ROLE_LABELS, ROLES } from '../../../constants/roles'
+import { ROLE_LABELS } from '../../../constants/roles'
 
 const initialsOf = (name) =>
   (name || 'User')
@@ -53,7 +49,7 @@ const EyeIcon = ({ shown }) => (
 const TABS = [
   {
     id: 'overview',
-    label: 'Profile Overview',
+    label: 'Profile',
     icon: 'M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z',
   },
   {
@@ -72,37 +68,45 @@ export const AdminAccountPage = () => {
   const activeTab = TABS.some((t) => t.id === tabFromUrl) ? tabFromUrl : 'overview'
   const setTab = (id) => setSearchParams(id === 'overview' ? {} : { tab: id }, { replace: true })
 
-  const [pwForm, setPwForm] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' })
-  const [pwShow, setPwShow] = useState({ old: false, next: false, confirm: false })
+  const [profileForm, setProfileForm] = useState({ name: '', phone: '', email: '' })
+  const [profileLoading, setProfileLoading] = useState(false)
+  const [profileError, setProfileError] = useState('')
+
+  const [pwForm, setPwForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
+  const [pwShow, setPwShow] = useState({ current: false, next: false, confirm: false })
   const [pwError, setPwError] = useState('')
   const [pwLoading, setPwLoading] = useState(false)
 
-  const [username, setUsername] = useState(user?.username || '')
-  const [usernameSaving, setUsernameSaving] = useState(false)
-  const [usernameError, setUsernameError] = useState('')
+  useEffect(() => {
+    setProfileForm({
+      name: user?.name || user?.full_name || '',
+      phone: user?.phone || user?.username || '',
+      email: user?.email || '',
+    })
+  }, [user])
 
-  const handleSaveUsername = async (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault()
-    setUsernameError('')
-    const next = String(username || '').trim()
-    if (!usernameValid(next)) {
-      setUsernameError('Use 3–30 letters, numbers, dots, dashes or underscores.')
-      return
-    }
-    if (next.toLowerCase() === String(user?.username || '').toLowerCase()) return
-    setUsernameSaving(true)
+    setProfileError('')
+    setProfileLoading(true)
     try {
-      const updated =
-        user?.role === ROLES.SHOP_MANAGER
-          ? await workerApi.updateSelf({ username: next })
-          : await adminApi.updateSelf({ username: next })
-      setUser({ ...user, ...updated })
-      setUsername(updated.username || next)
-      showToast('Username updated. Sign in with it from now on.', 'success')
+      const updated = await adminApi.updateSelf({
+        name: profileForm.name.trim(),
+        phone: profileForm.phone.trim(),
+        email: profileForm.email.trim(),
+      })
+      const nextUser = {
+        ...user,
+        ...updated,
+        name: updated?.name || updated?.full_name || profileForm.name.trim(),
+        username: updated?.phone || profileForm.phone.trim(),
+      }
+      setUser(nextUser)
+      showToast('Profile updated', 'success')
     } catch (err) {
-      setUsernameError(err?.message || 'Could not update your username')
+      setProfileError(err?.message || 'Could not update your profile')
     } finally {
-      setUsernameSaving(false)
+      setProfileLoading(false)
     }
   }
 
@@ -119,10 +123,13 @@ export const AdminAccountPage = () => {
     }
     setPwLoading(true)
     try {
-      await adminApi.changePassword({ currentPassword: pwForm.oldPassword, newPassword: pwForm.newPassword })
+      await adminApi.changePassword({
+        currentPassword: pwForm.currentPassword,
+        newPassword: pwForm.newPassword,
+      })
       showToast('Password changed successfully', 'success')
-      setPwForm({ oldPassword: '', newPassword: '', confirmPassword: '' })
-      setPwShow({ old: false, next: false, confirm: false })
+      setPwForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
+      setPwShow({ current: false, next: false, confirm: false })
       setTab('overview')
     } catch (err) {
       setPwError(err?.message || 'Failed to change password')
@@ -132,11 +139,12 @@ export const AdminAccountPage = () => {
   }
 
   const primaryRoleLabel = ROLE_LABELS[user?.role] || 'Super Admin'
+  const memberSince = user?.createdAt || user?.created_at
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-5">
-        <span className="w-20 h-20 rounded-[1.75rem] bg-gradient-to-br from-brand-600 to-brand-700 text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-lg shadow-brand-700/40">
+        <span className="w-20 h-20 rounded-[1.75rem] bg-brand-600 text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-lg shadow-brand-600/25">
           {initialsOf(user?.name || user?.username)}
         </span>
         <div className="min-w-0">
@@ -147,7 +155,7 @@ export const AdminAccountPage = () => {
             <svg className="w-4 h-4 shrink-0 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            Platform Administrator · {primaryRoleLabel}
+            Umuhinzi Connect · {primaryRoleLabel}
           </p>
         </div>
       </div>
@@ -175,59 +183,80 @@ export const AdminAccountPage = () => {
         </div>
 
         {activeTab === 'overview' && (
-          <div className="p-6 sm:p-8 space-y-5" key="overview">
+          <div className="p-6 sm:p-8 space-y-6">
             <div>
-              <h2 className="text-lg font-semibold tracking-tight text-ink">Personal details</h2>
-              <p className="text-sm text-gray-400 mt-0.5">Your platform console account identity.</p>
+              <h2 className="text-lg font-semibold tracking-tight text-ink">Profile details</h2>
+              <p className="text-sm text-gray-400 mt-0.5">Your super admin account identity.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <DetailCard label="Full Name" value={user?.name} />
+              <DetailCard label="Phone" value={user?.phone || user?.username} />
               <DetailCard label="Email Address" value={user?.email} />
-              <DetailCard label="Username" value={user?.username} />
-              <DetailCard label="Shop ID" value={user?.shopId} />
               <DetailCard label="Role" value={primaryRoleLabel} />
+              <DetailCard
+                label="Member Since"
+                value={memberSince ? new Date(memberSince).toLocaleDateString() : null}
+              />
             </div>
 
-            <form
-              onSubmit={handleSaveUsername}
-              className="border-t border-line pt-5 flex flex-col sm:flex-row sm:items-end gap-4"
-            >
-              <div className="flex-1">
-                <UsernameField
-                  value={username}
-                  onChange={setUsername}
-                  currentUsername={user?.username}
-                  excludeId={user?.id}
-                  label="Edit sign-in username"
-                  hint="Your username (or email) is what you type at sign-in. You can change it any time — it must be unique."
+            <form onSubmit={handleSaveProfile} className="border-t border-line pt-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className={fieldLabelClass}>Full Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={profileForm.name}
+                    onChange={(e) => setProfileForm((p) => ({ ...p, name: e.target.value }))}
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label className={fieldLabelClass}>Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={profileForm.phone}
+                    onChange={(e) => setProfileForm((p) => ({ ...p, phone: e.target.value }))}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className={fieldLabelClass}>Email Address</label>
+                <input
+                  type="email"
+                  value={profileForm.email}
+                  onChange={(e) => setProfileForm((p) => ({ ...p, email: e.target.value }))}
+                  className={inputClass}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={
-                  usernameSaving ||
-                  !usernameValid(String(username || '').trim()) ||
-                  String(username || '').trim().toLowerCase() === String(user?.username || '').toLowerCase()
-                }
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-brand-700 text-white hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
-              >
-                {usernameSaving ? 'Saving…' : 'Save username'}
-              </button>
+
+              {profileError && (
+                <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3.5 py-2.5">
+                  {profileError}
+                </p>
+              )}
+
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={profileLoading}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                >
+                  {profileLoading ? 'Saving…' : 'Save profile'}
+                </button>
+              </div>
             </form>
-            {usernameError && (
-              <p className="text-xs text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3.5 py-2.5">
-                {usernameError}
-              </p>
-            )}
           </div>
         )}
 
         {activeTab === 'password' && (
-          <div className="p-6 sm:p-8" key="password">
+          <div className="p-6 sm:p-8">
             <div className="mb-6">
               <h2 className="text-lg font-semibold tracking-tight text-ink">Change password</h2>
-              <p className="text-sm text-gray-400 mt-0.5">Update your credentials to keep the console secure.</p>
+              <p className="text-sm text-gray-400 mt-0.5">Update the password you use to sign in.</p>
             </div>
 
             <form onSubmit={handleChangePassword} className="space-y-5">
@@ -235,20 +264,20 @@ export const AdminAccountPage = () => {
                 <label className={fieldLabelClass}>Current Password</label>
                 <div className="relative">
                   <input
-                    type={pwShow.old ? 'text' : 'password'}
+                    type={pwShow.current ? 'text' : 'password'}
                     placeholder="••••••••"
-                    value={pwForm.oldPassword}
-                    onChange={(e) => setPwForm((p) => ({ ...p, oldPassword: e.target.value }))}
+                    value={pwForm.currentPassword}
+                    onChange={(e) => setPwForm((p) => ({ ...p, currentPassword: e.target.value }))}
                     required
                     className={`${inputClass} pr-11`}
                   />
                   <button
                     type="button"
-                    onClick={() => setPwShow((p) => ({ ...p, old: !p.old }))}
+                    onClick={() => setPwShow((p) => ({ ...p, current: !p.current }))}
                     className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label={pwShow.old ? 'Hide password' : 'Show password'}
+                    aria-label={pwShow.current ? 'Hide password' : 'Show password'}
                   >
-                    <EyeIcon shown={pwShow.old} />
+                    <EyeIcon shown={pwShow.current} />
                   </button>
                 </div>
               </div>
@@ -259,7 +288,7 @@ export const AdminAccountPage = () => {
                   <div className="relative">
                     <input
                       type={pwShow.next ? 'text' : 'password'}
-                      placeholder="••••••••"
+                      placeholder="At least 8 characters"
                       value={pwForm.newPassword}
                       onChange={(e) => setPwForm((p) => ({ ...p, newPassword: e.target.value }))}
                       required
@@ -280,7 +309,7 @@ export const AdminAccountPage = () => {
                   <div className="relative">
                     <input
                       type={pwShow.confirm ? 'text' : 'password'}
-                      placeholder="••••••••"
+                      placeholder="Repeat password"
                       value={pwForm.confirmPassword}
                       onChange={(e) => setPwForm((p) => ({ ...p, confirmPassword: e.target.value }))}
                       required
@@ -304,7 +333,7 @@ export const AdminAccountPage = () => {
                 <button
                   type="submit"
                   disabled={pwLoading}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-brand-700 text-white hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
                 >
                   {pwLoading ? 'Updating…' : 'Update Password'}
                 </button>

@@ -1,6 +1,7 @@
-import { MapPin } from 'lucide-react'
+import { Mail, MapPin, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { BrandMark } from '../common/Brand'
+import SocialLinks from '../public/SocialLinks'
 import { useLanguage } from '../../context/LanguageContext'
 
 export default function Footer() {
@@ -10,8 +11,10 @@ export default function Footer() {
   const platformLinks = [
     { to: '/', label: t('nav.home') },
     { to: '/harvests', label: t('nav.harvests') },
-    { to: '/how-it-works', label: t('nav.howItWorks') },
-    { to: '/market-prices', label: t('nav.marketPrices') }
+    { to: '/platform/how-it-works', label: t('nav.howItWorks') },
+    { to: '/market-prices', label: t('nav.marketPrices') },
+    { to: '/about', label: t('nav.about') },
+    { to: '/contact', label: t('nav.contact') }
   ]
 
   return (
@@ -32,6 +35,23 @@ export default function Footer() {
             <p className="mt-4 max-w-sm text-xs leading-relaxed text-white/35">
               {t('footer.tagline')}
             </p>
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-white/40">
+              <a
+                href={`mailto:${t('contact.emailValue')}`}
+                className="inline-flex items-center gap-2 transition-colors hover:text-brand-300"
+              >
+                <Mail size={12} />
+                {t('contact.emailValue')}
+              </a>
+              <a
+                href={`tel:${t('contact.phoneValue').replace(/\s/g, '')}`}
+                className="inline-flex items-center gap-2 transition-colors hover:text-brand-300"
+              >
+                <Phone size={12} />
+                {t('contact.phoneValue')}
+              </a>
+            </div>
+            <SocialLinks variant="dark" className="mt-4" />
           </div>
 
           <nav className="flex flex-wrap items-center gap-x-5 gap-y-3" aria-label="Footer navigation">

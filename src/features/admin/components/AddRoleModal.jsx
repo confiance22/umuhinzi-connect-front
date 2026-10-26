@@ -67,7 +67,7 @@ export const AddRoleModal = ({ isOpen, onClose, onSubmit, editingRole }) => {
         </button>
 
         <div className="mb-6 pr-8">
-          <span className="w-11 h-11 rounded-2xl bg-brand-700/15 text-ink flex items-center justify-center mb-3">
+          <span className="w-11 h-11 rounded-2xl bg-brand-600/15 text-ink flex items-center justify-center mb-3">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
               <path d="M12 8v6M9 11h6" />
@@ -102,7 +102,7 @@ export const AddRoleModal = ({ isOpen, onClose, onSubmit, editingRole }) => {
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-full text-sm font-medium bg-brand-700 text-white hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+              className="px-6 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
             >
               {isEditMode ? 'Save changes' : 'Create role'}
             </button>

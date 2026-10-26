@@ -1,7 +1,6 @@
 /**
  * ManagePermissionsModal — assign permissions to a role.
- * Searchable checkboxes grouped by StockRwa module, per-category "select all".
- * Ported from the Soma Connect permissions dialog.
+ * Searchable checkboxes grouped by platform module, with per-category select all.
  */
 import React, { useEffect } from 'react'
 import { createPortal } from 'react-dom'
@@ -81,7 +80,7 @@ export const ManagePermissionsModal = ({
           </button>
 
           <div className="flex items-center gap-3.5 pr-10">
-            <span className="w-11 h-11 rounded-2xl bg-brand-700/15 text-brand-700 flex items-center justify-center shrink-0">{MatchIcon}</span>
+            <span className="w-11 h-11 rounded-2xl bg-brand-600/15 text-brand-700 flex items-center justify-center shrink-0">{MatchIcon}</span>
             <div className="min-w-0">
               <h3 className="text-sm font-semibold text-ink">Manage permissions</h3>
               <p className="text-xs text-muted mt-0.5 truncate">
@@ -131,7 +130,7 @@ export const ManagePermissionsModal = ({
                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:bg-page hover:border-line cursor-pointer transition-colors"
                       >
                         <input type="checkbox" checked={selectedIds.has(perm.id)} onChange={() => onToggle(perm.id)} className="peer sr-only" />
-                        <span className="w-5 h-5 rounded-md border-2 border-line bg-white text-transparent peer-checked:bg-brand-700 peer-checked:border-brand-700 peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-brand-700/30 flex items-center justify-center shrink-0 transition-all duration-150">
+                        <span className="w-5 h-5 rounded-md border-2 border-line bg-white text-transparent peer-checked:bg-brand-600 peer-checked:border-brand-600 peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-brand-600/30 flex items-center justify-center shrink-0 transition-all duration-150">
                           <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
@@ -162,7 +161,7 @@ export const ManagePermissionsModal = ({
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="px-5 py-2 rounded-full text-sm font-medium bg-brand-700 text-white hover:bg-brand-800 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+            className="px-5 py-2 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             {saving ? 'Saving…' : 'Save permissions'}
           </button>

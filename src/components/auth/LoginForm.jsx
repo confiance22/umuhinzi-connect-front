@@ -60,18 +60,15 @@ export default function LoginForm() {
       throw new Error(t('auth.login.errors.missingToken'))
     }
 
+    const { token, ...profile } = response
     const authUser = {
-      id: response.id,
-      name: response.name || response.username || response.email,
-      username: response.username || null,
-      email: response.email,
+      ...profile,
+      name: response.name || response.full_name || response.username || response.email || response.phone,
+      username: response.username || response.phone || null,
       role: response.role || 'farmer',
-      shopId: response.shopId || response.entityId || null,
-      otpEnabled: Boolean(response.otpEnabled),
-      stockInEnabled: Boolean(response.stockInEnabled),
     }
 
-    login(response.token, authUser)
+    login(token, authUser)
 
     const firstName = (authUser.name || authUser.email || 'there').split(/[\s@_.]+/).filter(Boolean)[0] || 'there'
     showToast(t('auth.login.welcomeToast').replace('{name}', firstName), 'success')

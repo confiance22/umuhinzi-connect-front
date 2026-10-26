@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../../context/LanguageContext'
+import HeroSeedLibrary from './HeroSeedLibrary'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -76,7 +77,7 @@ export default function Hero() {
                 {t('common.browseHarvests')}
               </Link>
               <Link
-                to="/how-it-works"
+                to="/platform/how-it-works"
                 className="inline-flex items-center justify-center rounded-full border border-[#0f3d25]/20 px-7 py-3.5 text-sm font-medium text-ink/70 transition-colors hover:border-brand-700 hover:text-brand-700 dark:border-white/20 dark:text-white/65 dark:hover:border-brand-300 dark:hover:text-brand-300"
               >
                 {t('nav.howItWorks')}
@@ -103,87 +104,9 @@ export default function Hero() {
             animate="visible"
             custom={0.2}
             variants={fadeUp}
-            className="relative mx-auto w-full max-w-[420px] lg:max-w-none lg:pl-8"
+            className="relative mx-auto w-full max-w-[460px] lg:max-w-none lg:pl-8"
           >
-            <div
-              aria-hidden="true"
-              className="absolute -right-5 -top-7 size-28 rounded-full border border-[#0f3d25]/15 dark:border-white/15"
-            />
-            <div className="absolute -left-4 bottom-24 z-10 hidden rotate-[-3deg] rounded-2xl border border-[#0f3d25] bg-[#d9f99d] px-4 py-3 text-[8px] font-bold uppercase leading-[1.5] tracking-[0.18em] text-[#0f3d25] dark:border-brand-300/40 dark:bg-[#13301f] dark:text-brand-200 sm:block">
-              {t('landing.hero.directTrade')}
-              <br />
-              {t('landing.hero.noMiddlemen')}
-            </div>
-
-            <div className="relative overflow-hidden rounded-t-[230px] rounded-b-[32px] border border-[#0f3d25]/20 bg-[#fcf9f1] px-6 pb-6 pt-20 shadow-[14px_14px_0_#e2dac7] dark:border-white/15 dark:bg-[#0b1710] dark:shadow-[14px_14px_0_#0d1a11] sm:px-7">
-              <div className="mx-auto flex size-20 flex-col items-center justify-center rounded-full bg-[#0f3d25] text-center text-[#d9f99d] dark:bg-[#d9f99d] dark:text-[#0f3d25]">
-                <span className="text-[8px] font-semibold uppercase tracking-[0.2em]">
-                  {t('landing.hero.market')}
-                </span>
-                <span className="mt-0.5 text-[10px] font-bold uppercase tracking-[0.12em]">
-                  {t('landing.hero.today')}
-                </span>
-              </div>
-
-              <p className="mt-5 text-center text-[8px] font-semibold uppercase tracking-[0.24em] text-ink/40 dark:text-white/35">
-                {t('landing.hero.note')}
-              </p>
-
-              <div className="mt-5">
-                {marketRows.map((row) => (
-                  <div
-                    key={row.crop}
-                    className="grid grid-cols-[1fr_auto] gap-4 border-b border-dashed border-black/15 py-4 last:border-b-0 dark:border-white/15"
-                  >
-                    <div>
-                      <p className="text-sm font-semibold">{row.crop}</p>
-                      <p className="mt-0.5 text-[10px] text-ink/45 dark:text-white/40">
-                        {row.region}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm font-semibold tabular-nums">
-                        {row.price}
-                        <span className="ml-0.5 text-[10px] font-normal text-ink/40 dark:text-white/35">
-                          {t('landing.hero.unit')}
-                        </span>
-                      </p>
-                      <p
-                        className={`mt-0.5 text-[10px] font-semibold tabular-nums ${
-                          row.up
-                            ? 'text-emerald-700 dark:text-emerald-400'
-                            : 'text-rose-600 dark:text-rose-400'
-                        }`}
-                      >
-                        {row.change}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-2 rounded-[18px] bg-[#0f3d25] px-4 py-3.5 text-[#f7f3e9] dark:bg-[#13301f]">
-                <div className="flex items-center justify-between gap-4">
-                  <span className="text-[8px] font-semibold uppercase tracking-[0.18em] text-white/55">
-                    {t('landing.hero.basketAverage')}
-                  </span>
-                  <span className="text-xs font-semibold tabular-nums">RWF 460 /kg</span>
-                </div>
-                <p className="mt-1 text-[9px] text-[#d9f99d]/75 dark:text-brand-300/80">
-                  {t('landing.hero.upFromLastSeason')}
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-5 flex items-center justify-between gap-4 px-1 text-[8px] uppercase tracking-[0.16em] text-ink/40 dark:text-white/35">
-              <span>{t('landing.hero.source')}</span>
-              <Link
-                to="/market-prices"
-                className="rounded-full border-b border-transparent pb-0.5 text-ink/65 transition-colors hover:border-brand-700 hover:text-brand-700 dark:text-white/55 dark:hover:border-brand-300 dark:hover:text-brand-300"
-              >
-                {t('landing.hero.allPrices')}
-              </Link>
-            </div>
+            <HeroSeedLibrary rows={marketRows} />
           </motion.div>
         </div>
 
