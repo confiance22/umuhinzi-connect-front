@@ -24,7 +24,7 @@ export default {
         ink: '#0d0d0d',
         'ink-soft': '#1a1a1a',
         page: '#f6f1e6',
-        card: '#f6f1e6',
+        card: '#ffffff',
         line: '#e7e7e6',
         muted: '#6b7280',
         danger: {

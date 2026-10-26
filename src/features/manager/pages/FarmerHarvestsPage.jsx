@@ -1,24 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { harvestApi } from '../../../api/harvestApi'
 import CustomSelect from '../../../components/common/CustomSelect'
 import { useLanguage } from '../../../context/LanguageContext'
 import { useToastContext } from '../../../context/ToastContext'
 import { ROUTE_PATHS } from '../../../constants/routePaths'
+import { RowActionMenu, DockIcons } from '../../../components/admin/RowActions'
 import { formatCurrency } from '../../../utils/formatCurrency'
 import { formatDate } from '../../../utils/formatDate'
-
-const STATUS_STYLES = {
-  active: 'bg-brand-50 text-brand-700',
-  sold: 'bg-sky-50 text-sky-600',
-  hidden: 'bg-gray-100 text-gray-500',
-  expired: 'bg-amber-50 text-amber-600'
-}
 
 const STATUS_IDS = ['all', 'active', 'sold', 'hidden', 'expired']
 
 const inputClass =
-  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20'
+  'h-11 w-full rounded-xl border border-line bg-white px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20'
 
 const FilterField = ({ label, children }) => (
   <label className="block">
@@ -43,7 +37,13 @@ const toPayload = (harvest, overrides = {}) => ({
 const StatusBadge = ({ status, label }) => (
   <span
     className={`inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold ${
-      STATUS_STYLES[status] || STATUS_STYLES.hidden
+      status === 'active'
+        ? 'bg-brand-50 text-brand-700'
+        : status === 'sold'
+        ? 'bg-sky-50 text-sky-600'
+        : status === 'hidden'
+        ? 'bg-gray-100 text-gray-500'
+        : 'bg-amber-50 text-amber-600'
     }`}
   >
     {label}
@@ -59,7 +59,7 @@ export const FarmerHarvestsPage = () => {
   const [filter, setFilter] = useState('all')
   const [search, setSearch] = useState('')
   const [busyId, setBusyId] = useState(null)
-  const [filtersOpen, setFiltersOpen] = useState(true)
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const [crop, setCrop] = useState('')
   const [district, setDistrict] = useState('')
   const [fromDate, setFromDate] = useState('')
@@ -235,8 +235,15 @@ export const FarmerHarvestsPage = () => {
     }
   }
 
+  const currencyParts = (value) => {
+    const formatted = formatCurrency(value)
+    const match = formatted.match(/^(\D*?)([\d,.\s]+)(.*)$/)
+    if (!match) return { symbol: '', number: formatted }
+    return { symbol: (match[1] || match[3] || '').trim(), number: match[2].trim() }
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-[#f6f1e6]">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <span className="inline-block rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-brand-700">
@@ -261,26 +268,22 @@ export const FarmerHarvestsPage = () => {
         </Link>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft">
-        <div className="flex flex-col gap-3 border-b border-line p-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex gap-1.5 overflow-x-auto">
+      <div className="rounded-2xl border border-line bg-white shadow-sm">
+        <div className="flex flex-col gap-4 border-b border-line px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="inline-flex w-fit rounded-xl border border-line bg-page p-1">
             {STATUS_IDS.map((id) => (
               <button
                 key={id}
                 type="button"
                 onClick={() => setFilter(id)}
-                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-xs font-semibold transition-colors ${
+                className={`whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition-colors ${
                   filter === id
-                    ? 'bg-ink text-white'
-                    : 'text-muted hover:bg-page hover:text-ink'
+                    ? 'bg-white text-brand-700 shadow-sm'
+                    : 'text-muted hover:text-ink'
                 }`}
               >
                 {t(`portal.farmer.common.${id}`)}
-                <span
-                  className={`ml-1.5 tabular-nums ${
-                    filter === id ? 'text-white/60' : 'text-gray-400'
-                  }`}
-                >
+                <span className="ml-1.5 tabular-nums text-xs text-gray-400">
                   {counts[id] || 0}
                 </span>
               </button>
@@ -303,7 +306,7 @@ export const FarmerHarvestsPage = () => {
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder={t('portal.farmer.harvests.searchPlaceholder')}
-                className="h-11 w-full rounded-xl border border-line bg-page pl-10 pr-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20"
+                className="h-11 w-full rounded-xl border border-line bg-white pl-10 pr-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20"
               />
             </label>
             <button
@@ -313,13 +316,13 @@ export const FarmerHarvestsPage = () => {
               className={`inline-flex h-11 items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold transition-colors ${
                 filtersOpen || advancedCount
                   ? 'border-brand-500/30 bg-brand-50 text-brand-700'
-                  : 'border-line bg-page text-muted hover:text-ink'
+                  : 'border-line bg-white text-muted hover:text-ink'
               }`}
             >
               <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M4 6h16M7 12h10M10 18h4" strokeLinecap="round" />
               </svg>
-              {t('portal.farmer.common.filters')}
+              Filters
               {advancedCount > 0 && (
                 <span className="rounded-full bg-brand-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
                   {advancedCount}
@@ -331,107 +334,51 @@ export const FarmerHarvestsPage = () => {
 
         {filtersOpen && (
           <div className="border-b border-line bg-page/40 p-4">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5">
-              <FilterField label={t('portal.farmer.common.crop')}>
-                <CustomSelect
-                  value={crop}
-                  onChange={setCrop}
-                  options={cropOptions}
-                  tone="public"
-                />
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+              <FilterField label="Crop">
+                <CustomSelect value={crop} onChange={setCrop} options={cropOptions} tone="public" />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.district')}>
-                <CustomSelect
-                  value={district}
-                  onChange={setDistrict}
-                  options={districtOptions}
-                  tone="public"
-                />
+              <FilterField label="District">
+                <CustomSelect value={district} onChange={setDistrict} options={districtOptions} tone="public" />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.fromDate')}>
-                <input
-                  type="date"
-                  value={fromDate}
-                  onChange={(event) => setFromDate(event.target.value)}
-                  className={inputClass}
-                />
+              <FilterField label="Sort By">
+                <CustomSelect value={sort} onChange={setSort} options={sortOptions} tone="public" />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.toDate')}>
-                <input
-                  type="date"
-                  value={toDate}
-                  onChange={(event) => setToDate(event.target.value)}
-                  className={inputClass}
-                />
+            </div>
+            <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2">
+              <FilterField label="From Date">
+                <input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className={inputClass} />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.sortBy')}>
-                <CustomSelect
-                  value={sort}
-                  onChange={setSort}
-                  options={sortOptions}
-                  tone="public"
-                />
+              <FilterField label="To Date">
+                <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className={inputClass} />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.minPrice')}>
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={minPrice}
-                  onChange={(event) => setMinPrice(event.target.value)}
-                  placeholder="0"
-                  className={inputClass}
-                />
+            </div>
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <FilterField label="Min Price">
+                <input type="number" min="0" step="any" value={minPrice} onChange={(event) => setMinPrice(event.target.value)} placeholder="0" className={inputClass} />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.maxPrice')}>
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={maxPrice}
-                  onChange={(event) => setMaxPrice(event.target.value)}
-                  placeholder="0"
-                  className={inputClass}
-                />
+              <FilterField label="Max Price">
+                <input type="number" min="0" step="any" value={maxPrice} onChange={(event) => setMaxPrice(event.target.value)} placeholder="0" className={inputClass} />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.minQuantity')}>
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={minQuantity}
-                  onChange={(event) => setMinQuantity(event.target.value)}
-                  placeholder="0"
-                  className={inputClass}
-                />
+              <FilterField label="Min Qty">
+                <input type="number" min="0" step="any" value={minQuantity} onChange={(event) => setMinQuantity(event.target.value)} placeholder="0" className={inputClass} />
               </FilterField>
-              <FilterField label={t('portal.farmer.common.maxQuantity')}>
-                <input
-                  type="number"
-                  min="0"
-                  step="any"
-                  value={maxQuantity}
-                  onChange={(event) => setMaxQuantity(event.target.value)}
-                  placeholder="0"
-                  className={inputClass}
-                />
+              <FilterField label="Max Qty">
+                <input type="number" min="0" step="any" value={maxQuantity} onChange={(event) => setMaxQuantity(event.target.value)} placeholder="0" className={inputClass} />
               </FilterField>
             </div>
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
               <p className="text-xs text-muted">
-                {t('portal.farmer.common.showing')} <span className="font-semibold text-ink">{visible.length}</span>{' '}
-                {t('portal.farmer.common.of')} <span className="font-semibold text-ink">{harvests.length}</span>{' '}
-                {t('portal.farmer.common.result')}
+                Showing <span className="font-semibold text-ink">{visible.length}</span> of{' '}
+                <span className="font-semibold text-ink">{harvests.length}</span> results
               </p>
               <button
                 type="button"
                 onClick={clearFilters}
-                disabled={
-                  !advancedCount && !search && filter === 'all' && sort === 'newest'
-                }
+                disabled={!advancedCount && !search && filter === 'all' && sort === 'newest'}
                 className="text-xs font-semibold text-brand-700 hover:text-brand-800 disabled:cursor-not-allowed disabled:text-gray-300"
               >
-                {t('portal.farmer.common.clearFilters')}
+                Clear filters
               </button>
             </div>
           </div>
@@ -467,120 +414,80 @@ export const FarmerHarvestsPage = () => {
                 ? t('portal.farmer.harvests.noHarvestsText')
                 : t('portal.farmer.harvests.noMatchText')}
             </p>
-            {harvests.length === 0 ? (
+            {harvests.length === 0 && (
               <Link
                 to={ROUTE_PATHS.PRODUCT_ADD}
                 className="mt-5 inline-flex rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
               >
                 {t('portal.farmer.harvests.list')}
               </Link>
-            ) : (
-              <button
-                type="button"
-                onClick={clearFilters}
-                className="mt-5 rounded-full border border-line bg-page px-5 py-2.5 text-sm font-semibold text-muted hover:text-ink"
-              >
-                {t('portal.farmer.common.clearFilters')}
-              </button>
             )}
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[900px] text-sm">
+            <table className="w-full min-w-[980px] text-sm">
               <thead>
                 <tr className="border-b border-line text-left text-[11px] uppercase tracking-wide text-muted">
-                  <th className="px-6 py-3 font-semibold">{t('portal.farmer.common.crop')}</th>
-                  <th className="px-4 py-3 font-semibold">{t('portal.farmer.common.location')}</th>
-                  <th className="px-4 py-3 text-right font-semibold">
-                    {t('portal.farmer.common.quantity')}
-                  </th>
-                  <th className="px-4 py-3 text-right font-semibold">
-                    {t('portal.farmer.common.pricePerKg')}
-                  </th>
-                  <th className="px-4 py-3 text-right font-semibold">
-                    {t('portal.farmer.common.value')}
-                  </th>
-                  <th className="px-4 py-3 font-semibold">
-                    {t('portal.farmer.common.harvestDate')}
-                  </th>
-                  <th className="px-4 py-3 font-semibold">{t('portal.farmer.common.status')}</th>
-                  <th className="px-6 py-3 text-right font-semibold">
-                    {t('portal.farmer.common.actions')}
-                  </th>
+                  <th className="min-w-[120px] px-6 py-3 text-left font-semibold">ACTIONS</th>
+                  <th className="min-w-[260px] px-6 py-3 font-semibold">CROP</th>
+                  <th className="min-w-[110px] px-4 py-3 text-center font-semibold">QUANTITY</th>
+                  <th className="min-w-[120px] px-4 py-3 text-center font-semibold">PRICE / KG</th>
+                  <th className="min-w-[120px] px-4 py-3 text-left font-semibold">VALUE</th>
+                  <th className="min-w-[120px] px-4 py-3 text-left font-semibold">HARVEST DATE</th>
+                  <th className="min-w-[100px] px-4 py-3 text-left font-semibold">STATUS</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-line">
-                {visible.map((harvest) => (
-                  <tr key={harvest.id} className="transition-colors hover:bg-page/60">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700">
-                          {harvest.cropName?.charAt(0)?.toUpperCase() || 'H'}
-                        </span>
-                        <div className="min-w-0">
-                          <p className="max-w-[180px] truncate font-semibold text-ink">
-                            {harvest.cropName}
-                          </p>
-                          {harvest.description && (
-                            <p className="max-w-[180px] truncate text-xs text-gray-400">
-                              {harvest.description}
+                {visible.map((harvest) => {
+                  const price = currencyParts(harvest.pricePerKg)
+                  const value = currencyParts(harvest.totalValue)
+                  return (
+                    <tr key={harvest.id} className="transition-colors hover:bg-page/60">
+                      <td className="min-w-[120px] px-6 py-4 text-right">
+                        <RowActionMenu
+                          items={[
+                            ...(harvest.status === 'active'
+                              ? [{ label: t('portal.farmer.common.markSold'), icon: DockIcons.check, onClick: () => updateStatus(harvest, 'sold') }]
+                              : []),
+                            { label: t('portal.farmer.common.edit'), icon: DockIcons.edit, onClick: () => navigate(ROUTE_PATHS.PRODUCT_EDIT(harvest.id)) },
+                            { label: t('portal.farmer.common.delete'), icon: DockIcons.trash, danger: true, onClick: () => remove(harvest) }
+                          ]}
+                        />
+                      </td>
+                      <td className="min-w-[260px] px-6 py-4 align-top">
+                        <div className="flex items-center gap-3">
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700">
+                            {harvest.cropName?.charAt(0)?.toUpperCase() || 'H'}
+                          </span>
+                          <div className="min-w-0">
+                            <p className="truncate font-bold text-ink">{harvest.cropName}</p>
+                            <p className="truncate text-xs text-gray-400">
+                              {harvest.district}
+                              {harvest.sector ? ` · ${harvest.sector}` : ''}
                             </p>
-                          )}
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-4 text-muted">
-                      <p className="font-medium text-ink">{harvest.district}</p>
-                      <p className="text-xs text-gray-400">{harvest.sector || '—'}</p>
-                    </td>
-                    <td className="px-4 py-4 text-right font-medium tabular-nums text-ink">
-                      {Number(harvest.quantityKg).toLocaleString()} {t('portal.farmer.common.kg')}
-                    </td>
-                    <td className="px-4 py-4 text-right tabular-nums text-muted">
-                      {formatCurrency(harvest.pricePerKg)}
-                    </td>
-                    <td className="px-4 py-4 text-right font-semibold tabular-nums text-ink">
-                      {formatCurrency(harvest.totalValue)}
-                    </td>
-                    <td className="px-4 py-4 text-muted">
-                      {formatDate(harvest.harvestDate)}
-                    </td>
-                    <td className="px-4 py-4">
-                      <StatusBadge
-                        status={harvest.status}
-                        label={t(`portal.farmer.common.${harvest.status || 'active'}`)}
-                      />
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center justify-end gap-2">
-                        {harvest.status === 'active' && (
-                          <button
-                            type="button"
-                            disabled={busyId === harvest.id}
-                            onClick={() => updateStatus(harvest, 'sold')}
-                            className="rounded-full bg-sky-50 px-3 py-1.5 text-xs font-semibold text-sky-600 hover:bg-sky-100 disabled:opacity-50"
-                          >
-                            {t('portal.farmer.common.markSold')}
-                          </button>
-                        )}
-                        <Link
-                          to={ROUTE_PATHS.PRODUCT_EDIT(harvest.id)}
-                          className="rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted hover:border-brand-500/40 hover:text-brand-700"
-                        >
-                          {t('portal.farmer.common.edit')}
-                        </Link>
-                        <button
-                          type="button"
-                          disabled={busyId === harvest.id}
-                          onClick={() => remove(harvest)}
-                          className="rounded-full px-2.5 py-1.5 text-xs font-semibold text-rose-500 hover:bg-rose-50 disabled:opacity-50"
-                        >
-                          {t('portal.farmer.common.delete')}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="min-w-[110px] px-4 py-4 text-center tabular-nums text-ink">
+                        {Number(harvest.quantityKg).toLocaleString()}{' '}
+                        <span className="text-xs text-gray-400">{t('portal.farmer.common.kg')}</span>
+                      </td>
+                      <td className="min-w-[120px] px-4 py-4 text-center tabular-nums text-ink">
+                        <span className="text-xs text-gray-400">{price.symbol}</span> {price.number}
+                      </td>
+                      <td className="min-w-[120px] px-4 py-4 tabular-nums font-semibold text-ink">
+                        <span className="text-xs text-gray-400">{value.symbol}</span> {value.number}
+                      </td>
+                      <td className="min-w-[120px] px-4 py-4 text-muted">{formatDate(harvest.harvestDate)}</td>
+                      <td className="min-w-[100px] px-4 py-4">
+                        <StatusBadge
+                          status={harvest.status}
+                          label={t(`portal.farmer.common.${harvest.status || 'active'}`)}
+                        />
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>

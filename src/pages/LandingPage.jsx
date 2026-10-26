@@ -12,7 +12,7 @@ import PublicFooter from '../components/public/PublicFooter'
 
 export default function LandingPage() {
   return (
-    <div className="relative isolate min-h-screen overflow-x-hidden bg-[#f7faf8] text-ink transition-colors duration-300 dark:bg-[#050505] dark:text-white">
+    <div className="relative isolate min-h-screen overflow-x-hidden bg-[#f6f1e6] text-ink transition-colors duration-300 dark:bg-[#050505] dark:text-white">
       <SoftBackdrop />
       <LenisScroll />
       <Navbar />

@@ -457,7 +457,7 @@ export const PortalLayout = ({
   )
 
   return (
-    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-page text-ink antialiased font-sans">
+    <div className="flex flex-col lg:flex-row w-full min-h-screen bg-page text-ink antialiased font-sans dark:bg-[#07100a] dark:text-[#f3f0e6]">
       {mobileOpen && <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden" onClick={() => setMobileOpen(false)} />}
 
       <aside

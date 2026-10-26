@@ -66,7 +66,7 @@ export default function App() {
   const showAppChrome = !isAuthRoute && !isPublicRoute && !isAdminRoute && !isPortalRoute
 
   return (
-    <div className={isAuthRoute ? '' : 'flex min-h-screen flex-col'}>
+    <div className={isAuthRoute ? 'min-h-screen bg-page dark:bg-[#07100a]' : 'flex min-h-screen flex-col bg-page dark:bg-[#07100a]'}>
       {showAppChrome && <Navbar />}
 
       <main className={isAuthRoute ? '' : 'flex-1'}>

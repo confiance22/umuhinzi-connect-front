@@ -23,7 +23,7 @@ export default function ForgotPasswordPage() {
   const { t } = useLanguage()
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-white antialiased dark:bg-[#050505]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#f6f1e6] antialiased dark:bg-[#050505]">
       <AuthThemeControls />
       {/* Left brand panel */}
       <div className="auth-panel relative z-10 hidden flex-col justify-between overflow-hidden p-12 text-ink dark:text-white md:flex md:w-[52%] lg:p-20">
@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
       </div>
 
       {/* Right form area */}
-      <div className="auth-dark flex w-full flex-col justify-center overflow-y-auto bg-white p-8 dark:bg-[#050505] sm:p-16 md:w-[48%] lg:px-24">
+      <div className="auth-dark flex w-full flex-col justify-center overflow-y-auto bg-[#f6f1e6] p-8 dark:bg-[#050505] sm:p-16 md:w-[48%] lg:px-24">
         <div className="md:hidden mb-10">
           <Link to={ROUTE_PATHS.HOME} className="inline-block" aria-label={t('auth.common.homeAria')}>
             <BrandLockup size={30} textClassName="text-[15px]" dark={!isDark} />

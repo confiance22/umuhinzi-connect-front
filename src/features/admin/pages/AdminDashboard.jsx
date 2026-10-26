@@ -173,10 +173,10 @@ export const AdminDashboard = () => {
           <div
             key={card.label}
             className={`relative rounded-2xl border p-5 transition-all hover:-translate-y-0.5 hover:shadow-md ${
-              card.accent ? 'bg-ink border-ink' : 'bg-card border-line shadow-soft'
+              card.accent ? 'bg-ink border-ink' : 'bg-[#f6f1e6] border-line shadow-soft'
             }`}
           >
-            <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'}`}>
+            <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-[#f6f1e6] text-ink'}`}>
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d={card.icon} />
               </svg>
@@ -189,7 +189,7 @@ export const AdminDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-card border border-line rounded-2xl shadow-soft">
+        <div className="lg:col-span-2 bg-[#f6f1e6] border border-line rounded-2xl shadow-soft">
           <div className="flex items-center justify-between px-6 py-4 border-b border-line">
             <h3 className="text-sm font-semibold text-ink">Recent Accounts</h3>
             <Link to={ROUTE_PATHS.ADMIN_USERS} className="text-xs font-medium text-gray-400 hover:text-ink transition-colors">
@@ -201,7 +201,7 @@ export const AdminDashboard = () => {
               <div className="px-6 py-14 text-center text-sm text-gray-400">No accounts recorded yet.</div>
             ) : (
               recentActivity.map((act) => (
-                <div key={act.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-page/60 transition-colors">
+                <div key={act.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-[#f6f1e6]/60 transition-colors">
                   <span className="w-9 h-9 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -212,7 +212,7 @@ export const AdminDashboard = () => {
                     <p className="text-sm font-medium text-ink truncate">{act.action}</p>
                     <p className="text-xs text-gray-400">{act.time}</p>
                   </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400 bg-page px-2 py-1 rounded-full shrink-0">{act.type}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-400 bg-[#f6f1e6] px-2 py-1 rounded-full shrink-0">{act.type}</span>
                 </div>
               ))
             )}
@@ -220,16 +220,16 @@ export const AdminDashboard = () => {
         </div>
 
         <div className="space-y-5">
-          <div className="bg-card border border-line rounded-2xl shadow-soft p-5">
+          <div className="bg-[#f6f1e6] border border-line rounded-2xl shadow-soft p-5">
             <h3 className="text-sm font-semibold text-ink mb-4">Quick Actions</h3>
             <div className="space-y-1.5">
               {quickLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className="group flex items-center gap-3.5 p-2.5 rounded-xl hover:bg-page transition-colors"
+                  className="group flex items-center gap-3.5 p-2.5 rounded-xl hover:bg-[#f6f1e6] transition-colors"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-page group-hover:bg-brand-600 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <span className="w-10 h-10 rounded-xl bg-[#f6f1e6] group-hover:bg-brand-600 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d={link.icon} />
                     </svg>

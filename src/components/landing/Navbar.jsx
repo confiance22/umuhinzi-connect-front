@@ -229,7 +229,7 @@ export default function Navbar() {
           : `backdrop-blur-xl ${
               isDark
                 ? 'border-white/10 bg-[#050505]/90'
-                : 'border-black/5 bg-white/90'
+                : 'border-black/5 bg-[#f6f1e6]/90'
             } shadow-[0_10px_40px_-24px_rgba(5,46,22,0.35)]`
       }`}
     >
