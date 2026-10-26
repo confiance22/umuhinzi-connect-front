@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import { ArrowRight, Bean, Leaf, MapPin, Sprout, Wheat } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import Title from './Title'
 import { useLanguage } from '../../context/LanguageContext'
+import harvestApi from '../../api/harvestApi'
 
 const harvestIcons = [Wheat, Bean, Sprout, Leaf]
 const harvestTones = [
@@ -14,7 +16,35 @@ const harvestTones = [
 
 export default function HarvestPreview() {
   const { t } = useLanguage()
-  const harvests = t('landing.harvestPreview.items')
+  const fallbackHarvests = t('landing.harvestPreview.items') || []
+  const [liveHarvests, setLiveHarvests] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    harvestApi.listPublic({ limit: 4 })
+      .then((res) => {
+        if (active && res?.items?.length) {
+          setLiveHarvests(
+            res.items.slice(0, 4).map((item) => ({
+              crop: item.crop_name,
+              variety: item.variety || item.crop_name,
+              district: item.district,
+              farmer: item.farmer_name || 'Grower',
+              price: Number(item.price_per_kg || 0).toLocaleString(),
+              quantity: item.quantity_kg ? `${item.quantity_kg} kg available` : 'Available in bulk'
+            }))
+          )
+        }
+      })
+      .catch((err) => {
+        console.warn('Using local harvest preview:', err.message)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const harvests = liveHarvests || fallbackHarvests
 
   return (
     <section className="py-20 2xl:py-28">

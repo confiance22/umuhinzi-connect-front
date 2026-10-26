@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   Apple,
@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Citrus,
   Leaf,
+  Loader2,
   MapPin,
   Package,
   Salad,
@@ -25,6 +26,22 @@ import {
 import { Link } from 'react-router-dom'
 import PublicShell from '../components/public/PublicShell'
 import { useLanguage } from '../context/LanguageContext'
+import harvestApi from '../api/harvestApi'
+
+function getCropIcon(cropName = '') {
+  const c = String(cropName).toLowerCase()
+  if (c.includes('maize') || c.includes('rice') || c.includes('wheat') || c.includes('grain')) return Wheat
+  if (c.includes('bean') || c.includes('legume') || c.includes('pea')) return Bean
+  if (c.includes('potato') || c.includes('sweet')) return Sprout
+  if (c.includes('tomato') || c.includes('cherry') || c.includes('pepper')) return Cherry
+  if (c.includes('onion') || c.includes('cabbage') || c.includes('lettuce')) return Salad
+  if (c.includes('avocado') || c.includes('apple')) return Apple
+  if (c.includes('banana') || c.includes('plantain')) return Banana
+  if (c.includes('orange') || c.includes('citrus') || c.includes('lemon')) return Citrus
+  if (c.includes('carrot')) return Carrot
+  if (c.includes('cassava') || c.includes('leaf') || c.includes('spinach')) return Leaf
+  return Sprout
+}
 
 const categories = ['all', 'vegetables', 'fruits', 'grains', 'legumes']
 
@@ -291,7 +308,7 @@ function HarvestCard({ harvest, featured, t }) {
               featured ? 'text-[38px] sm:text-[50px]' : 'text-[29px]'
             }`}
           >
-            {t(harvest.nameKey)}
+            {harvest.nameKey?.startsWith('harvests.crops.') ? t(harvest.nameKey) : (harvest.cropName || harvest.nameKey)}
           </h3>
           <p className="mt-2 text-[11px] text-[#13251a]/50 dark:text-white/40">{harvest.variety}</p>
 
@@ -350,12 +367,77 @@ export default function HarvestsPage() {
   const [query, setQuery] = useState('')
   const [activeCategory, setActiveCategory] = useState('all')
   const [sort, setSort] = useState('featured')
+  const [liveItems, setLiveItems] = useState(null)
+  const [liveStats, setLiveStats] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    const fetchHarvests = async () => {
+      try {
+        setIsLoading(true)
+        const [harvestsRes, statsRes] = await Promise.all([
+          harvestApi.listPublic({
+            category: activeCategory !== 'all' ? activeCategory : undefined,
+            search: query.trim() || undefined,
+            sort:
+              sort === 'price-low'
+                ? 'price_asc'
+                : sort === 'price-high'
+                  ? 'price_desc'
+                  : sort === 'rating'
+                    ? 'quantity_desc'
+                    : 'newest',
+            limit: 30
+          }),
+          harvestApi.getPublicStats().catch(() => null)
+        ])
+
+        if (!active) return
+        if (harvestsRes?.items) {
+          setLiveItems(
+            harvestsRes.items.map((item) => ({
+              lot: item.lot || `UC-${String(item.id).slice(0, 4).toUpperCase()}`,
+              cropName: item.crop_name,
+              nameKey: item.crop_name,
+              variety: item.variety || item.crop_name,
+              category: item.category || 'vegetables',
+              farmer: item.farmer_name || item.farmer || 'Farmer',
+              district: item.district,
+              price: item.price_per_kg || item.price,
+              quantity: item.quantity_kg ? `${item.quantity_kg} kg` : item.quantity,
+              rating: item.rating || 4.8,
+              icon: getCropIcon(item.crop_name)
+            }))
+          )
+        }
+        if (statsRes) {
+          setLiveStats(statsRes)
+        }
+      } catch (err) {
+        console.warn('Falling back to default harvest directory:', err.message)
+      } finally {
+        if (active) setIsLoading(false)
+      }
+    }
+
+    const timer = setTimeout(fetchHarvests, 200)
+    return () => {
+      active = false
+      clearTimeout(timer)
+    }
+  }, [activeCategory, query, sort])
+
+  const allHarvests = liveItems || harvests
 
   const filteredHarvests = useMemo(() => {
     const needle = query.trim().toLowerCase()
-    const items = harvests.filter((harvest) => {
+    const items = allHarvests.filter((harvest) => {
       const matchesCategory = activeCategory === 'all' || harvest.category === activeCategory
-      const haystack = `${t(harvest.nameKey)} ${harvest.variety} ${harvest.farmer} ${harvest.district}`.toLowerCase()
+      const localizedName = harvest.nameKey?.startsWith('harvests.crops.')
+        ? t(harvest.nameKey)
+        : harvest.cropName || harvest.nameKey
+      const haystack = `${localizedName} ${harvest.variety} ${harvest.farmer} ${harvest.district}`.toLowerCase()
       return matchesCategory && (!needle || haystack.includes(needle))
     })
 
@@ -363,7 +445,18 @@ export default function HarvestsPage() {
     if (sort === 'price-high') return [...items].sort((a, b) => b.price - a.price)
     if (sort === 'rating') return [...items].sort((a, b) => b.rating - a.rating)
     return items
-  }, [activeCategory, query, sort, t])
+  }, [allHarvests, activeCategory, query, sort, t])
+
+  const dynamicStats = useMemo(() => {
+    if (liveStats) {
+      return [
+        { value: `${Number(liveStats.activeFarmers).toLocaleString()}+`, labelKey: 'harvests.stats.farmers', icon: Users },
+        { value: String(liveStats.activeDistricts), labelKey: 'harvests.stats.districts', icon: MapPin },
+        { value: String(liveStats.activeCrops), labelKey: 'harvests.stats.crops', icon: Sprout }
+      ]
+    }
+    return stats
+  }, [liveStats])
 
   const today = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
@@ -426,7 +519,7 @@ export default function HarvestsPage() {
 
             <div className="mt-5 flex items-end gap-3">
               <p className="font-serif text-[76px] leading-[0.72] tracking-[-0.07em]">
-                {String(harvests.length).padStart(2, '0')}
+                {String(allHarvests.length).padStart(2, '0')}
               </p>
               <p className="mb-1 text-[9px] uppercase leading-[1.5] tracking-[0.14em] text-[#13251a]/40 dark:text-white/35">
                 {t('harvests.results')}
@@ -436,7 +529,7 @@ export default function HarvestsPage() {
             </div>
 
             <div className="mt-6 divide-y divide-[#0f3d25]/10 border-y border-[#0f3d25]/10 dark:divide-white/10 dark:border-white/10">
-              {stats.map((stat) => {
+              {dynamicStats.map((stat) => {
                 const Icon = stat.icon
                 return (
                   <div key={stat.labelKey} className="flex items-center justify-between gap-3 py-2.5">
@@ -492,8 +585,8 @@ export default function HarvestsPage() {
                   const active = activeCategory === category
                   const count =
                     category === 'all'
-                      ? harvests.length
-                      : harvests.filter((harvest) => harvest.category === category).length
+                      ? allHarvests.length
+                      : allHarvests.filter((harvest) => harvest.category === category).length
                   return (
                     <button
                       key={category}

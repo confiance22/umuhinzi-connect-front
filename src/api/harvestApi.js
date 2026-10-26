@@ -32,6 +32,24 @@ export const harvestApi = {
   list: (params = {}) =>
     run(() => axiosInstance.get(API_ENDPOINTS.HARVESTS.BASE, { params }), 'Could not load harvests'),
 
+  listPublic: (params = {}) =>
+    run(
+      () => axiosInstance.get(API_ENDPOINTS.PUBLIC.HARVESTS, { params }),
+      'Could not load public harvests'
+    ),
+
+  getPublic: (id) =>
+    run(
+      () => axiosInstance.get(API_ENDPOINTS.PUBLIC.HARVEST_DETAIL(id)),
+      'Could not load harvest details'
+    ),
+
+  getPublicStats: () =>
+    run(
+      () => axiosInstance.get(API_ENDPOINTS.PUBLIC.HARVEST_STATS),
+      'Could not load marketplace statistics'
+    ),
+
   get: (id) =>
     run(() => axiosInstance.get(API_ENDPOINTS.HARVESTS.DETAIL(id)), 'Could not load this harvest'),
 

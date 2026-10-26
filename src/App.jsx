@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import ScrollToTopButton from './components/common/ScrollToTopButton'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminLayout from './components/admin/AdminLayout'
 import ManagerLayout from './components/manager/ManagerLayout'
@@ -139,6 +140,8 @@ export default function App() {
           Umuhinzi Connect — linking farmers and buyers across Rwanda.
         </footer>
       )}
+
+      <ScrollToTopButton />
     </div>
   )
 }

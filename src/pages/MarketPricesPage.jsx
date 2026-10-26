@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   Apple,
@@ -14,6 +14,7 @@ import {
   Info,
   Leaf,
   LineChart,
+  Loader2,
   MapPin,
   Salad,
   Search,
@@ -26,6 +27,22 @@ import {
 import { Link } from 'react-router-dom'
 import PublicShell from '../components/public/PublicShell'
 import { useLanguage } from '../context/LanguageContext'
+import marketPriceApi from '../api/marketPriceApi'
+
+function getMarketCropIcon(cropName = '') {
+  const c = String(cropName).toLowerCase()
+  if (c.includes('maize') || c.includes('rice') || c.includes('wheat')) return Wheat
+  if (c.includes('bean') || c.includes('legume')) return Bean
+  if (c.includes('potato')) return Sprout
+  if (c.includes('tomato')) return Cherry
+  if (c.includes('onion') || c.includes('cabbage')) return Salad
+  if (c.includes('avocado')) return Apple
+  if (c.includes('banana')) return Banana
+  if (c.includes('orange') || c.includes('citrus')) return Citrus
+  if (c.includes('carrot')) return Carrot
+  if (c.includes('cassava')) return Leaf
+  return Sprout
+}
 
 const districts = ['all', 'Kigali', 'Musanze', 'Huye', 'Rubavu', 'Nyagatare', 'Rwamagana', 'Nyamasheke']
 
@@ -258,23 +275,90 @@ export default function MarketPricesPage() {
   const { t } = useLanguage()
   const [query, setQuery] = useState('')
   const [district, setDistrict] = useState('all')
+  const [liveRows, setLiveRows] = useState(null)
+  const [liveDistricts, setLiveDistricts] = useState(districts)
+  const [liveSummary, setLiveSummary] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    const fetchDistricts = async () => {
+      try {
+        const res = await marketPriceApi.getDistricts()
+        if (active && Array.isArray(res) && res.length) {
+          setLiveDistricts(res)
+        }
+      } catch (err) {
+        console.warn('Could not load districts from API:', err.message)
+      }
+    }
+    fetchDistricts()
+    return () => {
+      active = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    const fetchPrices = async () => {
+      try {
+        setIsLoading(true)
+        const res = await marketPriceApi.list({
+          search: query.trim() || undefined,
+          district: district !== 'all' ? district : undefined
+        })
+        if (!active) return
+        if (res?.items) {
+          setLiveRows(
+            res.items.map((row) => ({
+              ...row,
+              cropKey: row.crop_key || row.crop_name,
+              cropName: row.crop_name,
+              change: Number(row.change ?? row.change_percent ?? 0),
+              price: Number(row.price ?? 0),
+              icon: getMarketCropIcon(row.crop_name),
+              series: Array.isArray(row.series) && row.series.length ? row.series : [row.price]
+            }))
+          )
+          if (res.summary) setLiveSummary(res.summary)
+        }
+      } catch (err) {
+        console.warn('Falling back to local market price catalog:', err.message)
+      } finally {
+        if (active) setIsLoading(false)
+      }
+    }
+
+    const timer = setTimeout(fetchPrices, 200)
+    return () => {
+      active = false
+      clearTimeout(timer)
+    }
+  }, [district, query])
+
+  const allRows = liveRows || priceRows
 
   const filteredRows = useMemo(() => {
     const needle = query.trim().toLowerCase()
-    return priceRows.filter((row) => {
+    return allRows.filter((row) => {
       const matchesDistrict = district === 'all' || row.district === district
-      const haystack = `${t(row.cropKey)} ${row.market} ${row.district}`.toLowerCase()
+      const localizedName = row.cropKey?.startsWith('harvests.crops.') ? t(row.cropKey) : (row.cropName || row.cropKey)
+      const haystack = `${localizedName} ${row.market} ${row.district}`.toLowerCase()
       return matchesDistrict && (!needle || haystack.includes(needle))
     })
-  }, [district, query, t])
+  }, [allRows, district, query, t])
 
-  const averagePrice = Math.round(
-    priceRows.reduce((total, row) => total + row.price, 0) / priceRows.length
+  const averagePrice = liveSummary?.averagePrice ?? Math.round(
+    allRows.reduce((total, row) => total + row.price, 0) / (allRows.length || 1)
   )
   const averageChange =
-    priceRows.reduce((total, row) => total + row.change, 0) / priceRows.length
-  const topGainer = priceRows.reduce((best, row) => (row.change > best.change ? row : best))
-  const topLoser = priceRows.reduce((worst, row) => (row.change < worst.change ? row : worst))
+    allRows.reduce((total, row) => total + row.change, 0) / (allRows.length || 1)
+  const topGainer = allRows.length
+    ? allRows.reduce((best, row) => (row.change > best.change ? row : best))
+    : null
+  const topLoser = allRows.length
+    ? allRows.reduce((worst, row) => (row.change < worst.change ? row : worst))
+    : null
   const updatedDate = new Date().toLocaleDateString('en-GB', {
     day: '2-digit',
     month: 'short',
@@ -418,20 +502,20 @@ export default function MarketPricesPage() {
           <SummaryCard
             icon={TrendingUp}
             label={t('prices.gainers')}
-            value={t(topGainer.cropKey)}
-            hint={`+${topGainer.change.toFixed(1)}%`}
+            value={topGainer ? (topGainer.cropKey?.startsWith('harvests.crops.') ? t(topGainer.cropKey) : (topGainer.cropName || topGainer.cropKey)) : '—'}
+            hint={topGainer ? `+${topGainer.change.toFixed(1)}%` : '—'}
             tone="up"
           >
-            <Sparkline values={topGainer.series} className="h-7 w-20" />
+            <Sparkline values={topGainer?.series || [1]} className="h-7 w-20" />
           </SummaryCard>
           <SummaryCard
             icon={TrendingDown}
             label={t('prices.losers')}
-            value={t(topLoser.cropKey)}
-            hint={`${topLoser.change.toFixed(1)}%`}
+            value={topLoser ? (topLoser.cropKey?.startsWith('harvests.crops.') ? t(topLoser.cropKey) : (topLoser.cropName || topLoser.cropKey)) : '—'}
+            hint={topLoser ? `${topLoser.change.toFixed(1)}%` : '—'}
             tone="down"
           >
-            <Sparkline values={topLoser.series} tone="down" className="h-7 w-20" />
+            <Sparkline values={topLoser?.series || [1]} tone="down" className="h-7 w-20" />
           </SummaryCard>
         </div>
 
@@ -469,9 +553,9 @@ export default function MarketPricesPage() {
                   onChange={(event) => setDistrict(event.target.value)}
                   className="h-11 w-full appearance-none rounded-full border border-[#0f3d25]/10 bg-[#fbf7ec] pl-10 pr-9 text-[9px] font-semibold uppercase tracking-[0.08em] text-[#13251a]/60 outline-none transition-colors focus:border-[#0f3d25]/40 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/60"
                 >
-                  {districts.map((market) => (
-                    <option key={market} value={market}>
-                      {market === 'all' ? t('prices.allDistricts') : market}
+                  {liveDistricts.map((m) => (
+                    <option key={m} value={m}>
+                      {m === 'all' ? t('prices.allDistricts') : m}
                     </option>
                   ))}
                 </select>
@@ -509,7 +593,7 @@ export default function MarketPricesPage() {
                             </span>
                             <span>
                               <span className="block text-[12px] font-semibold leading-tight">
-                                {t(row.cropKey)}
+                                {row.cropKey?.startsWith('harvests.crops.') ? t(row.cropKey) : (row.cropName || row.cropKey)}
                               </span>
                               <span className="text-[8px] uppercase tracking-[0.12em] text-[#13251a]/35 dark:text-white/25">
                                 {row.district}
@@ -566,7 +650,9 @@ export default function MarketPricesPage() {
                           <Icon className="size-4" />
                         </span>
                         <div>
-                          <p className="text-[11px] font-semibold">{t(row.cropKey)}</p>
+                          <p className="text-[11px] font-semibold">
+                            {row.cropKey?.startsWith('harvests.crops.') ? t(row.cropKey) : (row.cropName || row.cropKey)}
+                          </p>
                           <p className="mt-0.5 text-[8px] uppercase tracking-[0.1em] text-[#13251a]/35 dark:text-white/25">
                             {row.market} · {row.district}
                           </p>

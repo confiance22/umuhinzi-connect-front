@@ -11,6 +11,8 @@ export default function LenisScroll() {
       }
     })
 
+    window.__lenis = lenis
+
     const raf = (time) => {
       lenis.raf(time)
       requestAnimationFrame(raf)
@@ -19,6 +21,9 @@ export default function LenisScroll() {
     requestAnimationFrame(raf)
 
     return () => {
+      if (window.__lenis === lenis) {
+        delete window.__lenis
+      }
       lenis.destroy()
     }
   }, [])

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -11,6 +12,7 @@ import {
 import { Link } from 'react-router-dom'
 import PublicShell from '../components/public/PublicShell'
 import { useLanguage } from '../context/LanguageContext'
+import pageApi from '../api/pageApi'
 
 const valueStyles = [
   {
@@ -42,9 +44,31 @@ const valueStyles = [
 const ease = [0.16, 1, 0.3, 1]
 
 export default function AboutPage() {
-  const { t } = useLanguage()
-  const stats = t('about.stats') || []
-  const values = t('about.values') || []
+  const { t, isRw } = useLanguage()
+  const [pageContent, setPageContent] = useState(null)
+
+  useEffect(() => {
+    let active = true
+    pageApi.get('about')
+      .then((res) => {
+        if (active && res?.content) {
+          setPageContent(res.content)
+        }
+      })
+      .catch((err) => {
+        console.warn('Could not load dynamic about page content:', err.message)
+      })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const dynamicStats = (!isRw && pageContent?.stats?.length) ? pageContent.stats : (t('about.stats') || [])
+  const dynamicValues = (!isRw && pageContent?.values?.length) ? pageContent.values : (t('about.values') || [])
+  const pageTitle = (!isRw && pageContent?.title) ? pageContent.title : t('about.title')
+  const pageSubtitle = (!isRw && pageContent?.subtitle) ? pageContent.subtitle : t('about.subtitle')
+  const pageBadge = (!isRw && pageContent?.badge) ? pageContent.badge : t('about.badge')
+  const pageStamp = (!isRw && pageContent?.stamp) ? pageContent.stamp : t('about.stamp')
 
   return (
     <PublicShell>
@@ -58,16 +82,16 @@ export default function AboutPage() {
             <div className="flex flex-wrap items-center gap-3 text-[8px] font-semibold uppercase tracking-[0.16em]">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d9f99d] px-3 py-1.5 text-[#0f3d25] dark:bg-[#d9f99d]/15 dark:text-[#d9f99d]">
                 <span className="size-1.5 rounded-full bg-[#0f3d25] dark:bg-[#d9f99d]" />
-                {t('about.badge')}
+                {pageBadge}
               </span>
-              <span className="text-[#13251a]/35 dark:text-white/30">{t('about.stamp')}</span>
+              <span className="text-[#13251a]/35 dark:text-white/30">{pageStamp}</span>
             </div>
 
             <h1 className="mt-6 max-w-[760px] font-serif text-[clamp(3.1rem,7vw,6.1rem)] leading-[0.88] tracking-[-0.06em]">
-              {t('about.title')}
+              {pageTitle}
             </h1>
             <p className="mt-6 max-w-[550px] text-sm leading-[1.8] text-[#13251a]/55 dark:text-white/45 sm:text-[15px]">
-              {t('about.subtitle')}
+              {pageSubtitle}
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -114,7 +138,7 @@ export default function AboutPage() {
         </div>
 
         <div className="grid grid-cols-2 border-b border-[#0f3d25]/10 dark:border-white/10 sm:grid-cols-4">
-          {stats.map((stat, index) => (
+          {dynamicStats.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 12 }}
@@ -213,7 +237,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {values.map((value, index) => {
+            {dynamicValues.map((value, index) => {
               const style = valueStyles[index] || valueStyles[0]
               const Icon = style.icon
               return (

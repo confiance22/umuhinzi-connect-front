@@ -36,7 +36,8 @@ export const translations = {
       today: 'Today',
       updated: 'Updated',
       viewAll: 'View all',
-      backHome: 'Back to home'
+      backHome: 'Back to home',
+      scrollToTop: 'Back to top'
     },
     theme: {
       light: 'Light mode',
@@ -1130,7 +1131,8 @@ export const translations = {
       today: 'Uyu munsi',
       updated: 'Byavuguruwe',
       viewAll: 'Reba byose',
-      backHome: 'Subira ahabanza'
+      backHome: 'Subira ahabanza',
+      scrollToTop: 'Subira hejuru'
     },
     theme: {
       light: 'Umucyo',

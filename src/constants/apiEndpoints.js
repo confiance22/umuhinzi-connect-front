@@ -35,6 +35,27 @@ export const API_ENDPOINTS = {
     REPORT: '/harvests/report',
     DETAIL: (id) => `/harvests/${id}`,
   },
+  PUBLIC: {
+    HARVESTS: '/public/harvests',
+    HARVEST_DETAIL: (id) => `/public/harvests/${id}`,
+    HARVEST_STATS: '/public/harvests/stats',
+    MARKET_PRICES: '/public/market-prices',
+    MARKET_PRICE_DISTRICTS: '/public/market-prices/districts',
+    MARKET_PRICE_MARKETS: '/public/market-prices/markets',
+    MARKET_PRICE_CROPS: '/public/market-prices/crops',
+    PAGES: '/public/pages',
+    PAGE_DETAIL: (slug) => `/public/pages/${slug}`,
+  },
+  MARKET_PRICES: {
+    BASE: '/public/market-prices',
+    DISTRICTS: '/public/market-prices/districts',
+    MARKETS: '/public/market-prices/markets',
+    CROPS: '/public/market-prices/crops',
+  },
+  PAGES: {
+    BASE: '/public/pages',
+    DETAIL: (slug) => `/public/pages/${slug}`,
+  },
   PRODUCTS: {
     BASE: '/products',
     DETAIL: (id) => `/products/${id}`,
