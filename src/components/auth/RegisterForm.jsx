@@ -1,23 +1,26 @@
 /**
- * RegisterForm — 3-step registration:
+ * RegisterForm — 4-step registration:
  *   1. Account type (Farmer or Buyer) — must be chosen first.
  *   2. Your details.
- *   3. Security & policy.
+ *   3. Your location (province → district → sector → cell → village).
+ *   4. Security & policy.
  *
  * The role cards were previously part of the details step and defaulted to
  * farmer. They are now the first step with no default, so every account has an
  * explicit, intentional role before the user can continue.
  */
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { authApi } from '../../api/authApi'
+import { locationApi } from '../../api/locationApi'
 import { useAuth } from '../../hooks/useAuth'
 import { useToastContext } from '../../context/ToastContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { roleHome } from '../../utils/roles'
 import ButtonLoader from '../common/ButtonLoader'
+import CustomSelect from '../common/CustomSelect'
 import { ROUTE_PATHS } from '../../constants/routePaths'
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
@@ -28,7 +31,9 @@ const inputClass =
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-const STEPS = [{ id: 1 }, { id: 2 }, { id: 3 }]
+const STEPS = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }]
+const PROGRESS_WIDTHS = ['w-0', 'w-1/3', 'w-2/3', 'w-full']
+const LOCATION_LEVELS = ['districts', 'sectors', 'cells', 'villages']
 
 function getPasswordStrength(pwd = '') {
   const hasMinLength = pwd.length >= 8
@@ -64,6 +69,8 @@ export default function RegisterForm() {
     handleSubmit,
     watch,
     trigger,
+    setValue,
+    clearErrors,
     formState: { errors }
   } = useForm({ mode: 'onTouched' })
 
@@ -73,13 +80,131 @@ export default function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [locationOptions, setLocationOptions] = useState({
+    provinces: [],
+    districts: [],
+    sectors: [],
+    cells: [],
+    villages: []
+  })
+  const [loadingLocation, setLoadingLocation] = useState('')
+  const [locationError, setLocationError] = useState('')
+  const locationRequestRef = useRef(0)
 
   const stepLabels = t('auth.register.steps')
   const stepCopy = t('auth.register.stepCopy')[formStep - 1]
 
   const password = watch('password') || ''
   const selectedRole = watch('role')
+  const selectedProvince = watch('province_code') || ''
+  const selectedDistrict = watch('district_code') || ''
+  const selectedSector = watch('sector_code') || ''
+  const selectedCell = watch('cell_code') || ''
   const passwordStrength = getPasswordStrength(password)
+
+  const loadLocationOptions = async (level, request, optionsKey) => {
+    const requestId = ++locationRequestRef.current
+    setLoadingLocation(level)
+    setLocationError('')
+
+    try {
+      const options = await request()
+      if (requestId !== locationRequestRef.current) return
+      setLocationOptions((current) => ({ ...current, [optionsKey]: options }))
+    } catch (error) {
+      if (requestId !== locationRequestRef.current) return
+      setLocationOptions((current) => ({ ...current, [optionsKey]: [] }))
+      setLocationError(error?.message || t('auth.register.fields.locationError'))
+    } finally {
+      if (requestId === locationRequestRef.current) setLoadingLocation('')
+    }
+  }
+
+  const loadProvinces = () =>
+    loadLocationOptions('provinces', locationApi.getProvinces, 'provinces')
+
+  useEffect(() => {
+    loadProvinces()
+  }, [])
+
+  const clearLocationField = (name) => {
+    setValue(name, '', { shouldDirty: true })
+    clearErrors(name)
+  }
+
+  const resetLocationOptions = (keys) => {
+    setLocationOptions((current) => {
+      const next = { ...current }
+      keys.forEach((key) => {
+        next[key] = []
+      })
+      return next
+    })
+  }
+
+  const handleProvinceChange = (code) => {
+    setValue('province_code', code, { shouldValidate: true, shouldDirty: true })
+    clearLocationField('district_code')
+    clearLocationField('sector_code')
+    clearLocationField('cell_code')
+    clearLocationField('village_code')
+    resetLocationOptions(LOCATION_LEVELS)
+    setLocationError('')
+    if (code) {
+      loadLocationOptions('districts', () => locationApi.getDistricts(code), 'districts')
+    }
+  }
+
+  const handleDistrictChange = (code) => {
+    setValue('district_code', code, { shouldValidate: true, shouldDirty: true })
+    clearLocationField('sector_code')
+    clearLocationField('cell_code')
+    clearLocationField('village_code')
+    resetLocationOptions(['sectors', 'cells', 'villages'])
+    setLocationError('')
+    if (code) {
+      loadLocationOptions('sectors', () => locationApi.getSectors(code), 'sectors')
+    }
+  }
+
+  const handleSectorChange = (code) => {
+    setValue('sector_code', code, { shouldValidate: true, shouldDirty: true })
+    clearLocationField('cell_code')
+    clearLocationField('village_code')
+    resetLocationOptions(['cells', 'villages'])
+    setLocationError('')
+    if (code) {
+      loadLocationOptions('cells', () => locationApi.getCells(code), 'cells')
+    }
+  }
+
+  const handleCellChange = (code) => {
+    setValue('cell_code', code, { shouldValidate: true, shouldDirty: true })
+    clearLocationField('village_code')
+    resetLocationOptions(['villages'])
+    setLocationError('')
+    if (code) {
+      loadLocationOptions('villages', () => locationApi.getVillages(code), 'villages')
+    }
+  }
+
+  const handleVillageChange = (code) => {
+    setValue('village_code', code, { shouldValidate: true, shouldDirty: true })
+  }
+
+  const retryLocations = () => {
+    if (selectedCell) {
+      loadLocationOptions('villages', () => locationApi.getVillages(selectedCell), 'villages')
+    } else if (selectedSector) {
+      loadLocationOptions('cells', () => locationApi.getCells(selectedSector), 'cells')
+    } else if (selectedDistrict) {
+      loadLocationOptions('sectors', () => locationApi.getSectors(selectedDistrict), 'sectors')
+    } else if (selectedProvince) {
+      loadLocationOptions('districts', () => locationApi.getDistricts(selectedProvince), 'districts')
+    } else {
+      loadProvinces()
+    }
+  }
 
   const goToStep = (nextStep) => {
     setErrorMessage('')
@@ -98,18 +223,34 @@ export default function RegisterForm() {
 
   const handleDetailsContinue = async () => {
     setErrorMessage('')
-    const isValid = await trigger(['fullName', 'phone', 'email', 'district', 'sector'])
+    const isValid = await trigger(['fullName', 'phone', 'email'])
     if (isValid) {
       setDirection(1)
       setFormStep(3)
     }
   }
 
+  const handleLocationContinue = async () => {
+    setErrorMessage('')
+    const isValid = await trigger([
+      'province_code',
+      'district_code',
+      'sector_code',
+      'cell_code',
+      'village_code'
+    ])
+    if (isValid) {
+      setDirection(1)
+      setFormStep(4)
+    }
+  }
+
   const handleFormKeyDown = (event) => {
-    if (event.key !== 'Enter' || formStep === 3) return
+    if (event.key !== 'Enter' || formStep === 4) return
     event.preventDefault()
     if (formStep === 1) handleAccountTypeContinue()
     if (formStep === 2) handleDetailsContinue()
+    if (formStep === 3) handleLocationContinue()
   }
 
   const onSubmit = async (data) => {
@@ -135,8 +276,7 @@ export default function RegisterForm() {
         email: data.email.trim().toLowerCase(),
         password: data.password,
         role: data.role,
-        district: data.district?.trim() || null,
-        sector: data.sector?.trim() || null
+        village_code: data.village_code
       }
 
       const response = await authApi.register(payload)
@@ -150,8 +290,12 @@ export default function RegisterForm() {
         phone: response.phone,
         email: response.email,
         role: response.role,
+        province: response.province,
         district: response.district,
-        sector: response.sector
+        sector: response.sector,
+        cell: response.cell,
+        village: response.village,
+        village_code: response.village_code
       }
 
       login(response.token, authUser)
@@ -184,14 +328,12 @@ export default function RegisterForm() {
 
   return (
     <div className="w-full max-w-md mx-auto font-sans">
-      {/* 3-Step Progress Indicator */}
+      {/* 4-Step Progress Indicator */}
       <div className="mb-7">
         <div className="flex items-center justify-between relative">
           <div className="absolute top-1/2 left-0 right-0 z-0 h-[2px] -translate-y-1/2 bg-black/[0.08] dark:bg-white/10" />
           <div
-            className={`absolute top-1/2 left-0 -translate-y-1/2 h-[2px] transition-all duration-500 z-0 bg-emerald-500 ${
-              formStep === 1 ? 'w-0' : formStep === 2 ? 'w-1/2' : 'w-full'
-            }`}
+            className={`absolute top-1/2 left-0 -translate-y-1/2 h-[2px] transition-all duration-500 z-0 bg-emerald-500 ${PROGRESS_WIDTHS[formStep - 1]}`}
           />
 
           {STEPS.map((step) => {
@@ -431,34 +573,6 @@ export default function RegisterForm() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                <div className="space-y-1.5">
-                  <label htmlFor="register-district" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    {t('auth.register.fields.district')}
-                  </label>
-                  <input
-                    id="register-district"
-                    {...register('district')}
-                    type="text"
-                    placeholder={t('auth.register.fields.districtPlaceholder')}
-                    className={inputClass}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label htmlFor="register-sector" className="text-sm font-medium text-ink/80 dark:text-gray-300">
-                    {t('auth.register.fields.sector')}
-                  </label>
-                  <input
-                    id="register-sector"
-                    {...register('sector')}
-                    type="text"
-                    placeholder={t('auth.register.fields.sectorPlaceholder')}
-                    className={inputClass}
-                  />
-                </div>
-              </div>
-
               <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
@@ -496,6 +610,192 @@ export default function RegisterForm() {
           )}
 
           {formStep === 3 && (
+            <motion.div
+              key="step-location"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="space-y-4"
+            >
+              {locationError && (
+                <div className="flex items-start justify-between gap-3 rounded-xl border border-red-500/20 bg-red-500/10 px-3.5 py-2.5">
+                  <p className="text-xs font-medium text-red-600 dark:text-red-400">{locationError}</p>
+                  <button
+                    type="button"
+                    onClick={retryLocations}
+                    className="shrink-0 text-xs font-semibold text-red-700 underline underline-offset-2 dark:text-red-300"
+                  >
+                    {t('auth.register.fields.retry')}
+                  </button>
+                </div>
+              )}
+
+              <div className="space-y-1.5">
+                <label htmlFor="register-province" className="text-sm font-medium text-ink/80 dark:text-gray-300">
+                  {t('auth.register.fields.province')}
+                </label>
+                <input
+                  type="hidden"
+                  {...register('province_code', {
+                    required: t('auth.register.fields.provinceRequired')
+                  })}
+                />
+                <CustomSelect
+                  id="register-province"
+                  value={selectedProvince}
+                  options={locationOptions.provinces}
+                  onChange={handleProvinceChange}
+                  placeholder={t('auth.register.fields.provincePlaceholder')}
+                  loading={loadingLocation === 'provinces'}
+                  loadingText={t('auth.register.fields.loading')}
+                  noOptionsText={t('auth.register.fields.noOptions')}
+                  error={errors.province_code?.message}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <label htmlFor="register-district" className="text-sm font-medium text-ink/80 dark:text-gray-300">
+                    {t('auth.register.fields.district')}
+                  </label>
+                  <input
+                    type="hidden"
+                    {...register('district_code', {
+                      required: t('auth.register.fields.districtRequired')
+                    })}
+                  />
+                  <CustomSelect
+                    id="register-district"
+                    value={selectedDistrict}
+                    options={locationOptions.districts}
+                    onChange={handleDistrictChange}
+                    placeholder={t('auth.register.fields.districtPlaceholder')}
+                    loading={loadingLocation === 'districts'}
+                    loadingText={t('auth.register.fields.loading')}
+                    noOptionsText={t('auth.register.fields.noOptions')}
+                    disabled={!selectedProvince}
+                    error={errors.district_code?.message}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="register-sector" className="text-sm font-medium text-ink/80 dark:text-gray-300">
+                    {t('auth.register.fields.sector')}
+                  </label>
+                  <input
+                    type="hidden"
+                    {...register('sector_code', {
+                      required: t('auth.register.fields.sectorRequired')
+                    })}
+                  />
+                  <CustomSelect
+                    id="register-sector"
+                    value={selectedSector}
+                    options={locationOptions.sectors}
+                    onChange={handleSectorChange}
+                    placeholder={t('auth.register.fields.sectorPlaceholder')}
+                    loading={loadingLocation === 'sectors'}
+                    loadingText={t('auth.register.fields.loading')}
+                    noOptionsText={t('auth.register.fields.noOptions')}
+                    disabled={!selectedDistrict}
+                    error={errors.sector_code?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+                <div className="space-y-1.5">
+                  <label htmlFor="register-cell" className="text-sm font-medium text-ink/80 dark:text-gray-300">
+                    {t('auth.register.fields.cell')}
+                  </label>
+                  <input
+                    type="hidden"
+                    {...register('cell_code', {
+                      required: t('auth.register.fields.cellRequired')
+                    })}
+                  />
+                  <CustomSelect
+                    id="register-cell"
+                    value={selectedCell}
+                    options={locationOptions.cells}
+                    onChange={handleCellChange}
+                    placeholder={t('auth.register.fields.cellPlaceholder')}
+                    loading={loadingLocation === 'cells'}
+                    loadingText={t('auth.register.fields.loading')}
+                    noOptionsText={t('auth.register.fields.noOptions')}
+                    disabled={!selectedSector}
+                    error={errors.cell_code?.message}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label htmlFor="register-village" className="text-sm font-medium text-ink/80 dark:text-gray-300">
+                    {t('auth.register.fields.village')}
+                  </label>
+                  <input
+                    type="hidden"
+                    {...register('village_code', {
+                      required: t('auth.register.fields.villageRequired')
+                    })}
+                  />
+                  <CustomSelect
+                    id="register-village"
+                    value={watch('village_code') || ''}
+                    options={locationOptions.villages}
+                    onChange={handleVillageChange}
+                    placeholder={t('auth.register.fields.villagePlaceholder')}
+                    loading={loadingLocation === 'villages'}
+                    loadingText={t('auth.register.fields.loading')}
+                    noOptionsText={t('auth.register.fields.noOptions')}
+                    disabled={!selectedCell}
+                    error={errors.village_code?.message}
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => goToStep(2)}
+                  className="flex w-1/3 items-center justify-center gap-1.5 rounded-2xl bg-black/[0.03] py-3.5 text-sm font-medium text-ink/75 transition-all duration-200 hover:bg-black/[0.06] active:scale-[0.99] dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2.5"
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                  <span>{t('auth.register.back')}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleLocationContinue}
+                  disabled={Boolean(loadingLocation)}
+                  className={`auth-button w-2/3 py-3.5 text-white text-sm font-medium rounded-2xl shadow-sm transition-all duration-200 active:scale-[0.99] flex items-center justify-center gap-2 ${
+                    loadingLocation ? 'cursor-not-allowed opacity-60' : ''
+                  }`}
+                >
+                  <span>{t('auth.register.continue')}</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2.5"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </motion.div>
+          )}
+
+          {formStep === 4 && (
             <motion.div
               key="step-security"
               custom={direction}
@@ -720,7 +1020,7 @@ export default function RegisterForm() {
               <div className="flex items-center gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => goToStep(2)}
+                  onClick={() => goToStep(3)}
                   disabled={isSubmitting}
                   className="flex w-1/3 items-center justify-center gap-1.5 rounded-2xl bg-black/[0.03] py-3.5 text-sm font-medium text-ink/75 transition-all duration-200 hover:bg-black/[0.06] active:scale-[0.99] dark:bg-white/5 dark:text-gray-300 dark:hover:bg-white/10"
                 >

@@ -8,7 +8,7 @@ const options = [
   { code: 'rw', label: 'lang.rwName' }
 ]
 
-export default function LanguageToggle({ className = '' }) {
+export default function LanguageToggle({ className = '', compact = false }) {
   const { lang, setLang, t } = useLanguage()
   const [open, setOpen] = useState(false)
   const containerRef = useRef(null)
@@ -42,7 +42,13 @@ export default function LanguageToggle({ className = '' }) {
         title={t('common.toggleLanguage')}
         className={`inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/70 text-ink/70 transition-colors hover:border-brand-500/40 hover:text-brand-700 dark:border-white/10 dark:bg-white/5 dark:text-white/70 dark:hover:border-brand-400/40 dark:hover:text-brand-300 ${className}`}
       >
-        <EarthIcon className="size-[19px]" />
+        {compact ? (
+          <span className="text-[10px] font-bold tracking-[0.08em]">
+            {t(lang === 'en' ? 'lang.en' : 'lang.rw')}
+          </span>
+        ) : (
+          <EarthIcon className="size-[19px]" />
+        )}
       </button>
 
       {open && (

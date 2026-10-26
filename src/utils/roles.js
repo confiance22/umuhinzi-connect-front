@@ -1,5 +1,5 @@
 export const roleHome = (role) => {
-  if (role === 'farmer') return '/farmer'
+  if (role === 'farmer') return '/dashboard'
   if (role === 'buyer') return '/buyer'
   if (role === 'super_admin' || role === 'admin') return '/admin/dashboard'
   return '/'

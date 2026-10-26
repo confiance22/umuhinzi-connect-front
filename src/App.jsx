@@ -2,12 +2,18 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ProtectedRoute from './components/ProtectedRoute'
 import AdminLayout from './components/admin/AdminLayout'
+import ManagerLayout from './components/manager/ManagerLayout'
 import AdminDashboard from './features/admin/pages/AdminDashboard'
 import UserManagementPage from './features/admin/pages/UserManagementPage'
 import RolesPage from './features/admin/pages/RolesPage'
 import PermissionsPage from './features/admin/pages/PermissionsPage'
 import AdminAccountPage from './features/admin/pages/AdminAccountPage'
+import ManagerDashboard from './features/manager/pages/ManagerDashboard'
+import FarmerHarvestsPage from './features/manager/pages/FarmerHarvestsPage'
+import HarvestFormPage from './features/manager/pages/HarvestFormPage'
+import HarvestReportPage from './features/manager/pages/HarvestReportPage'
 import NotificationsPage from './pages/NotificationsPage'
+import AccountPage from './pages/AccountPage'
 import LandingPage from './pages/LandingPage'
 import HarvestsPage from './pages/HarvestsPage'
 import HowItWorksPage from './pages/HowItWorksPage'
@@ -18,7 +24,6 @@ import { ForBuyersPage, ForFarmersPage } from './pages/PlatformAudiencePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
-import FarmerDashboard from './pages/FarmerDashboard'
 import BuyerDashboard from './pages/BuyerDashboard'
 import Messages from './pages/Messages'
 
@@ -35,13 +40,30 @@ const PUBLIC_ROUTES = [
   '/platform/buyers'
 ]
 
+const PORTAL_ROUTES = [
+  '/dashboard',
+  '/products',
+  '/stock',
+  '/customers',
+  '/qr',
+  '/workers',
+  '/reports',
+  '/settings',
+  '/account',
+  '/notifications',
+  '/chat'
+]
+
 export default function App() {
   const location = useLocation()
   const isAuthRoute = AUTH_ROUTES.includes(location.pathname)
   const isPublicRoute = PUBLIC_ROUTES.includes(location.pathname)
   const isAdminRoute =
     location.pathname === '/admin' || location.pathname.startsWith('/admin/')
-  const showAppChrome = !isAuthRoute && !isPublicRoute && !isAdminRoute
+  const isPortalRoute = PORTAL_ROUTES.some(
+    (path) => location.pathname === path || location.pathname.startsWith(`${path}/`)
+  )
+  const showAppChrome = !isAuthRoute && !isPublicRoute && !isAdminRoute && !isPortalRoute
 
   return (
     <div className={isAuthRoute ? '' : 'flex min-h-screen flex-col'}>
@@ -67,7 +89,28 @@ export default function App() {
           </Route>
 
           <Route element={<ProtectedRoute requireRole="farmer" />}>
-            <Route path="/farmer" element={<FarmerDashboard />} />
+            <Route element={<ManagerLayout />}>
+              <Route path="/farmer" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/dashboard" element={<ManagerDashboard />} />
+              <Route path="/products" element={<FarmerHarvestsPage />} />
+              <Route path="/products/add" element={<HarvestFormPage />} />
+              <Route path="/products/:id/edit" element={<HarvestFormPage />} />
+              <Route path="/reports" element={<HarvestReportPage />} />
+              <Route path="/account" element={<AccountPage />} />
+
+              <Route path="/stock" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/stock/*" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/customers" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/qr" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/qr/*" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/workers" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/chat" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/notifications" element={<Navigate to="/dashboard" replace />} />
+              <Route path="/settings" element={<Navigate to="/account" replace />} />
+              <Route path="/settings/*" element={<Navigate to="/account" replace />} />
+              <Route path="/reports/*" element={<Navigate to="/reports" replace />} />
+              <Route path="/products/:id" element={<Navigate to="/products" replace />} />
+            </Route>
           </Route>
 
           <Route element={<ProtectedRoute requireRole="buyer" />}>

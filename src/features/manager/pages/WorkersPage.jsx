@@ -71,7 +71,7 @@ const RolePill = ({ role }) => {
 const resolveWorkerStatus = (w) => (w.enabled === false ? 'Inactive' : 'Active')
 
 const filterFieldClass =
-  'h-11 w-full rounded-lg border border-line bg-white text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-colors duration-200'
+  'h-11 w-full rounded-lg border border-line bg-page text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-colors duration-200'
 
 const SearchIcon = (
   <svg className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -270,7 +270,7 @@ export const WorkersPage = () => {
         }`}
       >
         <span
-          className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${
+          className={`inline-block h-5 w-5 transform rounded-full bg-page shadow transition-transform duration-200 ${
             on ? 'translate-x-6' : 'translate-x-0.5'
           }`}
         />
@@ -474,7 +474,7 @@ export const WorkersPage = () => {
         <div className="flex-1" />
         <button
           onClick={resetFilters}
-          className="inline-flex items-center justify-center gap-1.5 text-ink text-sm font-medium px-4 py-2.5 rounded-full border border-line bg-white hover:bg-brand-50 hover:border-brand-200 hover:text-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-1.5 text-ink text-sm font-medium px-4 py-2.5 rounded-full border border-line bg-page hover:bg-brand-50 hover:border-brand-200 hover:text-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           {RebootIcon}
           Reset

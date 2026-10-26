@@ -10,9 +10,11 @@ import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-do
 import { useAuth } from '../../hooks/useAuth'
 import BrandLockup from '../common/Brand'
 import NotificationBell from '../common/NotificationBell'
+import LanguageToggle from '../public/LanguageToggle'
 import Toast from '../common/Toast'
 import { useToastContext } from '../../context/ToastContext'
 import { useTheme } from '../../context/ThemeContext'
+import { useLanguage } from '../../context/LanguageContext'
 
 const ICONS = {
   overview: (
@@ -190,9 +192,11 @@ export const PortalLayout = ({
   accountPath = null,
   extraTitles = {},
   notificationScope = 'system',
+  showNotifications = true,
 }) => {
   const { user, logout } = useAuth()
   const { theme } = useTheme()
+  const { t } = useLanguage()
   const { toasts, dismissToast } = useToastContext()
   const location = useLocation()
   const navigate = useNavigate()
@@ -286,7 +290,7 @@ export const PortalLayout = ({
       {collapsed && !mobileOpen ? (
         <Link
           to="/"
-          title="Back to site"
+          title={t('portal.backToSite')}
           className="flex items-center justify-center rounded-xl border border-white/10 bg-ink p-2.5 text-white/60 transition-colors hover:bg-brand-600/20 hover:text-white"
         >
           <Icon name="globe" className="h-4 w-4" />
@@ -298,7 +302,7 @@ export const PortalLayout = ({
             className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11px] font-medium text-white/65 transition-colors hover:bg-brand-600/15 hover:text-white"
           >
             <Icon name="globe" className="h-3.5 w-3.5 text-brand-400" />
-            <span>Back to site</span>
+            <span>{t('portal.backToSite')}</span>
             <svg
               className="ml-auto h-3 w-3 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:text-white/60"
               viewBox="0 0 24 24"
@@ -313,16 +317,16 @@ export const PortalLayout = ({
           <div className="mx-2 my-1 h-px bg-white/[0.06]" />
 
           <div className="px-2 pb-0.5 pt-1">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-brand-400/70">Explore</p>
+            <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-brand-400/70">{t('portal.explore')}</p>
             <div className="mt-1 flex flex-wrap gap-x-2.5 gap-y-1">
               <Link to="/harvests" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
-                Marketplace
+                {t('portal.marketplace')}
               </Link>
               <Link to="/market-prices" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
-                Prices
+                {t('portal.prices')}
               </Link>
               <Link to="/contact" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
-                Support
+                {t('portal.support')}
               </Link>
             </div>
           </div>
@@ -557,7 +561,7 @@ export const PortalLayout = ({
       )}
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="sticky top-0 z-30 h-[72px] shrink-0 bg-white border-b border-line flex items-center gap-4 px-4 sm:px-6">
+        <header className="sticky top-0 z-30 h-[72px] shrink-0 bg-page border-b border-line flex items-center gap-4 px-4 sm:px-6">
           <button onClick={() => setMobileOpen(true)} className="lg:hidden text-gray-500 hover:text-ink p-1" aria-label="Open menu">
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
@@ -583,7 +587,12 @@ export const PortalLayout = ({
 
           <div className="flex-1" />
 
-          <NotificationBell scope={notificationScope} />
+          <LanguageToggle
+            compact
+            className="border-line bg-page text-ink/70 hover:border-brand-500/40 hover:text-brand-600"
+          />
+
+          {showNotifications && <NotificationBell scope={notificationScope} />}
 
           <div className="relative" ref={profileRef}>
             <button
@@ -627,7 +636,7 @@ export const PortalLayout = ({
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                         </svg>
-                        My Profile
+                        {t('portal.myProfile')}
                       </button>
                       <button
                         onClick={() => {
@@ -639,7 +648,7 @@ export const PortalLayout = ({
                         <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                         </svg>
-                        Change Password
+                        {t('portal.changePassword')}
                       </button>
                       <div className="my-1.5 border-t border-line" />
                     </>
@@ -653,7 +662,7 @@ export const PortalLayout = ({
                       <polyline points="16 17 21 12 16 7" strokeLinecap="round" strokeLinejoin="round" />
                       <line x1="21" y1="12" x2="9" y2="12" strokeLinecap="round" />
                     </svg>
-                    Sign out
+                    {t('portal.signOut')}
                   </button>
                 </div>
               </div>

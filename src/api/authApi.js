@@ -78,6 +78,31 @@ export const authApi = {
     }
   },
 
+  updateProfile: async ({ name, phone, email }) => {
+    try {
+      const response = await axiosInstance.put(API_ENDPOINTS.AUTH.PROFILE, {
+        name,
+        phone,
+        email
+      })
+      return unwrapApiResult(response)?.user ?? null
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, 'Could not update your profile'))
+    }
+  },
+
+  changePassword: async ({ currentPassword, newPassword }) => {
+    try {
+      const response = await axiosInstance.post(API_ENDPOINTS.AUTH.PASSWORD, {
+        currentPassword,
+        newPassword
+      })
+      return unwrapApiResult(response)
+    } catch (error) {
+      throw new Error(getApiErrorMessage(error, 'Could not change your password'))
+    }
+  },
+
   // --- OTP / 2FA (kept for the restored auth screens) ---
   verifyOtp: async (username, otp) => {
     try {

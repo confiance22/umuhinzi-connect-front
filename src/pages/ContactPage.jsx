@@ -10,6 +10,7 @@ import {
   Send
 } from 'lucide-react'
 import PublicShell from '../components/public/PublicShell'
+import CustomSelect from '../components/common/CustomSelect'
 import { useLanguage } from '../context/LanguageContext'
 
 const initialForm = {
@@ -281,21 +282,15 @@ export default function ContactPage() {
                       <label htmlFor="contact-role" className={labelClass}>
                         {t('contact.role')}
                       </label>
-                      <select
+                      <CustomSelect
                         id="contact-role"
+                        tone="public"
                         value={form.role}
-                        onChange={updateField('role')}
-                        className={fieldClass}
-                      >
-                        <option value="" disabled>
-                          {t('contact.rolePlaceholder')}
-                        </option>
-                        {roles.map((role) => (
-                          <option key={role} value={role}>
-                            {role}
-                          </option>
-                        ))}
-                      </select>
+                        options={roles.map((role) => ({ value: role, label: role }))}
+                        onChange={(value) => setForm((current) => ({ ...current, role: value }))}
+                        placeholder={t('contact.rolePlaceholder')}
+                        noOptionsText={t('contact.rolePlaceholder')}
+                      />
                     </div>
                     <div className="sm:col-span-2">
                       <label htmlFor="contact-subject" className={labelClass}>
