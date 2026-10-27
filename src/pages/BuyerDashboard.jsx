@@ -12,7 +12,7 @@ export default function BuyerDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-      <p className="text-xs font-semibold uppercase tracking-widest text-brand-700">
+      <p className="text-xs font-semibold uppercase tracking-widest text-[#4d7c0f]">
         Buyer dashboard
       </p>
       <h1 className="mt-2 text-2xl font-semibold text-ink">
@@ -27,7 +27,7 @@ export default function BuyerDashboard() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-card border border-line bg-card p-5 shadow-soft"
+            className="rounded-card border border-line bg-[#efe7d6] p-5 shadow-soft"
           >
             <p className="text-sm text-muted">{stat.label}</p>
             <p className="mt-2 text-2xl font-semibold text-ink">{stat.value}</p>
@@ -35,7 +35,7 @@ export default function BuyerDashboard() {
         ))}
       </div>
 
-      <div className="mt-6 rounded-card border border-dashed border-brand-200 bg-brand-50/60 p-6 text-sm text-brand-900">
+      <div className="mt-6 rounded-card border border-dashed border-[#d9f99d] bg-[#d9f99d]/15 p-6 text-sm text-[#0f3d25]">
         Your buyer requests and matched harvests will appear here.
       </div>
     </div>

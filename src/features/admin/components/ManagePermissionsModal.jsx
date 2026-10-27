@@ -62,7 +62,7 @@ export const ManagePermissionsModal = ({
       role="presentation"
     >
       <div
-        className="relative w-full max-w-[880px] h-[min(86vh,680px)] flex flex-col bg-card rounded-2xl border border-line shadow-soft overflow-hidden animate-[zoomIn_0.2s_ease]"
+        className="relative w-full max-w-[880px] h-[min(86vh,680px)] flex flex-col bg-[#efe7d6] rounded-2xl border border-line shadow-soft overflow-hidden animate-[zoomIn_0.2s_ease]"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -80,7 +80,7 @@ export const ManagePermissionsModal = ({
           </button>
 
           <div className="flex items-center gap-3.5 pr-10">
-            <span className="w-11 h-11 rounded-2xl bg-brand-600/15 text-brand-700 flex items-center justify-center shrink-0">{MatchIcon}</span>
+            <span className="w-11 h-11 rounded-2xl bg-[#d9f99d]/15 text-[#3f6212] flex items-center justify-center shrink-0">{MatchIcon}</span>
             <div className="min-w-0">
               <h3 className="text-sm font-semibold text-ink">Manage permissions</h3>
               <p className="text-xs text-muted mt-0.5 truncate">
@@ -100,7 +100,7 @@ export const ManagePermissionsModal = ({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search permissions…"
-              className="w-full text-sm pl-10 pr-3 py-2.5 rounded-lg border border-line bg-white text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all"
+              className="w-full text-sm pl-10 pr-3 py-2.5 rounded-lg border border-line bg-[#fbf7ec] text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all"
             />
           </div>
         </div>
@@ -118,7 +118,7 @@ export const ManagePermissionsModal = ({
                     <button
                       type="button"
                       onClick={() => onToggleCategory(perms, !allOn)}
-                      className="text-xs font-semibold text-brand-700 hover:text-ink transition-colors"
+                      className="text-xs font-semibold text-[#3f6212] hover:text-ink transition-colors"
                     >
                       {allOn ? 'Clear all' : 'Select all'}
                     </button>
@@ -130,7 +130,7 @@ export const ManagePermissionsModal = ({
                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent hover:bg-page hover:border-line cursor-pointer transition-colors"
                       >
                         <input type="checkbox" checked={selectedIds.has(perm.id)} onChange={() => onToggle(perm.id)} className="peer sr-only" />
-                        <span className="w-5 h-5 rounded-md border-2 border-line bg-white text-transparent peer-checked:bg-brand-600 peer-checked:border-brand-600 peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-brand-600/30 flex items-center justify-center shrink-0 transition-all duration-150">
+                        <span className="w-5 h-5 rounded-md border-2 border-line bg-[#fbf7ec] text-transparent peer-checked:bg-[#d9f99d] peer-checked:border-[#d9f99d] peer-checked:text-[#0f3d25] peer-focus-visible:ring-4 peer-focus-visible:ring-[#d9f99d]/30 flex items-center justify-center shrink-0 transition-all duration-150">
                           <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
                             <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
@@ -148,12 +148,12 @@ export const ManagePermissionsModal = ({
           )}
         </div>
 
-        <div className="shrink-0 px-6 sm:px-8 py-4 border-t border-line flex items-center justify-end gap-2.5 bg-card">
+        <div className="shrink-0 px-6 sm:px-8 py-4 border-t border-line flex items-center justify-end gap-2.5 bg-[#efe7d6]">
           <p className="mr-auto text-xs font-semibold text-muted">{selectedIds.size} selected</p>
           <button
             type="button"
             onClick={onClose}
-            className="px-5 py-2 rounded-full text-sm font-medium bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+            className="px-5 py-2 rounded-full text-sm font-medium bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
           >
             Cancel
           </button>
@@ -161,7 +161,7 @@ export const ManagePermissionsModal = ({
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="px-5 py-2 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+            className="px-5 py-2 rounded-full text-sm font-medium bg-[#d9f99d] text-[#0f3d25] hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             {saving ? 'Saving…' : 'Save permissions'}
           </button>

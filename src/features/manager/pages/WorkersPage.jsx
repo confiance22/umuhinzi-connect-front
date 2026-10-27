@@ -14,7 +14,7 @@ import { useAuth } from '../../../hooks/useAuth'
 import { useToastContext } from '../../../context/ToastContext'
 
 const AVATAR_STYLES = [
-  'bg-brand-100 text-brand-700',
+  'bg-[#d9f99d]/30 text-[#3f6212]',
   'bg-rose-100 text-rose-700',
   'bg-amber-100 text-amber-700',
   'bg-emerald-100 text-emerald-700',
@@ -57,7 +57,7 @@ const StatusPill = ({ status }) => {
   )
 }
 const ROLE_STYLES = {
-  shop_manager: { pill: 'bg-brand-50 text-brand-700', label: 'Manager' },
+  shop_manager: { pill: 'bg-[#d9f99d]/20 text-[#3f6212]', label: 'Manager' },
   worker: { pill: 'bg-ink/5 text-ink/45', label: 'Worker' },
 }
 const RolePill = ({ role }) => {
@@ -71,7 +71,7 @@ const RolePill = ({ role }) => {
 const resolveWorkerStatus = (w) => (w.enabled === false ? 'Inactive' : 'Active')
 
 const filterFieldClass =
-  'h-11 w-full rounded-lg border border-line bg-page text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-colors duration-200'
+  'h-11 w-full rounded-lg border border-line bg-page text-sm text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-colors duration-200'
 
 const SearchIcon = (
   <svg className="w-4 h-4 text-gray-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -87,7 +87,7 @@ const RebootIcon = (
 )
 
 const TRAIL_CARD = (
-  <svg className="w-9 h-9 text-brand-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+  <svg className="w-9 h-9 text-[#3f6212]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <path d="M9 12l2 2 4-4" />
     <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
   </svg>
@@ -254,7 +254,7 @@ export const WorkersPage = () => {
     const isManagerRow = worker.role === 'shop_manager'
     if (isManagerRow) {
       return (
-        <span className="text-xs font-medium text-brand-700 bg-brand-50 rounded-full px-2.5 py-1 uppercase tracking-wide">Always</span>
+        <span className="text-xs font-medium text-[#3f6212] bg-[#d9f99d]/20 rounded-full px-2.5 py-1 uppercase tracking-wide">Always</span>
       )
     }
     const busy = togglingStockInId === worker.id
@@ -265,13 +265,13 @@ export const WorkersPage = () => {
         aria-checked={on}
         disabled={busy || !worker.enabled}
         onClick={() => handleToggleStockIn(worker, !on)}
-        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline focus:outline-2 focus:outline-brand-500/40 disabled:opacity-50 disabled:pointer-events-none ${
-          on ? 'bg-brand-600' : 'bg-ink/15'
+        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline focus:outline-2 focus:outline-[#84cc16]/40 disabled:opacity-50 disabled:pointer-events-none ${
+          on ? 'bg-[#d9f99d]' : 'bg-ink/15'
         }`}
       >
         <span
-          className={`inline-block h-5 w-5 transform rounded-full bg-page shadow transition-transform duration-200 ${
-            on ? 'translate-x-6' : 'translate-x-0.5'
+          className={`inline-block h-5 w-5 transform rounded-full shadow transition-transform duration-200 ${
+            on ? 'translate-x-6 bg-[#0f3d25]' : 'translate-x-0.5 bg-page'
           }`}
         />
       </button>
@@ -396,7 +396,7 @@ export const WorkersPage = () => {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">TEAM</span>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#4d7c0f]">TEAM</span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-1">Team Members</h1>
           <p className="text-sm text-muted mt-1">Manage workers and co-managers. Every stock movement is traced to a person.</p>
         </div>
@@ -405,7 +405,7 @@ export const WorkersPage = () => {
             setEditingWorker(null)
             setIsModalOpen(true)
           }}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           New Team Member
         </button>
@@ -449,7 +449,7 @@ export const WorkersPage = () => {
         </div>
       ))}
 
-      <div className="bg-card rounded-2xl border border-line shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
+      <div className="bg-[#efe7d6] rounded-2xl border border-line shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
         <div className="w-[280px] flex flex-col gap-1">
           <label className="text-sm font-medium text-ink">Search</label>
           <div className="relative">
@@ -474,16 +474,16 @@ export const WorkersPage = () => {
         <div className="flex-1" />
         <button
           onClick={resetFilters}
-          className="inline-flex items-center justify-center gap-1.5 text-ink text-sm font-medium px-4 py-2.5 rounded-full border border-line bg-page hover:bg-brand-50 hover:border-brand-200 hover:text-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-1.5 text-ink text-sm font-medium px-4 py-2.5 rounded-full border border-line bg-page hover:bg-[#d9f99d]/15 hover:border-[#d9f99d] hover:text-[#3f6212] transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           {RebootIcon}
           Reset
         </button>
       </div>
 
-      <div className="rounded-2xl border border-brand-200 bg-brand-50 px-4 py-3 flex items-start gap-3">
+      <div className="rounded-2xl border border-[#d9f99d] bg-[#d9f99d]/20 px-4 py-3 flex items-start gap-3">
         {TRAIL_CARD}
-        <p className="text-sm text-brand-900 leading-relaxed pt-1">
+        <p className="text-sm text-[#0f3d25] leading-relaxed pt-1">
           <span className="font-bold">Traceability:</span> National IDs are kept on record so the police can identify anyone
           who handled stock, pursues a theft, or goes missing. Keep them up to date when editing a member.
         </p>

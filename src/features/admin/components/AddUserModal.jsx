@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
 const inputClass =
-  'w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all'
+  'w-full rounded-lg border border-line bg-[#fbf7ec] px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all'
 const labelClass = 'block text-sm font-medium text-ink mb-1.5'
 
 const roleKeyOf = (user, roleList) => {
@@ -67,7 +67,7 @@ export const AddUserModal = ({ isOpen, onClose, onSubmit, editingUser, roles = [
       role="presentation"
     >
       <div
-        className="relative w-full max-w-[600px] max-h-[92vh] overflow-y-auto bg-card rounded-2xl border border-line shadow-soft p-6 sm:p-8 animate-[zoomIn_0.2s_ease]"
+        className="relative w-full max-w-[600px] max-h-[92vh] overflow-y-auto bg-[#efe7d6] rounded-2xl border border-line shadow-soft p-6 sm:p-8 animate-[zoomIn_0.2s_ease]"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -84,7 +84,7 @@ export const AddUserModal = ({ isOpen, onClose, onSubmit, editingUser, roles = [
         </button>
 
         <div className="mb-6 pr-8">
-          <span className="w-11 h-11 rounded-2xl bg-brand-600/15 text-ink flex items-center justify-center mb-3">
+          <span className="w-11 h-11 rounded-2xl bg-[#d9f99d]/15 text-ink flex items-center justify-center mb-3">
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM19 8v6M22 11h-6" />
             </svg>
@@ -178,13 +178,13 @@ export const AddUserModal = ({ isOpen, onClose, onSubmit, editingUser, roles = [
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-full text-sm font-medium bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+              className="px-5 py-2.5 rounded-full text-sm font-medium bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+              className="px-6 py-2.5 rounded-full text-sm font-medium bg-[#d9f99d] text-[#0f3d25] hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
             >
               {isEditMode ? 'Save changes' : 'Create user'}
             </button>

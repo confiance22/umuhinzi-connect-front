@@ -65,7 +65,7 @@ export const AdminProductSettingsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
+        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#3f6212] bg-[#d9f99d]/20 px-2.5 py-1 rounded-full">
           Products & Pricing
         </span>
         <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Products & Pricing</h1>
@@ -74,7 +74,7 @@ export const AdminProductSettingsPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {modeChips.map((chip) => (
-          <div key={chip.label} className="rounded-2xl border border-line bg-card shadow-soft p-5">
+          <div key={chip.label} className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{chip.label}</p>
             <p className="mt-2 text-lg font-semibold text-ink leading-snug">{chip.value}</p>
             <span className={`mt-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${chip.tone}`}>
@@ -88,7 +88,7 @@ export const AdminProductSettingsPage = () => {
         ))}
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft overflow-hidden">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft overflow-hidden">
         <div className="px-6 py-5 border-b border-line">
           <h3 className="text-base font-semibold text-ink leading-snug">Product Pricing Rules</h3>
           <p className="text-[13px] text-muted mt-1 leading-snug">Changes apply to all shops immediately.</p>
@@ -105,7 +105,7 @@ export const AdminProductSettingsPage = () => {
       </div>
 
       {loading && (
-        <div className="rounded-xl border border-line bg-card p-4 text-sm text-muted animate-pulse">
+        <div className="rounded-xl border border-line bg-[#efe7d6] p-4 text-sm text-muted animate-pulse">
           Loading product pricing policies…
         </div>
       )}

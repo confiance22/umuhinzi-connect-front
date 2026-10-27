@@ -12,9 +12,9 @@ import { formatCurrency } from '../../../utils/formatCurrency'
 import { formatDate } from '../../../utils/formatDate'
 
 const STATUS_STYLES = {
-  active: 'bg-brand-50 text-brand-700',
+  active: 'bg-[#d9f99d]/20 text-[#3f6212]',
   sold: 'bg-sky-50 text-sky-600',
-  hidden: 'bg-gray-100 text-gray-500',
+  hidden: 'bg-[#e8dfca] text-gray-500',
   expired: 'bg-amber-50 text-amber-600'
 }
 
@@ -126,13 +126,13 @@ export const ManagerDashboard = () => {
 
   if (error) {
     return (
-      <div className="rounded-2xl border border-line bg-card p-8 text-center shadow-soft">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] p-8 text-center shadow-soft">
         <p className="text-sm font-semibold text-ink">{t('portal.farmer.overview.loadError')}</p>
         <p className="mt-1 text-sm text-muted">{t('portal.farmer.common.offline')}</p>
         <button
           type="button"
           onClick={load}
-          className="mt-5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+          className="mt-5 rounded-full bg-[#d9f99d] px-5 py-2.5 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f]"
         >
           {t('portal.farmer.common.tryAgain')}
         </button>
@@ -144,7 +144,7 @@ export const ManagerDashboard = () => {
     <div className="space-y-7">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="inline-block rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-brand-700">
+          <span className="inline-block rounded-full bg-[#d9f99d]/20 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-[#3f6212]">
             {t('portal.farmer.overview.badge')}
           </span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
@@ -152,8 +152,8 @@ export const ManagerDashboard = () => {
           </h1>
           <p className="mt-1 text-sm text-muted">{t('portal.farmer.overview.intro')}</p>
         </div>
-        <div className="flex items-center gap-2.5 rounded-full bg-brand-600 px-4 py-2.5 text-xs font-semibold text-white">
-          <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-page" />
+        <div className="flex items-center gap-2.5 rounded-full bg-[#d9f99d] px-4 py-2.5 text-xs font-semibold text-[#0f3d25]">
+          <span className="h-2 w-2 shrink-0 animate-pulse rounded-full bg-[#0f3d25]" />
           <span className="uppercase tracking-wide">
             {openRequests > 0
               ? `${openRequests} ${t('portal.farmer.overview.openRequests')}`
@@ -167,12 +167,12 @@ export const ManagerDashboard = () => {
           <div
             key={card.label}
             className={`relative rounded-2xl border p-5 transition-all hover:-translate-y-0.5 hover:shadow-md ${
-              card.accent ? 'border-ink bg-ink' : 'border-line bg-card shadow-soft'
+              card.accent ? 'border-ink bg-ink' : 'border-line bg-[#efe7d6] shadow-soft'
             }`}
           >
             <span
               className={`flex h-11 w-11 items-center justify-center rounded-xl ${
-                card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'
+                card.accent ? 'bg-[#d9f99d] text-[#0f3d25]' : 'bg-page text-ink'
               }`}
             >
               <Icon path={card.icon} />
@@ -195,7 +195,7 @@ export const ManagerDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl border border-line bg-card shadow-soft lg:col-span-2">
+        <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft lg:col-span-2">
           <div className="flex items-center justify-between border-b border-line px-6 py-4">
             <h2 className="text-sm font-semibold text-ink">
               {t('portal.farmer.overview.recentHarvests')}
@@ -218,7 +218,7 @@ export const ManagerDashboard = () => {
               </p>
               <Link
                 to={ROUTE_PATHS.PRODUCT_ADD}
-                className="mt-5 inline-flex rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+                className="mt-5 inline-flex rounded-full bg-[#d9f99d] px-5 py-2.5 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f]"
               >
                 {t('portal.farmer.overview.listHarvest')}
               </Link>
@@ -227,7 +227,7 @@ export const ManagerDashboard = () => {
             <div className="divide-y divide-line">
               {recent.map((harvest) => (
                 <div key={harvest.id} className="flex items-center gap-4 px-6 py-4">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-sm font-bold text-brand-700">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#d9f99d]/20 text-sm font-bold text-[#3f6212]">
                     {harvest.cropName?.charAt(0)?.toUpperCase() || 'H'}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -252,7 +252,7 @@ export const ManagerDashboard = () => {
                   </div>
                   <Link
                     to={ROUTE_PATHS.PRODUCT_EDIT(harvest.id)}
-                    className="shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted hover:border-brand-500/40 hover:text-brand-700"
+                    className="shrink-0 rounded-full border border-line px-3 py-1.5 text-xs font-semibold text-muted hover:border-[#84cc16]/60 hover:text-[#3f6212]"
                   >
                     Edit
                   </Link>
@@ -263,7 +263,7 @@ export const ManagerDashboard = () => {
         </div>
 
         <div className="space-y-5">
-          <div className="rounded-2xl border border-line bg-card p-5 shadow-soft">
+          <div className="rounded-2xl border border-line bg-[#efe7d6] p-5 shadow-soft">
             <h2 className="mb-4 text-sm font-semibold text-ink">
               {t('portal.farmer.overview.quickActions')}
             </h2>
@@ -299,7 +299,7 @@ export const ManagerDashboard = () => {
                   to={action.to}
                   className="group flex items-center gap-3.5 rounded-xl p-2.5 transition-colors hover:bg-page"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-page text-ink transition-colors group-hover:bg-brand-600 group-hover:text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-page text-ink transition-colors group-hover:bg-[#d9f99d] group-hover:text-[#0f3d25]">
                     <Icon path={action.icon} />
                   </span>
                   <div className="min-w-0">
@@ -320,18 +320,18 @@ export const ManagerDashboard = () => {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl bg-brand-600 p-6 shadow-[0_8px_32px_rgba(15,118,110,0.25)]">
+          <div className="relative overflow-hidden rounded-2xl bg-[#d9f99d] p-6 shadow-[0_8px_32px_rgba(15,118,110,0.25)]">
             <div className="pointer-events-none absolute -bottom-10 -right-8 h-32 w-32 rounded-full bg-page/20" />
             <div className="relative">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f3d25]/60">
                 {t('portal.farmer.overview.openDemand')}
               </p>
-              <p className="mt-2 text-xl font-bold leading-snug text-white">
+              <p className="mt-2 text-xl font-bold leading-snug text-[#0f3d25]">
                 {openRequests > 0
                   ? `${openRequests} ${t('portal.farmer.overview.demandWaiting')}`
                   : t('portal.farmer.overview.noDemand')}
               </p>
-              <p className="mt-2 text-xs leading-relaxed text-white/65">
+              <p className="mt-2 text-xs leading-relaxed text-[#0f3d25]/70">
                 {openRequests > 0
                   ? t('portal.farmer.overview.demandActiveText')
                   : t('portal.farmer.overview.demandEmptyText')}

@@ -156,14 +156,14 @@ export const AdminDashboard = () => {
     <div className="space-y-7">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#3f6212] bg-[#d9f99d]/20 px-2.5 py-1 rounded-full">
             Platform Oversight
           </span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Platform Overview</h1>
           <p className="text-sm text-muted mt-1">Account health and access across Umuhinzi Connect.</p>
         </div>
-        <div className="flex items-center gap-2.5 text-xs font-semibold bg-brand-600 text-white rounded-full px-4 py-2.5">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse shrink-0" />
+        <div className="flex items-center gap-2.5 text-xs font-semibold bg-[#d9f99d] text-[#0f3d25] rounded-full px-4 py-2.5">
+          <span className="w-2 h-2 rounded-full bg-[#0f3d25] animate-pulse shrink-0" />
           <span className="uppercase tracking-wide text-[11px]">System Operational</span>
         </div>
       </div>
@@ -176,7 +176,7 @@ export const AdminDashboard = () => {
               card.accent ? 'bg-ink border-ink' : 'bg-[#f6f1e6] border-line shadow-soft'
             }`}
           >
-            <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-[#f6f1e6] text-ink'}`}>
+            <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-[#d9f99d] text-[#0f3d25]' : 'bg-[#f6f1e6] text-ink'}`}>
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d={card.icon} />
               </svg>
@@ -202,7 +202,7 @@ export const AdminDashboard = () => {
             ) : (
               recentActivity.map((act) => (
                 <div key={act.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-[#f6f1e6]/60 transition-colors">
-                  <span className="w-9 h-9 rounded-xl bg-brand-50 text-brand-700 flex items-center justify-center shrink-0">
+                  <span className="w-9 h-9 rounded-xl bg-[#d9f99d]/20 text-[#3f6212] flex items-center justify-center shrink-0">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                       <circle cx="9" cy="7" r="4" />
@@ -229,7 +229,7 @@ export const AdminDashboard = () => {
                   to={link.to}
                   className="group flex items-center gap-3.5 p-2.5 rounded-xl hover:bg-[#f6f1e6] transition-colors"
                 >
-                  <span className="w-10 h-10 rounded-xl bg-[#f6f1e6] group-hover:bg-brand-600 text-ink group-hover:text-white flex items-center justify-center transition-colors shrink-0">
+                  <span className="w-10 h-10 rounded-xl bg-[#f6f1e6] group-hover:bg-[#d9f99d] text-ink group-hover:text-[#0f3d25] flex items-center justify-center transition-colors shrink-0">
                     <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <path d={link.icon} />
                     </svg>
@@ -246,9 +246,9 @@ export const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-brand-600 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-white/60">Access control</p>
-            <p className="text-xl font-bold text-white mt-2 leading-snug">
+          <div className="rounded-2xl bg-[#d9f99d] p-6">
+            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#0f3d25]/60">Access control</p>
+            <p className="text-xl font-bold text-[#0f3d25] mt-2 leading-snug">
               {stats.totalPermissions} permissions across {stats.totalRoles} roles
             </p>
             <Link

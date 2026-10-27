@@ -155,7 +155,7 @@ export const AdminReportsPage = () => {
   const shopDonut = useMemo(() => {
     const s = overview.shops || {}
     return [
-      { label: 'Approved', value: s.approved, color: '#16A34A' },
+      { label: 'Approved', value: s.approved, color: '#65a30d' },
       { label: 'Pending', value: s.pending, color: '#F59E0B' },
       { label: 'Rejected', value: s.rejected, color: '#EF4444' },
     ].filter((d) => d.value > 0)
@@ -197,7 +197,7 @@ export const AdminReportsPage = () => {
       sortValue: (e) => e.name || '',
       render: (e) => (
         <div className="flex items-center gap-3 min-w-0">
-          <span className="w-9 h-9 rounded-full bg-brand-600 text-white text-[13px] font-semibold flex items-center justify-center shrink-0">
+          <span className="w-9 h-9 rounded-full bg-[#d9f99d] text-[#0f3d25] text-[13px] font-semibold flex items-center justify-center shrink-0">
             {(e.name || '?').charAt(0).toUpperCase()}
           </span>
           <div className="min-w-0">
@@ -259,21 +259,21 @@ export const AdminReportsPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
         <div>
-          <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
+          <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#3f6212] bg-[#d9f99d]/20 px-2.5 py-1 rounded-full">
             Platform Analytics
           </span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Reports</h1>
           <p className="text-sm text-muted mt-1">Growth, distribution, and activity across every shop on the platform.</p>
         </div>
         <div className="flex flex-col items-stretch sm:items-end gap-3">
-          <div className="flex items-center gap-1 rounded-full border border-line bg-card p-1 shadow-soft">
+          <div className="flex items-center gap-1 rounded-full border border-line bg-[#efe7d6] p-1 shadow-soft">
             {DAY_OPTIONS.map((opt) => (
               <button
                 key={opt.value}
                 type="button"
                 onClick={() => changeDays(opt.value)}
                 className={`text-xs font-semibold px-3.5 py-1.5 rounded-full transition-colors ${
-                  days === opt.value ? 'bg-brand-600 text-white' : 'text-muted hover:text-ink'
+                  days === opt.value ? 'bg-[#d9f99d] text-[#0f3d25]' : 'text-muted hover:text-ink'
                 }`}
               >
                 {opt.label}
@@ -297,11 +297,11 @@ export const AdminReportsPage = () => {
           <div
             key={card.label}
             className={`relative rounded-2xl border p-5 transition-all hover:-translate-y-0.5 hover:shadow-md ${
-              card.accent ? 'bg-ink border-ink' : 'bg-card border-line shadow-soft'
+              card.accent ? 'bg-ink border-ink' : 'bg-[#efe7d6] border-line shadow-soft'
             }`}
           >
             <div className="flex items-start justify-between">
-              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'}`}>
+              <span className={`w-11 h-11 rounded-xl flex items-center justify-center ${card.accent ? 'bg-[#d9f99d] text-[#0f3d25]' : 'bg-page text-ink'}`}>
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d={card.icon} />
                 </svg>
@@ -336,7 +336,7 @@ export const AdminReportsPage = () => {
         subtitle={`Shops, users & movements created daily (last ${days} days)`}
         data={trends}
         series={[
-          { key: 'shops', label: 'Shops', color: '#16A34A' },
+          { key: 'shops', label: 'Shops', color: '#65a30d' },
           { key: 'users', label: 'Users', color: '#0EA5E9' },
           { key: 'movements', label: 'Movements', color: '#F59E0B' },
         ]}

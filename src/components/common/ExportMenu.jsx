@@ -75,7 +75,7 @@ export default function ExportMenu({ excelLabel, onExcel, onPdf, onCsv, disabled
       <button
         onClick={() => setOpen((v) => !v)}
         disabled={disabled}
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-ink border border-line hover:bg-page text-sm font-medium px-4 py-2 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#fbf7ec] text-ink border border-line hover:bg-page text-sm font-medium px-4 py-2 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
         title="Export report (branded Excel, PDF, or raw CSV)"
       >
         <svg className="w-3.5 h-3.5 text-gray-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -88,7 +88,7 @@ export default function ExportMenu({ excelLabel, onExcel, onPdf, onCsv, disabled
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-60 rounded-2xl border border-line bg-card shadow-soft z-50 py-1.5 overflow-hidden">
+        <div className="absolute right-0 top-full mt-2 w-60 rounded-2xl border border-line bg-[#efe7d6] shadow-soft z-50 py-1.5 overflow-hidden">
           {visibleOptions.map((o) => (
             <button
               key={o.key}

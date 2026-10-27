@@ -111,14 +111,14 @@ export const AdminSecuritySettingsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
+        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#3f6212] bg-[#d9f99d]/20 px-2.5 py-1 rounded-full">
           Security & OTP
         </span>
         <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Security & OTP</h1>
         <p className="text-sm text-muted mt-1">Password policies, two-factor authentication, and access hardening.</p>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft overflow-hidden">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft overflow-hidden">
         <div className="px-6 py-5 border-b border-line">
           <h3 className="text-base font-semibold text-ink leading-snug">Two-Factor Authentication</h3>
           <p className="text-[13px] text-muted mt-1 leading-snug">
@@ -163,7 +163,7 @@ export const AdminSecuritySettingsPage = () => {
             </div>
             <Link
               to={ROUTE_PATHS.ADMIN_ACCOUNT}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-brand-600 px-6 py-2.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-600 hover:text-white shrink-0"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#d9f99d] px-6 py-2.5 text-sm font-medium text-[#3f6212] transition-colors hover:bg-[#d9f99d] hover:text-[#0f3d25] shrink-0"
             >
               Review account
             </Link>
@@ -171,7 +171,7 @@ export const AdminSecuritySettingsPage = () => {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft overflow-hidden">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft overflow-hidden">
         <div className="px-6 py-5 border-b border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h3 className="text-base font-semibold text-ink leading-snug">Who needs a code at sign-in</h3>
@@ -181,7 +181,7 @@ export const AdminSecuritySettingsPage = () => {
             type="button"
             onClick={refreshOverview}
             disabled={refreshing}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-page disabled:opacity-60 shrink-0"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-[#fbf7ec] px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-page disabled:opacity-60 shrink-0"
           >
             <svg
               className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`}
@@ -209,7 +209,7 @@ export const AdminSecuritySettingsPage = () => {
                   {loading ? '—' : `${row.count} ${row.count === 1 ? 'account' : 'accounts'}`}
                 </span>
                 {row.personal > 0 && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-50 text-brand-700 px-3 py-1 text-xs font-semibold">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#d9f99d]/20 text-[#3f6212] px-3 py-1 text-xs font-semibold">
                     {row.personal} {row.personal === 1 ? 'has' : 'have'} personal 2FA
                   </span>
                 )}
@@ -234,7 +234,7 @@ export const AdminSecuritySettingsPage = () => {
       <ActiveSessions />
 
       {loading && (
-        <div className="rounded-xl border border-line bg-card p-4 text-sm text-muted animate-pulse">
+        <div className="rounded-xl border border-line bg-[#efe7d6] p-4 text-sm text-muted animate-pulse">
           Loading security settings…
         </div>
       )}

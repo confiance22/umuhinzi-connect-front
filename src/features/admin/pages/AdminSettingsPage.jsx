@@ -96,7 +96,7 @@ export const AdminSettingsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-brand-700 bg-brand-50 px-2.5 py-1 rounded-full">
+        <span className="inline-block text-xs font-semibold uppercase tracking-[0.14em] text-[#3f6212] bg-[#d9f99d]/20 px-2.5 py-1 rounded-full">
           Platform Configuration
         </span>
         <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-3">Settings</h1>
@@ -108,7 +108,7 @@ export const AdminSettingsPage = () => {
           <Link
             key={section.to}
             to={section.to}
-            className="group flex flex-col gap-5 h-full rounded-2xl border border-line bg-card p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-md"
+            className="group flex flex-col gap-5 h-full rounded-2xl border border-line bg-[#efe7d6] p-6 shadow-soft transition-all hover:-translate-y-0.5 hover:shadow-md"
           >
             <span className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 transition-colors group-hover:bg-emerald-100">
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

@@ -18,7 +18,7 @@ import { ROUTE_PATHS } from '../constants/routePaths'
 import ConfirmDeleteModal from '../components/admin/ConfirmDeleteModal'
 
 const TYPE_CONFIG = {
-  all: { label: 'All Categories', color: 'bg-gray-100 text-gray-700' },
+  all: { label: 'All Categories', color: 'bg-[#e8dfca] text-gray-700' },
   stock: {
     label: 'Harvests & Listings',
     badge: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -60,7 +60,7 @@ const TYPE_CONFIG = {
   },
   info: {
     label: 'System Alerts',
-    badge: 'bg-gray-100 text-gray-700 border-gray-200',
+    badge: 'bg-[#e8dfca] text-gray-700 border-gray-200',
     icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10" />
@@ -162,7 +162,7 @@ export default function NotificationsPage({ scope: propScope }) {
             <h1 className="text-2xl sm:text-3xl font-bold text-ink tracking-tight">
               Notifications
             </h1>
-            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-brand-600 text-white">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#d9f99d] text-[#0f3d25]">
               {unread} unread
             </span>
           </div>
@@ -178,7 +178,7 @@ export default function NotificationsPage({ scope: propScope }) {
           {unread > 0 && (
             <button
               onClick={handleMarkAllRead}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-50 px-3.5 py-2 text-sm font-medium text-brand-600 transition-[transform,background-color,color] duration-150 hover:bg-brand-100 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#d9f99d]/20 px-3.5 py-2 text-sm font-medium text-[#3f6212] transition-[transform,background-color,color] duration-150 hover:bg-[#d9f99d]/40 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
             >
               Mark all as read
             </button>
@@ -186,7 +186,7 @@ export default function NotificationsPage({ scope: propScope }) {
           {items.length > 0 && (
             <button
               onClick={handleClearAll}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-white px-3.5 py-2 text-sm font-medium text-ink transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-red-600 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-[#fbf7ec] px-3.5 py-2 text-sm font-medium text-ink transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-red-600 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
             >
               Clear all
             </button>
@@ -195,7 +195,7 @@ export default function NotificationsPage({ scope: propScope }) {
       </div>
 
       {/* ── Multi-Filter Bar ── */}
-      <div className="rounded-2xl border border-line bg-card shadow-soft p-4 space-y-4">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft p-4 space-y-4">
         {/* Search Bar & Status Tabs */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
           {/* Keyword Search */}
@@ -210,7 +210,7 @@ export default function NotificationsPage({ scope: propScope }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search notifications by keyword..."
-              className="h-11 w-full rounded-lg border border-line bg-white pl-9 pr-9 text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25"
+              className="h-11 w-full rounded-lg border border-line bg-[#fbf7ec] pl-9 pr-9 text-sm text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25"
             />
             {searchQuery && (
               <button
@@ -223,12 +223,12 @@ export default function NotificationsPage({ scope: propScope }) {
           </div>
 
           {/* Status Tabs */}
-          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-full shrink-0 self-start md:self-auto">
+          <div className="flex items-center gap-1 bg-[#e8dfca] p-1 rounded-full shrink-0 self-start md:self-auto">
             <button
               onClick={() => setStatusFilter('all')}
               className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
                 statusFilter === 'all'
-                  ? 'bg-white text-ink shadow-soft'
+                  ? 'bg-[#d9f99d] text-[#0f3d25] shadow-soft'
                   : 'text-gray-500 hover:text-ink'
               }`}
             >
@@ -238,7 +238,7 @@ export default function NotificationsPage({ scope: propScope }) {
               onClick={() => setStatusFilter('unread')}
               className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
                 statusFilter === 'unread'
-                  ? 'bg-white text-brand-600 shadow-soft'
+                  ? 'bg-[#d9f99d] text-[#0f3d25] shadow-soft'
                   : 'text-gray-500 hover:text-ink'
               }`}
             >
@@ -248,7 +248,7 @@ export default function NotificationsPage({ scope: propScope }) {
               onClick={() => setStatusFilter('read')}
               className={`rounded-full px-3 py-1.5 text-xs font-bold transition-all ${
                 statusFilter === 'read'
-                  ? 'bg-white text-ink shadow-soft'
+                  ? 'bg-[#d9f99d] text-[#0f3d25] shadow-soft'
                   : 'text-gray-500 hover:text-ink'
               }`}
             >
@@ -266,7 +266,7 @@ export default function NotificationsPage({ scope: propScope }) {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="text-xs font-semibold bg-white border border-line rounded-lg px-2.5 py-1.5 text-ink outline-none focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25"
+                className="text-xs font-semibold bg-[#fbf7ec] border border-line rounded-lg px-2.5 py-1.5 text-ink outline-none focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25"
               >
                 <option value="all">All Categories</option>
                 <option value="stock">Harvests & Listings</option>
@@ -283,7 +283,7 @@ export default function NotificationsPage({ scope: propScope }) {
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="text-xs font-semibold bg-white border border-line rounded-lg px-2.5 py-1.5 text-ink outline-none focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25"
+                className="text-xs font-semibold bg-[#fbf7ec] border border-line rounded-lg px-2.5 py-1.5 text-ink outline-none focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25"
               >
                 <option value="all">All Time</option>
                 <option value="today">Today</option>
@@ -297,7 +297,7 @@ export default function NotificationsPage({ scope: propScope }) {
           {isFiltered && (
             <button
               onClick={resetFilters}
-              className="text-xs font-semibold text-brand-600 hover:text-brand-800 underline underline-offset-2"
+              className="text-xs font-semibold text-[#0f3d25] hover:text-[#3f6212] underline underline-offset-2"
             >
               Reset filters
             </button>
@@ -309,8 +309,8 @@ export default function NotificationsPage({ scope: propScope }) {
       <div className="space-y-3">
         {filteredItems.length === 0 ? (
           /* Empty State */
-          <div className="rounded-2xl border border-line bg-card shadow-soft p-12 text-center">
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto text-gray-400 mb-3">
+          <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft p-12 text-center">
+            <div className="w-12 h-12 rounded-full bg-[#e8dfca] flex items-center justify-center mx-auto text-gray-400 mb-3">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
@@ -324,7 +324,7 @@ export default function NotificationsPage({ scope: propScope }) {
             {isFiltered && (
               <button
                 onClick={resetFilters}
-                className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-brand-600 px-4 py-2 text-sm font-medium text-white transition-[transform,background-color,color] duration-150 hover:bg-brand-700 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[#d9f99d] px-4 py-2 text-sm font-medium text-[#0f3d25] transition-[transform,background-color,color] duration-150 hover:bg-[#c3f27f] active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
               >
                 Clear all filters
               </button>
@@ -338,13 +338,13 @@ export default function NotificationsPage({ scope: propScope }) {
               <div
                 key={n.id}
                 className={`group rounded-2xl border transition-all duration-200 p-4 sm:p-5 flex items-start gap-4 shadow-soft hover:shadow-md ${
-                  n.read ? 'border-line bg-card' : 'border-brand-600/30 bg-brand-50/20'
+                  n.read ? 'border-line bg-[#efe7d6]' : 'border-[#d9f99d] bg-[#d9f99d]/20'
                 }`}
               >
                 {/* Category Icon Badge */}
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border ${
-                    config.badge || 'bg-gray-50 text-gray-600 border-gray-200'
+                    config.badge || 'bg-[#e8dfca] text-gray-600 border-line'
                   }`}
                 >
                   {config.icon}
@@ -355,14 +355,14 @@ export default function NotificationsPage({ scope: propScope }) {
                   <div className="flex flex-wrap items-center gap-2">
                     <span
                       className={`text-xs uppercase font-bold tracking-wider px-2 py-0.5 rounded-full border ${
-                        config.badge || 'bg-gray-100 text-gray-700 border-gray-200'
+                        config.badge || 'bg-[#e8dfca] text-gray-700 border-gray-200'
                       }`}
                     >
                       {config.label}
                     </span>
 
                     {!n.read && (
-                      <span className="w-2 h-2 rounded-full bg-brand-600 inline-block" title="Unread" />
+                      <span className="w-2 h-2 rounded-full bg-[#4d7c0f] inline-block" title="Unread" />
                     )}
 
                     <span className="text-xs text-gray-400 ml-auto">
@@ -382,7 +382,7 @@ export default function NotificationsPage({ scope: propScope }) {
                   <button
                     onClick={() => (n.read ? markUnread(n.id) : markRead(n.id))}
                     title={n.read ? 'Mark as unread' : 'Mark as read'}
-                    className="rounded-full p-1.5 text-gray-400 transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-brand-600 active:scale-[0.98]"
+                    className="rounded-full p-1.5 text-gray-400 transition-[transform,background-color,color] duration-150 hover:bg-page hover:text-[#3f6212] active:scale-[0.98]"
                   >
                     {n.read ? (
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

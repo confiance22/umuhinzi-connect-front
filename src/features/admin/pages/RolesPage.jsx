@@ -10,14 +10,14 @@ import { useToastContext } from '../../../context/ToastContext'
 
 const ROLE_ACCENTS = {
   super_admin: 'bg-ink text-white',
-  farmer: 'bg-brand-600/10 text-brand-700',
+  farmer: 'bg-[#d9f99d]/10 text-[#3f6212]',
   buyer: 'bg-amber-50 text-amber-700',
 }
 
 const resolveRoleStatus = (role) => (role.active === false ? 'Inactive' : 'Active')
 
 const fieldClass =
-  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-white text-ink focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all duration-200'
+  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-[#fbf7ec] text-ink focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all duration-200'
 
 const CalendarIcon = (
   <svg className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -137,7 +137,7 @@ export const RolesPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#4d7c0f]">
             ACCESS CONTROL
           </span>
           <h1 className="text-2xl font-bold text-ink tracking-tight sm:text-3xl mt-1">
@@ -147,13 +147,13 @@ export const RolesPage = () => {
             Three system roles define the farmer, buyer, and Super Admin portals. Super Admin access is fixed.
           </p>
         </div>
-        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-4 py-2 text-xs font-semibold text-brand-800">
+        <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#d9f99d] bg-[#d9f99d]/20 px-4 py-2 text-xs font-semibold text-[#365314]">
           {LockIcon}
           System roles
         </span>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft p-4 w-fit max-w-full">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft p-4 w-fit max-w-full">
         <div className="flex flex-wrap items-end gap-3.5">
           <div className="w-[160px] flex flex-col gap-1.5">
             <label className="text-sm font-medium text-ink">Status</label>
@@ -198,7 +198,7 @@ export const RolesPage = () => {
 
           <button
             onClick={fetchRoles}
-            className="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+            className="shrink-0 inline-flex items-center justify-center h-10 px-5 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
           >
             Apply
           </button>
@@ -208,7 +208,7 @@ export const RolesPage = () => {
               setFilterRoleDateFrom('')
               setFilterRoleDateTo('')
             }}
-            className="shrink-0 inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-full bg-white text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+            className="shrink-0 inline-flex items-center justify-center gap-1.5 h-10 px-4 rounded-full bg-[#fbf7ec] text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
           >
             {RebootIcon}
             Reset
@@ -216,7 +216,7 @@ export const RolesPage = () => {
         </div>
       </div>
 
-      <div className="bg-card rounded-2xl border border-line shadow-soft overflow-hidden">
+      <div className="bg-[#efe7d6] rounded-2xl border border-line shadow-soft overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[980px]">
             <thead>
@@ -235,7 +235,7 @@ export const RolesPage = () => {
                 const status = resolveRoleStatus(role)
                 const isSuperAdmin = role.key === 'super_admin'
                 return (
-                  <tr key={role.id || role.key} className="hover:bg-brand-600/[0.05] transition-colors">
+                  <tr key={role.id || role.key} className="hover:bg-[#d9f99d]/[0.05] transition-colors">
                     <td className="px-4 py-2.5 pl-6">
                       {isSuperAdmin ? (
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted">
@@ -281,7 +281,7 @@ export const RolesPage = () => {
                         <button
                           onClick={() => openPermModal(role)}
                           title="Manage permissions"
-                          className="inline-flex items-center justify-center min-w-[1.75rem] h-7 px-2 rounded-full bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 transition-[transform,background-color] duration-150 active:scale-[0.98]"
+                          className="inline-flex items-center justify-center min-w-[1.75rem] h-7 px-2 rounded-full bg-[#d9f99d] text-[#0f3d25] text-xs font-bold hover:bg-[#c3f27f] transition-[transform,background-color] duration-150 active:scale-[0.98]"
                         >
                           {role.permissions?.length ?? 0}
                         </button>

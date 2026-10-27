@@ -20,7 +20,7 @@ const initialsOf = (name) =>
 const detailLabelClass = 'block text-xs text-muted mb-1'
 const fieldLabelClass = 'block text-sm font-medium text-ink mb-1.5'
 const inputClass =
-  'h-11 w-full rounded-lg bg-white border border-line px-3.5 text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all'
+  'h-11 w-full rounded-lg bg-[#fbf7ec] border border-line px-3.5 text-sm text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all'
 
 const DetailCard = ({ label, value }) => (
   <div className="rounded-xl bg-page border border-line px-4 py-3.5">
@@ -144,7 +144,7 @@ export const AdminAccountPage = () => {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="flex items-center gap-5">
-        <span className="w-20 h-20 rounded-[1.75rem] bg-brand-600 text-white text-xl font-bold flex items-center justify-center shrink-0 shadow-lg shadow-brand-600/25">
+        <span className="w-20 h-20 rounded-[1.75rem] bg-[#d9f99d] text-[#0f3d25] text-xl font-bold flex items-center justify-center shrink-0 shadow-lg shadow-[#d9f99d]/25">
           {initialsOf(user?.name || user?.username)}
         </span>
         <div className="min-w-0">
@@ -160,7 +160,7 @@ export const AdminAccountPage = () => {
         </div>
       </div>
 
-      <div className="bg-card rounded-2xl border border-line shadow-soft overflow-hidden">
+      <div className="bg-[#efe7d6] rounded-2xl border border-line shadow-soft overflow-hidden">
         <div className="bg-page border-b border-line p-2 flex items-center gap-1.5 overflow-x-auto">
           {TABS.map((t) => {
             const active = activeTab === t.id
@@ -170,7 +170,7 @@ export const AdminAccountPage = () => {
                 type="button"
                 onClick={() => setTab(t.id)}
                 className={`flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-[transform,background-color,color] duration-150 whitespace-nowrap active:scale-[0.98] ${
-                  active ? 'bg-ink text-white' : 'text-gray-500 hover:text-ink hover:bg-white'
+                  active ? 'bg-ink text-white' : 'text-gray-500 hover:text-ink hover:bg-[#e8dfca]'
                 }`}
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
@@ -243,7 +243,7 @@ export const AdminAccountPage = () => {
                 <button
                   type="submit"
                   disabled={profileLoading}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-[#d9f99d] text-[#0f3d25] hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
                 >
                   {profileLoading ? 'Saving…' : 'Save profile'}
                 </button>
@@ -333,7 +333,7 @@ export const AdminAccountPage = () => {
                 <button
                   type="submit"
                   disabled={pwLoading}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-brand-600 text-white hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full text-sm font-medium bg-[#d9f99d] text-[#0f3d25] hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
                 >
                   {pwLoading ? 'Updating…' : 'Update Password'}
                 </button>

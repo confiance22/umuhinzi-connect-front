@@ -6,7 +6,7 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 
 const ACTION_TONES = {
-  ink: 'hover:text-ink hover:bg-brand-600/10',
+  ink: 'hover:text-ink hover:bg-[#d9f99d]/10',
   amber: 'hover:text-amber-600 hover:bg-amber-50',
   emerald: 'hover:text-emerald-600 hover:bg-emerald-50',
   gray: 'hover:text-ink/70 hover:bg-ink/[0.06]',
@@ -28,7 +28,7 @@ export const ActionButton = ({ label, tone = 'ink', onClick, children }) => (
 )
 
 export const ActionDock = ({ children }) => (
-  <div className="inline-flex items-center gap-0.5 rounded-xl border border-line bg-card shadow-sm p-0.5">
+  <div className="inline-flex items-center gap-0.5 rounded-xl border border-line bg-[#efe7d6] shadow-sm p-0.5">
     {children}
   </div>
 )
@@ -128,7 +128,7 @@ export const RowActionMenu = ({ primary, items = [] }) => {
           onClick={toggle}
           aria-expanded={open}
           className={`inline-flex items-center justify-center gap-2 pl-3.5 pr-3 h-8 text-sm font-medium rounded-full transition-[transform,background-color,color] duration-150 active:scale-[0.98] ${
-            open ? 'bg-brand-700 text-white' : 'bg-brand-600 text-white hover:bg-brand-700'
+            open ? 'bg-[#c3f27f] text-[#0f3d25]' : 'bg-[#d9f99d] text-[#0f3d25] hover:bg-[#c3f27f]'
           }`}
         >
           <span>Actions</span>
@@ -149,7 +149,7 @@ export const RowActionMenu = ({ primary, items = [] }) => {
           <div
             ref={menuRef}
             style={{ top: coords.top, left: coords.left, position: 'fixed' }}
-            className="w-[220px] bg-white border border-line rounded-2xl shadow-xl py-1.5 z-[99999] animate-[fadeIn_0.15s_ease]"
+            className="w-[220px] bg-[#fbf7ec] border border-line rounded-2xl shadow-xl py-1.5 z-[99999] animate-[fadeIn_0.15s_ease]"
           >
             {normalizedItems.map((item, i) =>
               item === 'divider' ? (

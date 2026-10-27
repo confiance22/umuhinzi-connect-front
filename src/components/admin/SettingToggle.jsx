@@ -1,6 +1,6 @@
 /**
  * SettingToggle — label/switch row used by the Super Admin settings pages.
- * 44×24 switch that turns green (#16A34A) when on with a smooth knob slide.
+ * 44×24 switch that turns green (#d9f99d) when on with a smooth knob slide.
  */
 export default function SettingToggle({
   title,
@@ -18,20 +18,20 @@ export default function SettingToggle({
         <p className="text-[13px] text-muted mt-1 leading-snug max-w-2xl">{description}</p>
       </div>
       <div className="flex items-center gap-2.5 shrink-0">
-        {busy && <span className="text-xs font-medium text-brand-700 animate-pulse">{busyLabel}</span>}
+        {busy && <span className="text-xs font-medium text-[#3f6212] animate-pulse">{busyLabel}</span>}
         <button
           type="button"
           role="switch"
           aria-checked={on}
           disabled={disabled || busy}
           onClick={() => onChange(!on)}
-          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline focus:outline-2 focus:outline-brand-500/40 disabled:opacity-50 disabled:pointer-events-none ${
-            on ? 'bg-[#16A34A]' : 'bg-[#D1D5DB]'
+          className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline focus:outline-2 focus:outline-[#84cc16]/40 disabled:opacity-50 disabled:pointer-events-none ${
+            on ? 'bg-[#d9f99d]' : 'bg-[#D1D5DB]'
           }`}
         >
           <span
-            className={`inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform duration-200 ${
-              on ? 'translate-x-6' : 'translate-x-0.5'
+            className={`inline-block h-5 w-5 transform rounded-full shadow transition-transform duration-200 ${
+              on ? 'translate-x-6 bg-[#0f3d25]' : 'translate-x-0.5 bg-white'
             }`}
           />
         </button>

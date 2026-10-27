@@ -14,7 +14,7 @@ import { useAuth } from '../../../hooks/useAuth'
 import { useToastContext } from '../../../context/ToastContext'
 
 const AVATAR_STYLES = [
-  'bg-brand-600/20 text-brand-700',
+  'bg-[#d9f99d]/20 text-[#3f6212]',
   'bg-rose-100 text-rose-700',
   'bg-amber-100 text-amber-700',
   'bg-emerald-100 text-emerald-700',
@@ -61,7 +61,7 @@ const resolveUserStatus = (user) => {
 const TEMP_PASSWORD = 'TempPass@2026'
 
 const filterFieldClass =
-  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-white text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all duration-200'
+  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-[#fbf7ec] text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all duration-200'
 
 const RebootIcon = (
   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -273,7 +273,7 @@ export const UserManagementPage = () => {
             </span>
             <span className="text-sm font-medium text-ink whitespace-nowrap">{u.name || '—'}</span>
             {isSelf(u) && (
-              <span className="px-1.5 py-0.5 rounded-full bg-brand-50 text-brand-700 text-[9px] font-bold uppercase tracking-wide shrink-0">You</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-[#d9f99d]/20 text-[#3f6212] text-[9px] font-bold uppercase tracking-wide shrink-0">You</span>
             )}
           </div>
         )
@@ -300,7 +300,7 @@ export const UserManagementPage = () => {
       sortValue: getUserRoleName,
       render: (u) => (
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-page text-ink border border-line">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-600 ring-1 ring-line shrink-0" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#d9f99d] ring-1 ring-line shrink-0" />
           {getUserRoleName(u)}
         </span>
       ),
@@ -351,7 +351,7 @@ export const UserManagementPage = () => {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">USER MANAGEMENT</span>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#4d7c0f]">USER MANAGEMENT</span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-1">User Management</h1>
           <p className="text-sm text-muted mt-1">Manage platform accounts and their assigned roles.</p>
         </div>
@@ -360,13 +360,13 @@ export const UserManagementPage = () => {
             setEditingUser(null)
             setIsUserModalOpen(true)
           }}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
         >
           New User
         </button>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
         <div className="w-[260px] flex flex-col gap-1">
           <label className="text-sm font-medium text-ink">Search</label>
           <div className="relative">
@@ -401,7 +401,7 @@ export const UserManagementPage = () => {
         <div className="flex-1" />
         <button
           onClick={resetFilters}
-          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           {RebootIcon}
           Reset
@@ -451,7 +451,7 @@ export const UserManagementPage = () => {
           onClick={() => setNewUserCreds(null)}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white shadow-2xl"
+            className="w-full max-w-md rounded-2xl bg-[#fbf7ec] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="px-6 pt-6 pb-4 border-b border-[#192540]/[0.08]">
@@ -481,7 +481,7 @@ export const UserManagementPage = () => {
                   </div>
                   <button
                     onClick={() => copyCredential(row.value)}
-                    className="shrink-0 inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold text-brand-700 bg-brand-600/[0.08] hover:bg-brand-600/15 transition-colors"
+                    className="shrink-0 inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold text-[#3f6212] bg-[#d9f99d]/[0.08] hover:bg-[#d9f99d]/15 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="9" y="9" width="13" height="13" rx="2" />

@@ -12,7 +12,7 @@ import { shopsApi } from '../../../api/shopsApi'
 import { useToastContext } from '../../../context/ToastContext'
 
 const filterFieldClass =
-  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-white text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all duration-200'
+  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-[#fbf7ec] text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all duration-200'
 
 const ApprovalPill = ({ status, active }) => {
   if (status !== 'APPROVED') {
@@ -41,7 +41,7 @@ return (
 }
 
 const inputClass =
-  'h-11 w-full rounded-lg border border-line bg-white text-sm text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all'
+  'h-11 w-full rounded-lg border border-line bg-[#fbf7ec] text-sm text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all'
 
 const RebootIcon = (
   <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -244,7 +244,7 @@ export const ShopsPage = () => {
       sortValue: (e) => e.name || '',
       render: (e) => (
         <div className="flex items-center gap-3 min-w-0">
-          <span className="w-9 h-9 rounded-full bg-brand-600 text-white text-[13px] font-semibold flex items-center justify-center shrink-0">
+          <span className="w-9 h-9 rounded-full bg-[#d9f99d] text-[#0f3d25] text-[13px] font-semibold flex items-center justify-center shrink-0">
             {(e.name || '?').charAt(0).toUpperCase()}
           </span>
           <div className="min-w-0">
@@ -306,7 +306,7 @@ export const ShopsPage = () => {
     <div className="space-y-6">
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">Shop Directory</span>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#4d7c0f]">Shop Directory</span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-1">Registered Shops</h1>
           <p className="text-sm text-muted mt-1">
             Every shop on the platform{shops.length ? ` — ${shops.length} total` : ''}. Self-registered shops start
@@ -315,7 +315,7 @@ export const ShopsPage = () => {
         </div>
         <button
           onClick={() => setShowCreate(true)}
-          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+          className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
         >
           New Shop
         </button>
@@ -343,7 +343,7 @@ export const ShopsPage = () => {
         </button>
       )}
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
         <div className="w-[260px] flex flex-col gap-1">
           <label className="text-sm font-medium text-ink">Search</label>
           <div className="relative">
@@ -371,7 +371,7 @@ export const ShopsPage = () => {
             setSearch('')
             setStatusFilter('ALL')
           }}
-          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           {RebootIcon}
           Reset
@@ -400,7 +400,7 @@ export const ShopsPage = () => {
         createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => !submitting && setShowCreate(false)} />
-            <div className="relative bg-card rounded-2xl shadow-2xl w-full max-w-xl p-6 max-h-[90vh] overflow-y-auto animate-[zoomIn_0.2s_ease]">
+            <div className="relative bg-[#efe7d6] rounded-2xl shadow-2xl w-full max-w-xl p-6 max-h-[90vh] overflow-y-auto animate-[zoomIn_0.2s_ease]">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-lg font-semibold tracking-tight text-ink">New Shop</h2>
                 <button onClick={() => !submitting && setShowCreate(false)} className="w-8 h-8 rounded-full hover:bg-page text-gray-400 hover:text-ink flex items-center justify-center transition-colors" aria-label="Close">
@@ -438,10 +438,10 @@ export const ShopsPage = () => {
                 </div>
 
                 <div className="flex items-center justify-end gap-3 pt-2">
-                  <button type="button" onClick={() => setShowCreate(false)} disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                  <button type="button" onClick={() => setShowCreate(false)} disabled={submitting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                     Cancel
                   </button>
-                  <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-brand-600 text-white text-sm font-medium hover:bg-brand-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                  <button type="submit" disabled={submitting} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#c3f27f] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                     {submitting ? 'Creating…' : 'Create Shop'}
                   </button>
                 </div>
@@ -455,7 +455,7 @@ export const ShopsPage = () => {
         createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => !approving && setApproveTarget(null)} />
-            <div className="relative bg-card rounded-2xl shadow-2xl w-full max-w-md p-6 animate-[zoomIn_0.2s_ease]">
+            <div className="relative bg-[#efe7d6] rounded-2xl shadow-2xl w-full max-w-md p-6 animate-[zoomIn_0.2s_ease]">
               <div className="flex items-start justify-between mb-4">
                 <span className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -477,10 +477,10 @@ export const ShopsPage = () => {
                 <p><span className="font-semibold text-ink">Registered · </span>{approveTarget.createdAt ? new Date(approveTarget.createdAt).toLocaleDateString() : '—'}</p>
               </div>
               <div className="flex items-center justify-end gap-3 mt-6">
-                <button type="button" onClick={() => setApproveTarget(null)} disabled={approving} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                <button type="button" onClick={() => setApproveTarget(null)} disabled={approving} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                   Cancel
                 </button>
-                <button type="button" onClick={confirmApprove} disabled={approving} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#16A34A] text-white text-sm font-medium hover:bg-[#128A3E] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                <button type="button" onClick={confirmApprove} disabled={approving} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#d9f99d] text-[#0f3d25] text-sm font-medium hover:bg-[#128A3E] transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                   {approving ? 'Approving…' : 'Approve Shop'}
                 </button>
               </div>
@@ -493,7 +493,7 @@ export const ShopsPage = () => {
         createPortal(
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => !rejecting && setRejectTarget(null)} />
-            <div className="relative bg-card rounded-2xl shadow-2xl w-full max-w-md p-6 animate-[zoomIn_0.2s_ease]">
+            <div className="relative bg-[#efe7d6] rounded-2xl shadow-2xl w-full max-w-md p-6 animate-[zoomIn_0.2s_ease]">
               <div className="flex items-start justify-between mb-4">
                 <span className="w-11 h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
                   <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -519,7 +519,7 @@ export const ShopsPage = () => {
                   className={`${inputClass} h-auto py-2.5 resize-none`}
                 />
                 <div className="flex items-center justify-end gap-3 pt-4">
-                  <button type="button" onClick={() => setRejectTarget(null)} disabled={rejecting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
+                  <button type="button" onClick={() => setRejectTarget(null)} disabled={rejecting} className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line text-sm font-medium hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">
                     Cancel
                   </button>
                   <button type="submit" disabled={rejecting} className="inline-flex items-center justify-center gap-2 px-5 py-2 rounded-full bg-rose-600 text-white text-sm font-medium hover:bg-rose-700 transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none">

@@ -291,7 +291,7 @@ export const PortalLayout = ({
         <Link
           to="/"
           title={t('portal.backToSite')}
-          className="flex items-center justify-center rounded-xl border border-white/10 bg-ink p-2.5 text-white/60 transition-colors hover:bg-brand-600/20 hover:text-white"
+          className="flex items-center justify-center rounded-xl border border-white/10 bg-ink p-2.5 text-white/60 transition-colors hover:bg-[#d9f99d]/15 hover:text-[#d9f99d]"
         >
           <Icon name="globe" className="h-4 w-4" />
         </Link>
@@ -299,12 +299,12 @@ export const PortalLayout = ({
         <div className="rounded-xl border border-white/10 bg-ink p-2 shadow-lg shadow-black/20">
           <Link
             to="/"
-            className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11px] font-medium text-white/65 transition-colors hover:bg-brand-600/15 hover:text-white"
+            className="group flex items-center gap-2 rounded-lg px-2 py-1.5 text-[11px] font-medium text-white/65 transition-colors hover:bg-[#d9f99d]/15 hover:text-[#d9f99d]"
           >
-            <Icon name="globe" className="h-3.5 w-3.5 text-brand-400" />
+            <Icon name="globe" className="h-3.5 w-3.5 text-[#d9f99d]" />
             <span>{t('portal.backToSite')}</span>
             <svg
-              className="ml-auto h-3 w-3 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:text-white/60"
+              className="ml-auto h-3 w-3 text-white/30 transition-transform group-hover:translate-x-0.5 group-hover:text-[#d9f99d]/60"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -317,15 +317,15 @@ export const PortalLayout = ({
           <div className="mx-2 my-1 h-px bg-white/[0.06]" />
 
           <div className="px-2 pb-0.5 pt-1">
-            <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-brand-400/70">{t('portal.explore')}</p>
+            <p className="text-[8px] font-semibold uppercase tracking-[0.16em] text-[#d9f99d]/70">{t('portal.explore')}</p>
             <div className="mt-1 flex flex-wrap gap-x-2.5 gap-y-1">
-              <Link to="/harvests" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
+              <Link to="/harvests" className="text-[10px] font-medium text-white/40 transition-colors hover:text-[#d9f99d]">
                 {t('portal.marketplace')}
               </Link>
-              <Link to="/market-prices" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
+              <Link to="/market-prices" className="text-[10px] font-medium text-white/40 transition-colors hover:text-[#d9f99d]">
                 {t('portal.prices')}
               </Link>
-              <Link to="/contact" className="text-[10px] font-medium text-white/40 transition-colors hover:text-brand-300">
+              <Link to="/contact" className="text-[10px] font-medium text-white/40 transition-colors hover:text-[#d9f99d]">
                 {t('portal.support')}
               </Link>
             </div>
@@ -349,7 +349,7 @@ export const PortalLayout = ({
           textClassName="text-[15px]"
         />
         {!(collapsed && !mobileOpen) && (
-          <p className="mt-2 ml-[48px] text-xs font-bold text-brand-400 uppercase tracking-[0.14em]">
+          <p className="mt-2 ml-[48px] text-xs font-bold text-[#d9f99d] uppercase tracking-[0.14em]">
             {subtitle}
           </p>
         )}
@@ -364,8 +364,8 @@ export const PortalLayout = ({
               collapsed && !mobileOpen ? 'lg:justify-center' : ''
             } ${
               isActive
-                ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
-                : 'text-white/60 hover:text-white hover:bg-brand-600/20'
+                ? 'bg-[#d9f99d] text-[#0f3d25] shadow-md shadow-[#d9f99d]/25'
+                : 'text-white/60 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15'
             }`
           }
         >
@@ -388,13 +388,13 @@ export const PortalLayout = ({
                 } ${
                   railMode
                     ? anyChildActive
-                      ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
-                      : 'text-white/60 hover:text-white hover:bg-brand-600/20'
+                      ? 'bg-[#d9f99d] text-[#0f3d25] shadow-md shadow-[#d9f99d]/25'
+                      : 'text-white/60 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15'
                     : section.highlight && anyChildActive
-                    ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
+                    ? 'bg-[#d9f99d] text-[#0f3d25] shadow-md shadow-[#d9f99d]/25'
                     : expanded
-                    ? 'text-white bg-brand-600/15'
-                    : 'text-white/60 hover:text-white hover:bg-brand-600/20'
+                    ? 'text-[#d9f99d] bg-[#d9f99d]/15'
+                    : 'text-white/60 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15'
                 }`}
               >
                 <span className="flex items-center gap-3 min-w-0">
@@ -404,7 +404,7 @@ export const PortalLayout = ({
                 {!railMode && (
                   <svg
                     className={`w-3.5 h-3.5 shrink-0 transition-transform duration-300 ${expanded ? 'rotate-180' : ''} ${
-                      section.highlight && anyChildActive ? 'text-white/80' : expanded ? 'text-brand-400' : 'text-white/30'
+                      section.highlight && anyChildActive ? 'text-white/80' : expanded ? 'text-[#d9f99d]' : 'text-white/30'
                     }`}
                     fill="none"
                     stroke="currentColor"
@@ -421,7 +421,7 @@ export const PortalLayout = ({
                   expanded && !railMode ? 'max-h-64 opacity-100 mt-1' : 'max-h-0 opacity-0'
                 }`}
               >
-                <div className="ml-[24px] pl-3.5 border-l border-brand-600/30 space-y-0.5 py-0.5">
+                <div className="ml-[24px] pl-3.5 border-l border-[#d9f99d]/30 space-y-0.5 py-0.5">
                   {section.items.map((item) => {
                     const active = isPathActive(location.pathname, item.to, allItems)
                     return (
@@ -431,8 +431,8 @@ export const PortalLayout = ({
                         onClick={() => setMobileOpen(false)}
                         className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                           active
-                            ? 'bg-brand-600 text-white font-medium shadow-md shadow-brand-600/25'
-                            : 'text-white/50 hover:text-white hover:bg-brand-600/20 font-normal'
+                            ? 'bg-[#d9f99d] text-[#0f3d25] font-medium shadow-md shadow-[#d9f99d]/25'
+                            : 'text-white/50 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15 font-normal'
                         }`}
                       >
                         <Icon name={item.icon} className="w-4 h-4 shrink-0" />
@@ -473,13 +473,13 @@ export const PortalLayout = ({
           <div className="px-5 pt-5 pb-3 shrink-0">
             <div className="flex items-center justify-between">
               <BrandLockup bold size={30} textClassName="text-[15px]" />
-              <button onClick={() => setMobileOpen(false)} className="text-white/50 hover:text-white p-1" aria-label="Close menu">
+              <button onClick={() => setMobileOpen(false)} className="text-white/50 hover:text-[#d9f99d] p-1" aria-label="Close menu">
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
                 </svg>
               </button>
             </div>
-            <p className="mt-2 ml-[48px] text-xs font-bold text-brand-400 uppercase tracking-[0.14em]">{subtitle}</p>
+            <p className="mt-2 ml-[48px] text-xs font-bold text-[#d9f99d] uppercase tracking-[0.14em]">{subtitle}</p>
           </div>
 
           <nav className="relative flex-1 overflow-y-auto px-3.5 py-2 space-y-1.5 admin-scroll">
@@ -488,7 +488,7 @@ export const PortalLayout = ({
               onClick={() => setMobileOpen(false)}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-xl px-3.5 py-2.5 transition-all duration-200 ${
-                  isActive ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25' : 'text-white/60 hover:text-white hover:bg-brand-600/20'
+                  isActive ? 'bg-[#d9f99d] text-[#0f3d25] shadow-md shadow-[#d9f99d]/25' : 'text-white/60 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15'
                 }`
               }
             >
@@ -507,9 +507,9 @@ export const PortalLayout = ({
                     className={`w-full flex items-center justify-between gap-3 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-all duration-200 ${
                       expanded || anyChildActive
                         ? section.highlight && anyChildActive
-                          ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25'
-                          : 'text-white bg-brand-600/15'
-                        : 'text-white/60 hover:text-white hover:bg-brand-600/20'
+                          ? 'bg-[#d9f99d] text-[#0f3d25] shadow-md shadow-[#d9f99d]/25'
+                          : 'text-[#d9f99d] bg-[#d9f99d]/15'
+                        : 'text-white/60 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15'
                     }`}
                   >
                     <span className="flex items-center gap-3 min-w-0">
@@ -518,7 +518,7 @@ export const PortalLayout = ({
                     </span>
                     <svg
                       className={`w-3.5 h-3.5 shrink-0 transition-transform duration-300 ${expanded ? 'rotate-180' : ''} ${
-                        section.highlight && anyChildActive ? 'text-white/80' : expanded ? 'text-brand-400' : 'text-white/30'
+                        section.highlight && anyChildActive ? 'text-white/80' : expanded ? 'text-[#d9f99d]' : 'text-white/30'
                       }`}
                       fill="none"
                       stroke="currentColor"
@@ -530,7 +530,7 @@ export const PortalLayout = ({
                   </button>
 
                   <div className={`overflow-hidden transition-all duration-300 ease-in-out ${expanded ? 'max-h-64 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}>
-                    <div className="ml-[24px] pl-3.5 border-l border-brand-600/30 space-y-0.5 py-0.5">
+                    <div className="ml-[24px] pl-3.5 border-l border-[#d9f99d]/30 space-y-0.5 py-0.5">
                       {section.items.map((item) => {
                         const active = isPathActive(location.pathname, item.to, allItems)
                         return (
@@ -540,8 +540,8 @@ export const PortalLayout = ({
                             onClick={() => setMobileOpen(false)}
                             className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                               active
-                                ? 'bg-brand-600 text-white font-medium shadow-md shadow-brand-600/25'
-                                : 'text-white/50 hover:text-white hover:bg-brand-600/20 font-normal'
+                                ? 'bg-[#d9f99d] text-[#0f3d25] font-medium shadow-md shadow-[#d9f99d]/25'
+                                : 'text-white/50 hover:text-[#d9f99d] hover:bg-[#d9f99d]/15 font-normal'
                             }`}
                           >
                             <Icon name={item.icon} className="w-4 h-4 shrink-0" />
@@ -589,7 +589,7 @@ export const PortalLayout = ({
 
           <LanguageToggle
             compact
-            className="border-line bg-page text-ink/70 hover:border-brand-500/40 hover:text-brand-600"
+            className="border-line bg-page text-ink/70 hover:border-[#d9f99d] hover:text-[#0f3d25]"
           />
 
           {showNotifications && <NotificationBell scope={notificationScope} />}
@@ -600,7 +600,7 @@ export const PortalLayout = ({
               title={user?.name || user?.username || 'Admin'}
               className="group flex items-center gap-2.5 pl-1 pr-2 py-1 rounded-xl hover:bg-page transition-colors"
             >
-              <span className="w-9 h-9 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center group-hover:ring-4 group-hover:ring-brand-600/40 transition-all duration-200">
+              <span className="w-9 h-9 rounded-full bg-[#d9f99d] text-[#0f3d25] text-xs font-bold flex items-center justify-center group-hover:ring-4 group-hover:ring-[#d9f99d]/40 transition-all duration-200">
                 {initialsOf(user?.name || user?.username)}
               </span>
               <p className="hidden sm:block text-sm font-semibold text-ink leading-tight max-w-[100px] truncate">
@@ -612,9 +612,9 @@ export const PortalLayout = ({
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-line bg-card shadow-soft p-2 z-50 animate-[fadeIn_0.15s_ease]">
+              <div className="absolute right-0 mt-2 w-64 rounded-2xl border border-line bg-[#efe7d6] shadow-soft p-2 z-50 animate-[fadeIn_0.15s_ease]">
                 <div className="px-3 py-2.5 border-b border-line flex items-center gap-3">
-                  <span className="w-10 h-10 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center shrink-0">
+                  <span className="w-10 h-10 rounded-full bg-[#d9f99d] text-[#0f3d25] text-xs font-bold flex items-center justify-center shrink-0">
                     {initialsOf(user?.name || user?.username)}
                   </span>
                   <div className="min-w-0">

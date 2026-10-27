@@ -54,7 +54,7 @@ const EmptyState = ({ activeCount, onClearFilters, emptyTitle, emptyMessage }) =
       {activeCount > 0 ? 'Loosen or reset the active filters to see more records.' : emptyMessage}
     </p>
     {activeCount > 0 && onClearFilters && (
-      <button type="button" onClick={onClearFilters} className="mt-3 text-xs font-medium text-brand-700 hover:text-brand-800">
+      <button type="button" onClick={onClearFilters} className="mt-3 text-xs font-medium text-[#3f6212] hover:text-[#365314]">
         Clear filters
       </button>
     )}
@@ -231,7 +231,7 @@ export const Table = ({
 
   return (
     <div
-      className={`bg-card rounded-2xl border border-line shadow-soft overflow-hidden ${className}`}
+      className={`bg-[#efe7d6] rounded-2xl border border-line shadow-soft overflow-hidden ${className}`}
     >
       {/* ── Header: title | toolbar + filter button ── */}
       {(title || subtitle || toolbar || hasFilters) && (
@@ -253,8 +253,8 @@ export const Table = ({
                   aria-expanded={filtersOpen}
                   className={`inline-flex items-center justify-center gap-2 h-10 px-4 rounded-full text-sm font-medium border transition-[transform,background-color,color] duration-150 active:scale-[0.98] ${
                     filtersOpen || activeCount > 0
-                      ? 'bg-brand-50 text-brand-700 border-brand-700/40'
-                      : 'bg-white text-ink border-line hover:bg-page'
+                      ? 'bg-[#d9f99d]/20 text-[#3f6212] border-[#84cc16]/40'
+                      : 'bg-[#fbf7ec] text-ink border-line hover:bg-page'
                   }`}
                 >
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -262,7 +262,7 @@ export const Table = ({
                   </svg>
                   Filter
                   {activeCount > 0 && (
-                    <span className="min-w-[18px] h-[18px] px-1 rounded-full text-xs font-semibold flex items-center justify-center tabular-nums bg-brand-700 text-white">
+                    <span className="min-w-[18px] h-[18px] px-1 rounded-full text-xs font-semibold flex items-center justify-center tabular-nums bg-[#d9f99d] text-[#0f3d25]">
                       {activeCount}
                     </span>
                   )}
@@ -285,7 +285,7 @@ export const Table = ({
                         <select
                           value={currentVal}
                           onChange={(e) => setFilterValue(f.key, e.target.value)}
-                          className="w-full h-11 rounded-lg border border-line bg-white px-3 text-sm text-ink focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all appearance-none cursor-pointer"
+                          className="w-full h-11 rounded-lg border border-line bg-[#fbf7ec] px-3 text-sm text-ink focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all appearance-none cursor-pointer"
                           style={{
                             backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
                             backgroundRepeat: 'no-repeat',
@@ -340,7 +340,7 @@ export const Table = ({
             <tbody className="divide-y divide-line">
               {loading ? (
                 Array.from({ length: skeletonRows }).map((_, i) => (
-                  <tr key={i} className="bg-card">
+                  <tr key={i} className="bg-[#efe7d6]">
                     {orderedColumns.map((c) => (
                       <td key={c.key} className={cellPad}>
                         <div className={`h-3.5 ${skeletonClass}`} style={{ width: `${38 + ((i * 11 + String(c.key).length * 5) % 42)}%` }} />
@@ -361,7 +361,7 @@ export const Table = ({
                 </tr>
               ) : (
                 visibleRows.map((row) => (
-                  <tr key={row[keyField]} className="group bg-card transition-colors duration-200 hover:bg-[#F9FAFB]">
+                  <tr key={row[keyField]} className="group bg-[#efe7d6] transition-colors duration-200 hover:bg-[#e8dfca]">
                     {orderedColumns.map((c) => (
                       <td
                         key={c.key}
@@ -471,7 +471,7 @@ export const Table = ({
                     onClick={() => go(p)}
                     className={`w-8 h-8 rounded-full border text-sm font-medium tabular-nums transition-[transform,background-color,color] duration-150 active:scale-[0.98] ${
                       p === current
-                        ? 'bg-brand-700/8 border-brand-700 text-brand-700 font-semibold'
+                        ? 'bg-[#d9f99d]/20 border-[#84cc16] text-[#3f6212] font-semibold'
                         : 'border-line text-muted hover:bg-page hover:text-ink'
                     }`}
                   >

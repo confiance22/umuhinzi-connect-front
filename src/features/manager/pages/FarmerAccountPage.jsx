@@ -20,7 +20,7 @@ const initialsOf = (name) =>
     .toUpperCase()
 
 const inputClass =
-  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20'
+  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/20'
 
 const labelClass = 'mb-1.5 block text-sm font-medium text-ink'
 
@@ -132,7 +132,7 @@ const activeTab = tabs.some((tab) => tab.id === tabFromUrl) ? tabFromUrl : 'over
   return (
     <div className="mx-auto max-w-3xl space-y-6">
       <div className="flex items-center gap-5">
-        <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.75rem] bg-brand-600 text-xl font-bold text-white shadow-lg shadow-brand-600/25">
+        <span className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[1.75rem] bg-[#d9f99d] text-xl font-bold text-[#0f3d25] shadow-lg shadow-[#d9f99d]/25">
           {initialsOf(displayName)}
         </span>
         <div className="min-w-0">
@@ -148,7 +148,7 @@ const activeTab = tabs.some((tab) => tab.id === tabFromUrl) ? tabFromUrl : 'over
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-line bg-card shadow-soft">
+      <div className="overflow-hidden rounded-2xl border border-line bg-[#efe7d6] shadow-soft">
         <div className="flex items-center gap-1.5 overflow-x-auto border-b border-line bg-page p-2">
           {tabs.map((tab) => (
             <button
@@ -248,7 +248,7 @@ const activeTab = tabs.some((tab) => tab.id === tabFromUrl) ? tabFromUrl : 'over
                 <button
                   type="submit"
                   disabled={profileSaving}
-                  className="h-11 rounded-full bg-brand-600 px-6 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60"
+                  className="h-11 rounded-full bg-[#d9f99d] px-6 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f] disabled:opacity-60"
                 >
                   {profileSaving ? t('portal.farmer.common.saving') : t('portal.farmer.account.saveProfile')}
                 </button>
@@ -321,7 +321,7 @@ const activeTab = tabs.some((tab) => tab.id === tabFromUrl) ? tabFromUrl : 'over
               <button
                 type="submit"
                 disabled={pwSaving}
-                className="h-11 w-full rounded-full bg-brand-600 px-6 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-60"
+                className="h-11 w-full rounded-full bg-[#d9f99d] px-6 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f] disabled:opacity-60"
               >
                 {pwSaving ? t('portal.farmer.common.saving') : t('portal.farmer.account.changePassword')}
               </button>

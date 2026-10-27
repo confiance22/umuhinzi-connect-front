@@ -19,7 +19,7 @@ const ConfirmDeleteModal = ({ open, title = 'Delete', message = '', itemName, on
       role="presentation"
     >
       <div
-        className="relative w-full max-w-[440px] rounded-2xl border border-line bg-card shadow-2xl p-6 sm:p-7 animate-[zoomIn_0.2s_ease]"
+        className="relative w-full max-w-[440px] rounded-2xl border border-line bg-[#efe7d6] shadow-2xl p-6 sm:p-7 animate-[zoomIn_0.2s_ease]"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -49,7 +49,7 @@ const ConfirmDeleteModal = ({ open, title = 'Delete', message = '', itemName, on
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
+            className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98] disabled:opacity-60 disabled:pointer-events-none"
           >
             Cancel
           </button>

@@ -26,7 +26,7 @@ const monthLabel = (value) => {
 }
 
 const inputClass =
-  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20'
+  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/20'
 
 const KPI_ICONS = {
   harvests: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4',
@@ -125,7 +125,7 @@ export const HarvestReportPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="inline-block rounded-full bg-brand-50 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-brand-700">
+          <span className="inline-block rounded-full bg-[#d9f99d]/20 px-2.5 py-1 text-xs font-medium uppercase tracking-[0.14em] text-[#3f6212]">
             {t('portal.farmer.report.badge')}
           </span>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
@@ -138,7 +138,7 @@ export const HarvestReportPage = () => {
         <button
           type="button"
           onClick={load}
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-page px-4 py-2.5 text-sm font-semibold text-muted hover:border-brand-500/40 hover:text-brand-700"
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-line bg-page px-4 py-2.5 text-sm font-semibold text-muted hover:border-[#84cc16]/60 hover:text-[#3f6212]"
         >
           <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M20 11a8 8 0 10-2.3 5.7M20 4v7h-7" strokeLinecap="round" strokeLinejoin="round" />
@@ -147,7 +147,7 @@ export const HarvestReportPage = () => {
         </button>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card p-4 shadow-soft">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] p-4 shadow-soft">
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           <div>
             <label className="mb-1.5 block text-xs font-medium text-muted" htmlFor="report-start">
@@ -199,7 +199,7 @@ export const HarvestReportPage = () => {
       </div>
 
       {error ? (
-        <div className="rounded-2xl border border-line bg-card p-8 text-center shadow-soft">
+        <div className="rounded-2xl border border-line bg-[#efe7d6] p-8 text-center shadow-soft">
           <p className="text-sm font-semibold text-ink">
             {t('portal.farmer.report.loadError')}
           </p>
@@ -207,7 +207,7 @@ export const HarvestReportPage = () => {
           <button
             type="button"
             onClick={load}
-            className="mt-5 rounded-full bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+            className="mt-5 rounded-full bg-[#d9f99d] px-5 py-2.5 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f]"
           >
             {t('portal.farmer.common.tryAgain')}
           </button>
@@ -219,12 +219,12 @@ export const HarvestReportPage = () => {
               <div
                 key={card.label}
                 className={`rounded-2xl border p-5 shadow-soft ${
-                  card.accent ? 'border-ink bg-ink' : 'border-line bg-card'
+                  card.accent ? 'border-ink bg-ink' : 'border-line bg-[#efe7d6]'
                 }`}
               >
                 <span
                   className={`flex h-10 w-10 items-center justify-center rounded-xl ${
-                    card.accent ? 'bg-brand-600 text-white' : 'bg-page text-ink'
+                    card.accent ? 'bg-[#d9f99d] text-[#0f3d25]' : 'bg-page text-ink'
                   }`}
                 >
                   <Icon path={card.icon} />
@@ -249,7 +249,7 @@ export const HarvestReportPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-5">
-            <section className="rounded-2xl border border-line bg-card shadow-soft xl:col-span-3">
+            <section className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft xl:col-span-3">
               <div className="border-b border-line px-6 py-4">
                 <h2 className="text-sm font-semibold text-ink">
                   {t('portal.farmer.report.byCrop')}
@@ -262,7 +262,7 @@ export const HarvestReportPage = () => {
               {loading ? (
                 <div className="space-y-3 p-6">
                   {[0, 1, 2, 3].map((i) => (
-                    <div key={i} className="h-12 animate-pulse rounded-xl bg-gray-100" />
+                    <div key={i} className="h-12 animate-pulse rounded-xl bg-[#e8dfca]" />
                   ))}
                 </div>
               ) : byCrop.length === 0 ? (
@@ -293,7 +293,7 @@ export const HarvestReportPage = () => {
                       </div>
                       <div className="mt-3 h-2 overflow-hidden rounded-full bg-page">
                         <div
-                          className="h-full rounded-full bg-brand-500"
+                          className="h-full rounded-full bg-[#84cc16]"
                           style={{ width: `${Math.min(100, crop.share || 0)}%` }}
                         />
                       </div>
@@ -303,7 +303,7 @@ export const HarvestReportPage = () => {
               )}
             </section>
 
-            <section className="rounded-2xl border border-line bg-card shadow-soft xl:col-span-2">
+            <section className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft xl:col-span-2">
               <div className="border-b border-line px-6 py-4">
                 <h2 className="text-sm font-semibold text-ink">
                   {t('portal.farmer.report.monthlyValue')}
@@ -316,7 +316,7 @@ export const HarvestReportPage = () => {
               {loading ? (
                 <div className="space-y-3 p-6">
                   {[0, 1, 2].map((i) => (
-                    <div key={i} className="h-10 animate-pulse rounded-xl bg-gray-100" />
+                    <div key={i} className="h-10 animate-pulse rounded-xl bg-[#e8dfca]" />
                   ))}
                 </div>
               ) : monthly.length === 0 ? (
@@ -355,17 +355,17 @@ export const HarvestReportPage = () => {
             </section>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-card px-5 py-4 text-xs text-muted shadow-soft">
+          <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-line bg-[#efe7d6] px-5 py-4 text-xs text-muted shadow-soft">
             <span className="font-semibold text-ink">
               {t('portal.farmer.report.statusMix')}
             </span>
-            <span className="rounded-full bg-brand-50 px-2.5 py-1 font-semibold text-brand-700">
+            <span className="rounded-full bg-[#d9f99d]/20 px-2.5 py-1 font-semibold text-[#3f6212]">
               {summary.activeCount || 0} {t('portal.farmer.common.active').toLowerCase()}
             </span>
             <span className="rounded-full bg-sky-50 px-2.5 py-1 font-semibold text-sky-600">
               {summary.soldCount || 0} {t('portal.farmer.common.sold').toLowerCase()}
             </span>
-            <span className="rounded-full bg-gray-100 px-2.5 py-1 font-semibold text-gray-500">
+            <span className="rounded-full bg-[#e8dfca] px-2.5 py-1 font-semibold text-gray-500">
               {summary.hiddenCount || 0} hidden
             </span>
             <span className="rounded-full bg-amber-50 px-2.5 py-1 font-semibold text-amber-600">

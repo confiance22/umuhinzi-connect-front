@@ -33,7 +33,7 @@ const CROP_SUGGESTIONS = [
 const today = () => new Date().toISOString().slice(0, 10)
 
 const fieldClass =
-  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20'
+  'h-11 w-full rounded-xl border border-line bg-page px-3.5 text-sm text-ink placeholder:text-gray-400 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/20'
 
 const labelClass = 'mb-1.5 block text-sm font-medium text-ink'
 
@@ -183,7 +183,7 @@ export const HarvestFormPage = () => {
   if (isEdit && error && !form.crop_name) {
     return (
       <div className="mx-auto max-w-xl py-12 text-center">
-        <div className="rounded-2xl border border-line bg-card p-8 shadow-soft">
+        <div className="rounded-2xl border border-line bg-[#efe7d6] p-8 shadow-soft">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-rose-600">
             <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
@@ -195,7 +195,7 @@ export const HarvestFormPage = () => {
           <p className="mt-1 text-xs text-muted">The requested harvest listing could not be found or has been removed.</p>
           <Link
             to={ROUTE_PATHS.PRODUCTS}
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-brand-700"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-[#d9f99d] px-6 py-2.5 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f]"
           >
             {t('portal.farmer.form.back')}
           </Link>
@@ -228,7 +228,7 @@ export const HarvestFormPage = () => {
 
       <form onSubmit={submit} className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
-          <section className="rounded-2xl border border-line bg-card p-6 shadow-soft">
+          <section className="rounded-2xl border border-line bg-[#efe7d6] p-6 shadow-soft">
             <h2 className="text-sm font-semibold text-ink">
               {t('portal.farmer.form.produceDetails')}
             </h2>
@@ -329,7 +329,7 @@ export const HarvestFormPage = () => {
                   value={form.description}
                   onChange={change('description')}
                   placeholder={t('portal.farmer.form.descriptionPlaceholder')}
-                  className="w-full rounded-xl border border-line bg-page px-3.5 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/20"
+                  className="w-full rounded-xl border border-line bg-page px-3.5 py-3 text-sm text-ink placeholder:text-gray-400 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/20"
                 />
                 <p className="mt-1 text-right text-[11px] text-gray-400">
                   {form.description.length}/2000
@@ -338,7 +338,7 @@ export const HarvestFormPage = () => {
             </div>
           </section>
 
-          <section className="rounded-2xl border border-line bg-card p-6 shadow-soft">
+          <section className="rounded-2xl border border-line bg-[#efe7d6] p-6 shadow-soft">
                 <h2 className="text-sm font-semibold text-ink">
                   {t('portal.farmer.form.locationPhoto')}
                 </h2>
@@ -409,7 +409,7 @@ export const HarvestFormPage = () => {
             <button
               type="submit"
               disabled={saving}
-              className="inline-flex h-11 items-center justify-center rounded-full bg-brand-600 px-7 text-sm font-semibold text-white hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex h-11 items-center justify-center rounded-full bg-[#d9f99d] px-7 text-sm font-semibold text-[#0f3d25] hover:bg-[#c3f27f] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {saving
                 ? t('portal.farmer.common.saving')
@@ -421,7 +421,7 @@ export const HarvestFormPage = () => {
         </div>
 
         <aside className="space-y-5">
-          <div className="rounded-2xl border border-line bg-card p-5 shadow-soft">
+          <div className="rounded-2xl border border-line bg-[#efe7d6] p-5 shadow-soft">
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               {t('portal.farmer.form.listingPreview')}
             </p>
@@ -436,7 +436,7 @@ export const HarvestFormPage = () => {
                   }}
                 />
               ) : (
-                <div className="flex h-36 items-center justify-center bg-brand-50 text-4xl font-bold text-brand-600/40">
+                <div className="flex h-36 items-center justify-center bg-[#d9f99d]/20 text-4xl font-bold text-[#4d7c0f]/40">
                   {form.crop_name?.charAt(0)?.toUpperCase() || 'H'}
                 </div>
               )}
@@ -449,7 +449,7 @@ export const HarvestFormPage = () => {
                 </p>
                 <div className="mt-4 flex items-end justify-between gap-3">
                   <div>
-                    <p className="text-lg font-bold tabular-nums text-brand-700">
+                    <p className="text-lg font-bold tabular-nums text-[#3f6212]">
                       {formatCurrency(price)}
                     </p>
                     <p className="text-[11px] text-gray-400">
@@ -475,11 +475,11 @@ export const HarvestFormPage = () => {
              </p>
             <div className="mt-5 space-y-2 border-t border-white/10 pt-4 text-xs text-white/65">
               <p className="flex items-center gap-2">
-                 <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
+                 <span className="h-1.5 w-1.5 rounded-full bg-[#84cc16]" />
                  {t('portal.farmer.form.activeTip')}
                </p>
                <p className="flex items-center gap-2">
-                 <span className="h-1.5 w-1.5 rounded-full bg-brand-400" />
+                 <span className="h-1.5 w-1.5 rounded-full bg-[#84cc16]" />
                  {t('portal.farmer.form.soldTip')}
               </p>
             </div>

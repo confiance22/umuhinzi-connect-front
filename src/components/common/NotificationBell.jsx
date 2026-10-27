@@ -10,7 +10,7 @@ import { notificationApi } from '../../api/notificationApi'
 import { ROUTE_PATHS } from '../../constants/routePaths'
 
 const TYPE_STYLES = {
-  user: 'bg-brand-600/15 text-brand-600',
+  user: 'bg-[#d9f99d]/30 text-[#3f6212]',
   team: 'bg-violet-100 text-violet-600',
   shop: 'bg-amber-100 text-amber-600',
   stock: 'bg-emerald-100 text-emerald-600',
@@ -88,22 +88,22 @@ export default function NotificationBell({ scope = 'system' }) {
       >
         {BellIcon}
         {unread > 0 && (
-          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-brand-600 text-white text-xs font-bold flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 min-w-[17px] h-[17px] px-1 rounded-full bg-[#d9f99d] text-[#0f3d25] text-xs font-bold flex items-center justify-center">
             {unread > 9 ? '9+' : unread}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-card rounded-2xl shadow-soft border border-line overflow-hidden z-50 animate-[fadeIn_0.15s_ease]">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-50">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-[#efe7d6] rounded-2xl shadow-soft border border-line overflow-hidden z-50 animate-[fadeIn_0.15s_ease]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-line">
             <p className="text-sm font-semibold text-ink">
               {scope === 'system' ? 'Platform notifications' : 'Your notifications'}
             </p>
             {unread > 0 ? (
               <button
                 onClick={markAllRead}
-                className="text-xs font-semibold text-brand-600 hover:text-brand-700"
+                className="text-xs font-semibold text-[#3f6212] hover:text-[#365314]"
               >
                 Mark all read
               </button>
@@ -112,7 +112,7 @@ export default function NotificationBell({ scope = 'system' }) {
             )}
           </div>
 
-          <div className="max-h-[340px] overflow-y-auto divide-y divide-gray-50">
+          <div className="max-h-[340px] overflow-y-auto divide-y divide-line">
             {items.length === 0 ? (
               <div className="px-4 py-10 text-center text-sm text-gray-400">No notifications yet.</div>
             ) : (
@@ -143,11 +143,11 @@ export default function NotificationBell({ scope = 'system' }) {
             )}
           </div>
 
-          <div className="p-2.5 border-t border-gray-100 bg-gray-50/70">
+          <div className="p-2.5 border-t border-line bg-[#e8dfca]">
             <Link
               to={fullPageHref}
               onClick={() => setOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+              className="w-full inline-flex items-center justify-center gap-1.5 rounded-full px-3 py-2 text-sm font-medium text-[#3f6212] hover:bg-[#d9f99d]/20 transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
             >
               <span>View all notifications</span>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

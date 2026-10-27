@@ -8,7 +8,7 @@ import { adminApi } from '../../../api/adminApi'
 import { useToastContext } from '../../../context/ToastContext'
 
 const filterFieldClass =
-  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-white text-ink placeholder:text-muted/55 focus:border-brand-500 focus:outline focus:outline-2 focus:outline-brand-500/25 transition-all duration-200'
+  'h-11 w-full text-sm px-3.5 rounded-lg border border-line bg-[#fbf7ec] text-ink placeholder:text-muted/55 focus:border-[#84cc16] focus:outline focus:outline-2 focus:outline-[#84cc16]/25 transition-all duration-200'
 
 const columns = [
   {
@@ -33,7 +33,7 @@ const columns = [
     sortable: true,
     sortValue: (p) => p.category || '',
     render: (p) => (
-      <span className="px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full text-xs font-semibold">
+      <span className="px-2.5 py-1 bg-[#d9f99d]/20 text-[#3f6212] rounded-full text-xs font-semibold">
         {p.category || 'General'}
       </span>
     ),
@@ -139,13 +139,13 @@ export const PermissionsPage = () => {
     <div className="space-y-6">
       <div className="flex items-start justify-between">
         <div>
-          <span className="text-xs font-medium uppercase tracking-[0.14em] text-brand-600">ACCESS CONTROL</span>
+          <span className="text-xs font-medium uppercase tracking-[0.14em] text-[#4d7c0f]">ACCESS CONTROL</span>
           <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl mt-1">Permissions</h1>
           <p className="text-sm text-muted mt-1">Fine-grained privileges granted to farmer and buyer roles.</p>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-line bg-card shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
+      <div className="rounded-2xl border border-line bg-[#efe7d6] shadow-soft px-4 py-3.5 flex flex-wrap items-end gap-x-3 gap-y-2.5">
         <div className="w-[260px] flex flex-col gap-1">
           <label className="text-sm font-medium text-ink">Search</label>
           <div className="relative">
@@ -173,7 +173,7 @@ export const PermissionsPage = () => {
         <div className="flex-1" />
         <button
           onClick={resetFilters}
-          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-white text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-1.5 text-sm font-medium px-4 py-2 rounded-full bg-[#fbf7ec] text-ink border border-line hover:bg-page transition-[transform,background-color,color] duration-150 active:scale-[0.98]"
         >
           {RebootIcon}
           Reset
