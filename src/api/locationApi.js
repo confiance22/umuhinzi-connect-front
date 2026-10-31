@@ -8,9 +8,13 @@ const unwrapApiResult = (response) => {
   return response.data
 }
 
+const LOCATIONS_CACHE_VERSION = '20261031'
+
 const getOptions = async (endpoint, params) => {
   try {
-    const response = await axiosInstance.get(endpoint, { params })
+    const response = await axiosInstance.get(endpoint, {
+      params: { ...params, _v: LOCATIONS_CACHE_VERSION }
+    })
     return unwrapApiResult(response) || []
   } catch (error) {
     const message =
