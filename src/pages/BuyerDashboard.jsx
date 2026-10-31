@@ -1,4 +1,5 @@
 import { useAuthContext } from '../context/AuthContext'
+import { usePortalLightLock } from '../hooks/usePortalLightLock'
 
 const stats = [
   { label: 'Open requests', value: '0' },
@@ -7,6 +8,7 @@ const stats = [
 ]
 
 export default function BuyerDashboard() {
+  usePortalLightLock()
   const { user } = useAuthContext()
   const firstName = user?.full_name?.split(' ')[0] || 'buyer'
 

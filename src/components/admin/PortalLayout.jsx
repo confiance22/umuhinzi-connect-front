@@ -5,7 +5,7 @@
  *
  *   <PortalLayout subtitle brandSubtitle overview sections accountPath />
  */
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import BrandLockup from '../common/Brand'
@@ -13,7 +13,7 @@ import NotificationBell from '../common/NotificationBell'
 import LanguageToggle from '../public/LanguageToggle'
 import Toast from '../common/Toast'
 import { useToastContext } from '../../context/ToastContext'
-import { useTheme } from '../../context/ThemeContext'
+import { usePortalLightLock } from '../../hooks/usePortalLightLock'
 import { useLanguage } from '../../context/LanguageContext'
 
 const ICONS = {
@@ -195,35 +195,12 @@ export const PortalLayout = ({
   showNotifications = true,
 }) => {
   const { user, logout } = useAuth()
-  const { theme } = useTheme()
   const { t } = useLanguage()
   const { toasts, dismissToast } = useToastContext()
   const location = useLocation()
   const navigate = useNavigate()
-  const themeRef = useRef(theme)
 
-  useLayoutEffect(() => {
-    themeRef.current = theme
-  }, [theme])
-
-  useLayoutEffect(() => {
-    const root = document.documentElement
-
-    const lockLight = () => {
-      if (root.classList.contains('dark')) root.classList.remove('dark')
-      if (root.style.colorScheme !== 'light') root.style.colorScheme = 'light'
-    }
-
-    lockLight()
-    const observer = new MutationObserver(lockLight)
-    observer.observe(root, { attributes: true, attributeFilter: ['class', 'style'] })
-
-    return () => {
-      observer.disconnect()
-      root.classList.toggle('dark', themeRef.current === 'dark')
-      root.style.colorScheme = themeRef.current
-    }
-  }, [])
+  usePortalLightLock()
 
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
